@@ -11,32 +11,72 @@ import {
   Divider,
   FormControl,
   Select,
+  FormGroup,
+  Checkbox,
   Button,
   Radio,
   RadioGroup,
   FormControlLabel,
 } from "@mui/material";
 import dayjs from "dayjs";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Header from "../Layouts/Header";
 
 function PeersRoleModels() {
   const navigate = useNavigate(); 
 
-  // gender selection state
-  const [gender, setGender] = useState("male");
-  const [otherGender, setOtherGender] = useState("");
+  const [mentalHealth, setMentalHealth] = useState("no");
+  const [affectedMentalHealth, setAffectedMentalHealth] = useState("no");
 
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
+  // State variables for checkbox responses
+  const [associationWithPeers, setAssociationWithPeers] = useState(false);
+  const [involvementInGangs, setInvolvementInGangs] = useState(false);
+  const [enjoyAdmireStreetGuys, setEnjoyAdmireStreetGuys] = useState(false);
+  const [enjoyAdmireGangstaLifestyle, setEnjoyAdmireGangstaLifestyle] = useState(false);
+
+  // State variables for dropdown responses
+  const [collegePeers, setCollegePeers] = useState(null);
+  const [prisonPeers, setPrisonPeers] = useState(null);
+  const [arrestedRelatives, setArrestedRelatives] = useState(null);
+
+  const handleMentalHealthChange = (event) => {
+    setMentalHealth(event.target.value);
   };
 
-  const handleOtherGenderChange = (event) => {
-    setOtherGender(event.target.value);
+  const handleAffectedMentalHealthChange = (event) => {
+    setAffectedMentalHealth(event.target.value);
   };
+
+  const handleDropdownChange = (type, value) => {
+    // Update state based on dropdown selection
+    if (type === "collegePeers") setCollegePeers(value);
+    else if (type === "prisonPeers") setPrisonPeers(value);
+    else if (type === "arrestedRelatives") setArrestedRelatives(value);
+  };
+
+
+  // Functions to handle checkbox changes
+  const handleAssociationWithPeersChange = () => {
+    setAssociationWithPeers(!associationWithPeers);
+  };
+
+  const handleInvolvementInGangsChange = () => {
+    setInvolvementInGangs(!involvementInGangs);
+  };
+
+  const handleEnjoyAdmireStreetGuysChange = () => {
+    setEnjoyAdmireStreetGuys(!enjoyAdmireStreetGuys);
+  };
+
+  const handleEnjoyAdmireGangstaLifestyleChange = () => {
+    setEnjoyAdmireGangstaLifestyle(!enjoyAdmireGangstaLifestyle);
+  };
+
+  const options = [
+    'None', '1', '< 5', 'More than 5'
+  ];
 
   return (
     <div>
@@ -44,191 +84,279 @@ function PeersRoleModels() {
 
       <Paper
         elevation={3}
-        sx={{ marginRight: "15%", marginLeft: "15%", paddingBottom: "5%" }}
+        sx={{ marginRight: "10%", marginLeft: "15%", paddingBottom: "5%" }}
       >
-        <Box sx={{ padding: 5 }}>
-          {/*Title of section: ACE*/}
+        <Box sx={{ padding: 3 }}>
           <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
             Peers and Role Models
           </Typography>
 
-          {/*First Name text*/}
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={2}>
-              <InputLabel
+      {/*Check boxes*/}
+      <Box
+            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
+        >
+        <Grid container>
+            <Grid item xs={6}>
+                <InputLabel
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                fontWeight: 700,
+                marginBottom: 1, // Adjust spacing as needed
                 }}
-              >
-                First Name
-              </InputLabel>
+                >
+                    Other traumatic experiences
+                </InputLabel>
             </Grid>
-
-            {/*First Name text field*/}
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                id="firstName"
-                label="First Name"
-                fullWidth
-                size="small"
-                variant="outlined"
-              />
-            </Grid>
-
-            {/*Last Name text*/}
-
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Last Name
-              </InputLabel>
-            </Grid>
-
-            {/*Last Name text field*/}
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                id="lastName"
-                label="Last Name"
-                fullWidth
-                size="small"
-                variant="outlined"
-              />
-            </Grid>
-
-            {/*Case Number*/}
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Case Number
-              </InputLabel>
-            </Grid>
-
-            {/*Case Number Text Field*/}
-            <Grid item xs={12} sm={10}>
-              <TextField
-                required
-                id="caseNumber"
-                label="Case Number"
-                fullWidth
-                size="small"
-                variant="outlined"
-              />
-            </Grid>
-
-            {/*Date of Birth*/}
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Date of Birth
-              </InputLabel>
-            </Grid>
-
-            {/*Date of Birth Selector*/}
-
-            <Grid item xs={12} sm={2}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="DOB"
-                  slotProps={{
-                    textField: {
-                      helperText: "MM/DD/YYYY",
-                    },
-                  }}
-                />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={2}></Grid>
-
-            {/*Gender Radio buttons*/}
-            <Grid item xs={12} sm={4}>
-              <RadioGroup
-                row
-                aria-label="gender"
-                name="gender"
-                value={gender}
-                onChange={handleGenderChange}
-              >
+            <Grid item xs={6}>
+                <FormGroup>
                 <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                />
-              </RadioGroup>
-            </Grid>
+                    control={<Checkbox checked={associationWithPeers} onChange={handleAssociationWithPeersChange} />}
+                    label="Association with delinquent peers"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={involvementInGangs} onChange={handleInvolvementInGangsChange} />}
+                    label="Involvement in gangs"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={enjoyAdmireStreetGuys} onChange={handleEnjoyAdmireStreetGuysChange} />}
+                    label="Enjoy or admire street guys in my neighborhood "
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={enjoyAdmireGangstaLifestyle} onChange={handleEnjoyAdmireGangstaLifestyleChange} />}
+                    label="Enjoy or admire the gangsta lifestyle"
+                  />
 
-            {/*Other Gender Input*/}
-            <Grid item xs={12} sm={2}>
-              {gender === "other" && (
-                <TextField
-                  label="Other Gender"
-                  variant="outlined"
-                  value={otherGender}
-                  onChange={handleOtherGenderChange}
-                />
-              )}
+                </FormGroup>
             </Grid>
-          </Grid>
+        </Grid>
         </Box>
 
-        {/*Divider*/}
+        {/*Dropdown*/}
+        <Box
+            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
+        >
+          <Grid container>
+            <Grid item xs={6}>
+                <InputLabel
+                sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                fontWeight: 700,
+                marginBottom: 1, 
+                }}
+                >
+                    How many peers in your neighborhood went to college?
+                </InputLabel>
+                <InputLabel
+                sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                fontWeight: 700,
+                marginBottom: 1, 
+                }}
+                >
+                    How many of them went to prison?
+                </InputLabel>
+                <InputLabel
+                sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                fontWeight: 700,
+                marginBottom: 1, 
+                }}
+                >
+                    How many relatives have been arrested?
+                </InputLabel>
+            </Grid>
+            <Grid item xs={6}>
+            <FormGroup>
+              {/* Use the handleDropdownChange function to update state */}
+              <Dropdown
+                options={options}
+                placeholder="Select an option"
+                onChange={(value) => handleDropdownChange("collegePeers", value)}
+              />
+              <Dropdown
+                options={options}
+                placeholder="Select an option"
+                onChange={(value) => handleDropdownChange("prisonPeers", value)}
+              />
+              <Dropdown
+                options={options}
+                placeholder="Select an option"
+                onChange={(value) => handleDropdownChange("arrestedRelatives", value)}
+              />
+            </FormGroup>
+            </Grid>
+        </Grid>
+        
+        </Box>
+
+        {/*input one*/}
+        <Box
+            sx={{ marginLeft: "10%", marginRight: "15%", paddingBottom: "30px" }}
+        >
+          <Grid item xs={12} sm={10}>
+            <InputLabel
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  fontWeight: 700,
+                }}
+              >
+                In your neighborhood, do most youths and adults get arrested?
+              </InputLabel>
+         
+                <TextField
+                required
+                multiline={true}
+                rows={3}
+                id="Neighborhood arrests"
+                label="Neighborhood arrests"
+                fullWidth
+                variant="outlined"
+                />
+            </Grid>
+        </Box>
+
+        {/*input two*/}
+        <Box
+            sx={{ marginLeft: "10%", marginRight: "15%", paddingBottom: "30px" }}
+        >
+          <Grid item xs={12} sm={10}>
+            <InputLabel
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  fontWeight: 700,
+                }}
+              >
+                In your neighborhood, do most youths and adults have degrees?
+              </InputLabel>
+         
+                <TextField
+                required
+                multiline={true}
+                rows={3}
+                id="Neighborhood degrees"
+                label="Neighborhood degrees"
+                fullWidth
+                variant="outlined"
+                />
+            </Grid>
+        </Box>
 
         <Divider orientation="horizontal" flexItem />
 
-        {/*Section title: Background*/}
-
-        <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
-          Background
+        <Typography variant="h6" gutterBottom sx={{ paddingBottom: 3 }}>
+            Any Other Risk Factors
         </Typography>
 
-        {/*Case Number Text Field*/}
+
+        {/*Question 1 Radio buttons*/}
         <Box
-          sx={{ marginLeft: "15%", marginRight: "15%", paddingBottom: "40px" }}
+            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "5px" }}
+        >
+        <Grid container spacing={3}>
+            <Grid item xs={6}>
+                <InputLabel
+                sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                fontWeight: 700,
+                marginBottom: 1, // Adjust spacing as needed
+                }}
+                >
+                    Ever experienced mental health issues?
+                </InputLabel>
+            </Grid>
+            <Grid item xs={6}>
+                <RadioGroup
+                    row
+                    aria-label="mentalHealth"
+                    name="mentalHealth"
+                    value={mentalHealth}
+                    onChange={handleMentalHealthChange}
+                >
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                </RadioGroup>
+            </Grid>
+        </Grid>
+        </Box>
+
+         {/*Questio 2 Radio buttons*/}
+         <Box
+            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
+        >
+        <Grid container spacing={3}>
+            <Grid item xs={6}>
+                <InputLabel
+                sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                fontWeight: 700,
+                marginBottom: 1, // Adjust spacing as needed
+                }}
+                >
+                    Ever been affected by mental health issues?
+                </InputLabel>
+            </Grid>
+            <Grid item xs={6}>
+                <RadioGroup
+                    row
+                    aria-label="affectedMentalHealth"
+                    name="affectedMentalHealth"
+                    value={affectedMentalHealth}
+                    onChange={handleAffectedMentalHealthChange}
+                >
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                </RadioGroup>
+            </Grid>
+        </Grid>
+        </Box>
+
+        {/*last input*/}
+        <Box
+            sx={{ marginLeft: "10%", marginRight: "15%", paddingBottom: "30px" }}
         >
           <Grid item xs={12} sm={10}>
-            <TextField
-              required
-              multiline={true}
-              rows={15}
-              id="background"
-              label="Background"
-              fullWidth
-              variant="outlined"
-            />
-          </Grid>
+            <InputLabel
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  fontWeight: 700,
+                }}
+              >
+                Potential other risk factors experienced
+              </InputLabel>
+         
+                <TextField
+                required
+                multiline={true}
+                rows={3}
+                id="Other"
+                label="Other"
+                fullWidth
+                variant="outlined"
+                />
+            </Grid>
+        </Box>
+
+
         </Box>
         <Button variant="contained" onClick={() => navigate("/ace")}>Back</Button>
         <span style={{ marginLeft: '10px', marginRight: '10px' }}></span>
-        <Button variant="contained">Next</Button>
+        <Button variant="contained" onClick={() => navigate("/peers-role-models")}>Next</Button>
+        
       </Paper>
     </div>
   );

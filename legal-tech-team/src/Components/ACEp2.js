@@ -23,7 +23,6 @@ import Header from "../Layouts/Header";
 function ACEp2() {
   const navigate = useNavigate(); 
 
-  // gender selection state
   const [sud, setSUD] = useState("no");
   const [treatedSUD, setTreatedSUD] = useState("no");
 
