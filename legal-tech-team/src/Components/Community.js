@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -20,6 +21,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Header from "../Layouts/Header";
 
 function Community() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Header />
@@ -172,12 +175,16 @@ function Community() {
             </Grid>
           </Box>
         </Box>
-        <Button variant="contained" style={{ marginRight: "30px" }}>
-          <Link to="/familyDynamics" style={{ textDecoration: "none" }}>
-            Previous
-          </Link>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/familyDynamics")}
+          style={{ marginRight: "30px" }}
+        >
+          Previous
         </Button>
-        <Button variant="contained">Next</Button>
+        <Button variant="contained" onClick={() => navigate("/ace")}>
+          Next
+        </Button>
       </Paper>
     </>
   );

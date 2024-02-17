@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Typography,
@@ -25,6 +26,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Header from "../Layouts/Header";
 
 function Demographics() {
+  const navigate = useNavigate();
   // gender selection state
   const [gender, setGender] = useState("male");
   const [otherGender, setOtherGender] = useState("");
@@ -233,14 +235,12 @@ function Demographics() {
             />
           </Grid>
         </Box>
-
-        <Button variant="contained">
-          <Link to="/familyDynamics" style={{ textDecoration: "none" }}>
-            Next
-          </Link>
+        <Button variant="contained" onClick={() => navigate("/familyDynamics")}>
+          Next
         </Button>
       </Paper>
     </div>
   );
 }
+
 export default Demographics;
