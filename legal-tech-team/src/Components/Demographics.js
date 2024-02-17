@@ -15,6 +15,8 @@ import {
   RadioGroup,
   FormControlLabel,
 } from "@mui/material";
+import { Link } from "react-router-dom";
+
 import dayjs from "dayjs";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -45,7 +47,11 @@ function Demographics() {
       >
         <Box sx={{ padding: 5 }}>
           {/*Title of section: Demographics*/}
-          <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ paddingBottom: 5, fontFamily: "Noto Sans" }}
+          >
             Demographics
           </Typography>
 
@@ -203,11 +209,15 @@ function Demographics() {
 
         {/*Section title: Background*/}
 
-        <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
+        <Typography
+          variant="h6"
+          gutterBottom
+          sx={{ paddingBottom: 5, fontFamily: "Noto Sans" }}
+        >
           Background
         </Typography>
 
-        {/*Case Number Text Field*/}
+        {/*Background Text Field*/}
         <Box
           sx={{ marginLeft: "15%", marginRight: "15%", paddingBottom: "40px" }}
         >
@@ -223,7 +233,12 @@ function Demographics() {
             />
           </Grid>
         </Box>
-        <Button variant="contained">Next</Button>
+
+        <Button variant="contained">
+          <Link to="/familyDynamics" style={{ textDecoration: "none" }}>
+            Next
+          </Link>
+        </Button>
       </Paper>
     </div>
   );

@@ -6,7 +6,11 @@ function Header() {
     <Paper elevation={3} sx={{ marginRight: "15%", marginLeft: "15%" }}>
       <AppBar position="static" style={{ backgroundColor: "#458FFF" }}>
         <Toolbar>
-          <Typography variant="h5" color="inherit" style={{ flex: 1 }}>
+          <Typography
+            variant="h4"
+            color="inherit"
+            style={{ flex: 1, fontFamily: "Noto Sans" }}
+          >
             Interview
           </Typography>
         </Toolbar>
