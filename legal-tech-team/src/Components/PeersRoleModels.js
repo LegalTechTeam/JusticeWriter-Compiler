@@ -23,8 +23,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Header from "../Layouts/Header";
 
-function Demographics() {
+function PeersRoleModels() {
   const navigate = useNavigate(); 
+
   // gender selection state
   const [gender, setGender] = useState("male");
   const [otherGender, setOtherGender] = useState("");
@@ -46,9 +47,9 @@ function Demographics() {
         sx={{ marginRight: "15%", marginLeft: "15%", paddingBottom: "5%" }}
       >
         <Box sx={{ padding: 5 }}>
-          {/*Title of section: Demographics*/}
+          {/*Title of section: ACE*/}
           <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
-            Demographics
+            Peers and Role Models
           </Typography>
 
           {/*First Name text*/}
@@ -225,10 +226,11 @@ function Demographics() {
             />
           </Grid>
         </Box>
-        <Button variant="contained" onClick={() => navigate("/ace")}>Next</Button>
+        <Button variant="contained" onClick={() => navigate("/ace")}>Back</Button>
+        <span style={{ marginLeft: '10px', marginRight: '10px' }}></span>
+        <Button variant="contained">Next</Button>
       </Paper>
     </div>
   );
 }
-
-export default Demographics;
+export default PeersRoleModels;
