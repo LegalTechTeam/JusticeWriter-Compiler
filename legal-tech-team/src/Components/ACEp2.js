@@ -251,7 +251,7 @@ function ACEp2() {
             </Grid>
           </Box>
         </Box>
-        <Button variant="contained" onClick={() => navigate("/community")}>
+        <Button variant="contained" onClick={() => navigate("/aceOne")}>
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
