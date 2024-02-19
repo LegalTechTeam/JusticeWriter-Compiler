@@ -392,7 +392,7 @@ function PeersRoleModels() {
             </Grid>
           </Box>
         </Box>
-        <Button variant="contained" onClick={() => navigate("/ace")}>
+        <Button variant="contained" onClick={() => navigate("/aceTwo")}>
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>

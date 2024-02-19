@@ -182,7 +182,7 @@ function Community() {
         >
           Previous
         </Button>
-        <Button variant="contained" onClick={() => navigate("/ace")}>
+        <Button variant="contained" onClick={() => navigate("/schooling")}>
           Next
         </Button>
       </Paper>
