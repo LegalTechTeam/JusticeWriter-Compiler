@@ -10,6 +10,7 @@ import {
   Button,
   FormControlLabel,
   FormGroup,
+  Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -32,6 +33,13 @@ function Community() {
         sx={{ marginRight: "15%", marginLeft: "15%", paddingBottom: "5%" }}
       >
         <Box sx={{ padding: 5 }}>
+        <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ paddingBottom: 5}}
+          >
+            Community
+          </Typography>
           {/*Question*/}
           <Grid item xs={12} sm={2}>
             <InputLabel

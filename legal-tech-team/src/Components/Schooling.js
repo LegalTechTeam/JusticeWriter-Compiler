@@ -50,11 +50,11 @@ function Schooling() {
         elevation={3}
         sx={{ marginRight: "10%", marginLeft: "15%", paddingBottom: "5%" }}
       >
-        <Box sx={{ padding: 3 }}>
-          <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
+        <Box sx={{ padding: 5 }}>
+        <Typography variant="h6">
             Schooling
           </Typography>
-
+          </Box>
           {/*input one*/}
           <Box
             sx={{
@@ -63,6 +63,7 @@ function Schooling() {
               paddingBottom: "30px",
             }}
           >
+            
             <Grid item xs={12} sm={10}>
               <InputLabel
                 sx={{
@@ -249,8 +250,8 @@ function Schooling() {
                 required
                 multiline={true}
                 rows={3}
-                id="Empotional Abuse"
-                label="Empotional Abuse"
+                id="Emotional Abuse"
+                label="Emotional Abuse"
                 fullWidth
                 variant="outlined"
               />
@@ -319,8 +320,6 @@ function Schooling() {
               />
             </Grid>
           </Box>
-
-        </Box>
 
         <Button variant="contained" onClick={() => navigate("/community")}>
           Previous

@@ -52,7 +52,7 @@ function Demographics() {
           <Typography
             variant="h6"
             gutterBottom
-            sx={{ paddingBottom: 5, fontFamily: "Noto Sans" }}
+            sx={{ paddingBottom: 5}}
           >
             Demographics
           </Typography>

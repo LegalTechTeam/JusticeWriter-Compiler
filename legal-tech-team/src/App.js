@@ -10,6 +10,8 @@ import FamilyDynamics from "./Components/FamilyDynamics";
 import Community from "./Components/Community";
 import Schooling from "./Components/Schooling";
 
+import Submit from "./Components/Submit";
+
 function App() {
   return (
     <div className="App">
@@ -22,6 +24,7 @@ function App() {
           <Route path="/aceOne" Component={ACEp1} />
           <Route path="/aceTwo" Component={ACEp2} />
           <Route path="/peers-role-models" Component={PeersRoleModels} />
+          <Route path="/submit" Component={Submit} />
         </Routes>
       </Router>
     </div>
