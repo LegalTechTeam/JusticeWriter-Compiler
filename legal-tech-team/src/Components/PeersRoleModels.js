@@ -398,7 +398,7 @@ function PeersRoleModels() {
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
         <Button
           variant="contained"
-          onClick={() => navigate("/submit")}
+          onClick={() => navigate("/mental-health")}
         >
           Next
         </Button>
