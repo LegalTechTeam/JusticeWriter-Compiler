@@ -27,7 +27,7 @@ function Demographics() {
   const themeTitle = themeSubHeading();
 
   // gender selection state
-  const [gender, setGender] = useState("male");
+  const [gender, setGender] = useState("");
   const [otherGender, setOtherGender] = useState("");
 
   const handleGenderChange = (event) => {
@@ -172,7 +172,7 @@ function Demographics() {
               <Grid item xs={12} sm={2}></Grid>
 
               {/*Gender Radio buttons*/}
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={6}>
                 <RadioGroup
                   row
                   aria-label="gender"

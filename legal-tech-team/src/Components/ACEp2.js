@@ -22,8 +22,8 @@ function ACEp2() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  const [sud, setSUD] = useState("no");
-  const [treatedSUD, setTreatedSUD] = useState("no");
+  const [sud, setSUD] = useState("");
+  const [treatedSUD, setTreatedSUD] = useState("");
 
   const handleSUDChange = (event) => {
     setSUD(event.target.value);

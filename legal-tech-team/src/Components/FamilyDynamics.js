@@ -29,25 +29,25 @@ function FamilyDynamics() {
   const themeTitle = themeSubHeading();
   /*yes/no question answer states*/
 
-  const [answer1, setAnswer1] = useState("no");
+  const [answer1, setAnswer1] = useState("");
 
   const handleAnswer1Change = (event) => {
     setAnswer1(event.target.value);
   };
 
-  const [answer2, setAnswer2] = useState("no");
+  const [answer2, setAnswer2] = useState("");
 
   const handleAnswer2Change = (event) => {
     setAnswer2(event.target.value);
   };
 
-  const [answer3, setAnswer3] = useState("no");
+  const [answer3, setAnswer3] = useState("");
 
   const handleAnswer3Change = (event) => {
     setAnswer3(event.target.value);
   };
 
-  const [answer4, setAnswer4] = useState("no");
+  const [answer4, setAnswer4] = useState("");
 
   const handleAnswer4Change = (event) => {
     setAnswer4(event.target.value);

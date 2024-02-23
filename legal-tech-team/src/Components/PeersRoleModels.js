@@ -26,8 +26,8 @@ function PeersRoleModels() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  const [mentalHealth, setMentalHealth] = useState("no");
-  const [affectedMentalHealth, setAffectedMentalHealth] = useState("no");
+  const [mentalHealth, setMentalHealth] = useState("");
+  const [affectedMentalHealth, setAffectedMentalHealth] = useState("");
 
   // State variables for checkbox responses
   const [associationWithPeers, setAssociationWithPeers] = useState(false);
