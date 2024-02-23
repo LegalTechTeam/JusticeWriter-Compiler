@@ -1,16 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Demographics from "./Components/Demographics";
-import ACEp1 from "./Components/ACEp1";
-import ACEp2 from "./Components/ACEp2";
-import PeersRoleModels from "./Components/PeersRoleModels";
+import Demographics from "./components/Demographics";
+import ACEp1 from "./components/ACEp1";
+import ACEp2 from "./components/ACEp2";
+import PeersRoleModels from "./components/PeersRoleModels";
 
-import FamilyDynamics from "./Components/FamilyDynamics";
-import Community from "./Components/Community";
-import Schooling from "./Components/Schooling";
+import FamilyDynamics from "./components/FamilyDynamics";
+import Community from "./components/Community";
+import Schooling from "./components/Schooling";
 
-import Submit from "./Components/Submit";
+import Submit from "./components/Submit";
+import MentalHealth from "./components/MentalHealth";
+import Evidence from "./components/Evidence";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/aceOne" Component={ACEp1} />
           <Route path="/aceTwo" Component={ACEp2} />
           <Route path="/peers-role-models" Component={PeersRoleModels} />
+          <Route path="/mental-health" Component={MentalHealth}/>
+          <Route path="/evidence" Component={Evidence}/>
           <Route path="/submit" Component={Submit} />
         </Routes>
       </Router>
