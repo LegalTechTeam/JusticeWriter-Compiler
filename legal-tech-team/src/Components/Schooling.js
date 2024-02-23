@@ -9,8 +9,6 @@ import {
   Paper,
   InputLabel,
   Divider,
-  FormControl,
-  Select,
   Button,
   Radio,
   RadioGroup,
@@ -21,9 +19,10 @@ import {
 import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
-
+import themeSubHeading from "../Layouts/Theme";
 function Schooling() {
   const navigate = useNavigate();
+  const themeTitle = themeSubHeading();
 
   const [sud, setSUD] = useState("no");
   const [treatedSUD, setTreatedSUD] = useState("no");
@@ -39,31 +38,33 @@ function Schooling() {
   const [schoolQuality, setSchoolQuality] = useState();
   const handleSchoolQualityChange = (event) => {
     setSchoolQuality(event.target.value);
-  }
+  };
 
   return (
     <div>
-
       <Header />
 
       <Paper
         elevation={3}
-        sx={{ marginRight: "10%", marginLeft: "15%", paddingBottom: "5%" }}
+        sx={{
+          marginRight: "15%",
+          marginLeft: "15%",
+          paddingBottom: "5%",
+          fontFamily: "Noto Sans",
+        }}
       >
-        <Box sx={{ padding: 5 }}>
-        <Typography variant="h6">
+        <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
+          <Typography variant="h6" sx={{ ...themeTitle }}>
             Schooling
           </Typography>
-          </Box>
           {/*input one*/}
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
-            
             <Grid item xs={12} sm={10}>
               <InputLabel
                 sx={{
@@ -91,7 +92,7 @@ function Schooling() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -121,7 +122,7 @@ function Schooling() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -151,7 +152,7 @@ function Schooling() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -174,20 +175,36 @@ function Schooling() {
                 value={schoolQuality}
                 onChange={handleSchoolQualityChange}
               >
-                <FormControlLabel value="Poor" control={<Radio />} label="Poor" />
-                <FormControlLabel value="Average" control={<Radio />} label="Average" />
-                <FormControlLabel value="Good" control={<Radio />} label="Good" />
-                <FormControlLabel value="Excellent" control={<Radio />} label="Excellent" />
+                <FormControlLabel
+                  value="Poor"
+                  control={<Radio />}
+                  label="Poor"
+                />
+                <FormControlLabel
+                  value="Average"
+                  control={<Radio />}
+                  label="Average"
+                />
+                <FormControlLabel
+                  value="Good"
+                  control={<Radio />}
+                  label="Good"
+                />
+                <FormControlLabel
+                  value="Excellent"
+                  control={<Radio />}
+                  label="Excellent"
+                />
               </RadioGroup>
-
             </Grid>
           </Box>
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
-            }}>
+            }}
+          >
             {/*input five*/}
             <Grid item xs={12} sm={8}>
               <InputLabel
@@ -201,18 +218,9 @@ function Schooling() {
               </InputLabel>
             </Grid>
             <FormGroup>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Suspended"
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Expelled"
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Dropped Out"
-              />
+              <FormControlLabel control={<Checkbox />} label="Suspended" />
+              <FormControlLabel control={<Checkbox />} label="Expelled" />
+              <FormControlLabel control={<Checkbox />} label="Dropped Out" />
               <FormControlLabel
                 control={<Checkbox />}
                 label="None of the above"
@@ -220,10 +228,9 @@ function Schooling() {
             </FormGroup>
           </Box>
 
-
           <Divider orientation="horizontal" flexItem />
 
-          <Typography variant="h6" gutterBottom sx={{ paddingBottom: 3 }}>
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
             Adverse Childhood Experience
           </Typography>
 
@@ -231,7 +238,7 @@ function Schooling() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -262,13 +269,12 @@ function Schooling() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
             <Grid item xs={12} sm={10}>
               <InputLabel
-
                 sx={{
                   display: "flex",
                   justifyContent: "left",
@@ -294,8 +300,8 @@ function Schooling() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
-              paddingBottom: "30px",
+              marginRight: "10%",
+              paddingBottom: "40px",
             }}
           >
             <Grid item xs={12} sm={10}>
@@ -320,15 +326,14 @@ function Schooling() {
               />
             </Grid>
           </Box>
+        </Box>
 
         <Button variant="contained" onClick={() => navigate("/community")}>
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/aceOne")}
-        >
+
+        <Button variant="contained" onClick={() => navigate("/aceOne")}>
           Next
         </Button>
       </Paper>

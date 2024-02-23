@@ -9,8 +9,6 @@ import {
   Paper,
   InputLabel,
   Divider,
-  FormControl,
-  Select,
   FormGroup,
   Checkbox,
   Button,
@@ -23,9 +21,10 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 
 import Header from "../Layouts/Header";
-
+import themeSubHeading from "../Layouts/Theme";
 function PeersRoleModels() {
   const navigate = useNavigate();
+  const themeTitle = themeSubHeading();
 
   const [mentalHealth, setMentalHealth] = useState("no");
   const [affectedMentalHealth, setAffectedMentalHealth] = useState("no");
@@ -82,10 +81,15 @@ function PeersRoleModels() {
 
       <Paper
         elevation={3}
-        sx={{ marginRight: "10%", marginLeft: "15%", paddingBottom: "5%" }}
+        sx={{
+          marginRight: "15%",
+          marginLeft: "15%",
+          paddingBottom: "5%",
+          fontFamily: "Noto Sans",
+        }}
       >
-        <Box sx={{ padding: 3 }}>
-          <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
+        <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
             Peers and Role Models
           </Typography>
 
@@ -152,7 +156,11 @@ function PeersRoleModels() {
 
           {/*Dropdown*/}
           <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
+            sx={{
+              marginLeft: "10%",
+              marginRight: "10%",
+              paddingBottom: "30px",
+            }}
           >
             <Grid container>
               <Grid item xs={6}>
@@ -223,7 +231,7 @@ function PeersRoleModels() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -254,7 +262,7 @@ function PeersRoleModels() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -283,7 +291,7 @@ function PeersRoleModels() {
 
           <Divider orientation="horizontal" flexItem />
 
-          <Typography variant="h6" gutterBottom sx={{ paddingBottom: 3 }}>
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
             Any Other Risk Factors
           </Typography>
 
@@ -365,7 +373,7 @@ function PeersRoleModels() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -396,10 +404,7 @@ function PeersRoleModels() {
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/mental-health")}
-        >
+        <Button variant="contained" onClick={() => navigate("/mental-health")}>
           Next
         </Button>
       </Paper>
