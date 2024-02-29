@@ -5,7 +5,7 @@ const themeSubHeading = () => ({
   fontFamily: "Noto Sans",
   fontWeight: "bold",
   fontSize: "24px",
-  color: "#666700",
+  color: "#3A3B3C",
 });
 
 export default themeSubHeading;
