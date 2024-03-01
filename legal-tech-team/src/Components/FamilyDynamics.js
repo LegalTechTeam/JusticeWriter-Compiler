@@ -158,18 +158,15 @@ function FamilyDynamics() {
               </Grid>
 
               {/*Date of Birth Selector*/}
-
               <Grid item xs={12} sm={3}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="DOB"
-                    slotProps={{
-                      textField: {
-                        helperText: "MM/DD/YYYY",
-                      },
-                    }}
-                  />
-                </LocalizationProvider>
+                <TextField
+                  required
+                  id="DOB"
+                  label="MM-DD-YYYY"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
               </Grid>
 
               {/*Question 1 text*/}
@@ -393,17 +390,16 @@ function FamilyDynamics() {
 
               {/*Date of Birth Selector*/}
 
+              {/*Date of Birth Selector*/}
               <Grid item xs={12} sm={3}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="DOB"
-                    slotProps={{
-                      textField: {
-                        helperText: "MM/DD/YYYY",
-                      },
-                    }}
-                  />
-                </LocalizationProvider>
+                <TextField
+                  required
+                  id="DOB"
+                  label="MM-DD-YYYY"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
               </Grid>
 
               {/*Question 4 text*/}

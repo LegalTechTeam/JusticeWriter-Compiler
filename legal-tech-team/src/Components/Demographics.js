@@ -4,15 +4,15 @@ import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Typography,
+  Select,
   TextField,
   Box,
   Paper,
   InputLabel,
   Divider,
   Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
+  MenuItem,
+  FormControl,
 } from "@mui/material";
 
 import dayjs from "dayjs";
@@ -28,14 +28,9 @@ function Demographics() {
 
   // gender selection state
   const [gender, setGender] = useState("");
-  const [otherGender, setOtherGender] = useState("");
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
-  };
-
-  const handleOtherGenderChange = (event) => {
-    setOtherGender(event.target.value);
   };
 
   return (
@@ -117,6 +112,56 @@ function Demographics() {
                 />
               </Grid>
 
+              {/*Attorney Name*/}
+              <Grid item xs={12} sm={3}>
+                <InputLabel
+                  sx={{
+                    display: "flex",
+                    justifyContent: "left",
+                    fontWeight: 700,
+                  }}
+                >
+                  Attorney Name
+                </InputLabel>
+              </Grid>
+
+              {/*Attorney Name Text Field*/}
+              <Grid item xs={12} sm={4} sx={{ marginLeft: "-65px" }}>
+                <TextField 
+                  required
+                  id="attorney-name"
+                  label="Attorney Name"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
+              </Grid>
+
+              {/*Attorney Office*/}
+              <Grid item xs={12} sm={3} sx={{ marginLeft: "-10px" }}>
+                <InputLabel
+                  sx={{
+                    display: "flex",
+                    justifyContent: "left",
+                    fontWeight: 700,
+                  }}
+                >
+                  Attorney Office
+                </InputLabel>
+              </Grid>
+
+              {/*Attorney Office Field*/}
+              <Grid item xs={12} sm={4} sx={{ marginLeft: "-60px" }}>
+                <TextField 
+                  required
+                  id="attorney-office"
+                  label="Attorney's Law Office"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
+              </Grid>
+
               {/*Case Number*/}
               <Grid item xs={12} sm={2}>
                 <InputLabel
@@ -131,7 +176,7 @@ function Demographics() {
               </Grid>
 
               {/*Case Number Text Field*/}
-              <Grid item xs={12} sm={10}>
+              <Grid item xs={12} sm={3}>
                 <TextField
                   required
                   id="caseNumber"
@@ -151,63 +196,55 @@ function Demographics() {
                     fontWeight: 700,
                   }}
                 >
-                  Date of Birth
+                  DOB
                 </InputLabel>
               </Grid>
 
               {/*Date of Birth Selector*/}
-
-              <Grid item xs={12} sm={2}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="DOB"
-                    slotProps={{
-                      textField: {
-                        helperText: "MM/DD/YYYY",
-                      },
-                    }}
-                  />
-                </LocalizationProvider>
+              <Grid item xs={12} sm={2} sx={{ marginLeft: "-80px" }}>
+                <TextField
+                  required
+                  id="DOB"
+                  label="MM-DD-YYYY"
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                />
               </Grid>
-              <Grid item xs={12} sm={2}></Grid>
 
-              {/*Gender Radio buttons*/}
-              <Grid item xs={12} sm={6}>
-                <RadioGroup
-                  row
-                  aria-label="gender"
-                  name="gender"
-                  value={gender}
-                  onChange={handleGenderChange}
+              {/*Gender*/}
+              <Grid item xs={12} sm={2}>
+                <InputLabel
+                  sx={{
+                    display: "flex",
+                    justifyContent: "left",
+                    fontWeight: 700,
+                  }}
                 >
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                  <FormControlLabel
-                    value="other"
-                    control={<Radio />}
-                    label="Other"
-                  />
-                </RadioGroup>
+                  Gender
+                </InputLabel>
               </Grid>
 
-              {/*Other Gender Input*/}
-              <Grid item xs={12} sm={2}>
-                {gender === "other" && (
-                  <TextField
-                    label="Other Gender"
-                    variant="outlined"
-                    value={otherGender}
-                    onChange={handleOtherGenderChange}
-                  />
-                )}
+              {/*Gender Drop Down*/}
+              <Grid item xs={12} sm={3} sx={{ marginLeft: "-60px" }}>
+                <FormControl sx={{ display: "flex", justifyContent: "left", paddingBottom: "0px" }}>
+                  <InputLabel id="gender-label">
+                    Gender
+                  </InputLabel>
+                  <Select
+                    labelId="gender-label"
+                    id="gender-status"
+                    value={gender}
+                    label="Gender Status"
+                    onChange={handleGenderChange}
+                    sx={{ width: "180px", height: "45px" }}
+                  >
+                  <MenuItem value={"male"}>Male</MenuItem>
+                  <MenuItem value={"female"}>Female</MenuItem>
+                  <MenuItem value={"non-binary"}>Non-Binary</MenuItem>
+                  <MenuItem value={"prefer not to answer"}>Prefer not to answer</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
           </Box>
