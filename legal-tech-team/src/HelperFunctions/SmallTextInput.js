@@ -1,5 +1,6 @@
 import { Grid, InputLabel, TextField } from "@mui/material";
 function SmallTextInput(props) {
+  const { field, id, label, value, onChange } = props;
   return (
     <>
       <Grid item xs={12} sm={2}>
@@ -10,7 +11,7 @@ function SmallTextInput(props) {
             fontWeight: 700,
           }}
         >
-          {props.field}
+          {field}
         </InputLabel>
       </Grid>
 
@@ -18,11 +19,13 @@ function SmallTextInput(props) {
       <Grid item xs={12} sm={4}>
         <TextField
           required
-          id={props.id}
-          label={props.label}
+          id={id}
+          label={label}
           fullWidth
           size="small"
           variant="outlined"
+          value={value}
+          onChange={onChange}
         />
       </Grid>
     </>

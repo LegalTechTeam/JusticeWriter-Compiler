@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Header from "../Layouts/Header";
 import { useNavigate } from "react-router-dom";
 
@@ -17,9 +18,44 @@ import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import DropDown from "../HelperFunctions/DropDown";
 import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function FamilyDynamics() {
+  
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
+
+  useEffect(() => {
+    const existingData = ReturnExistingInput("familyDynamics");
+    if (existingData) {
+      setFormData(existingData);
+    }
+    
+  }, []); 
+
+  const [formData, setFormData] = useState({
+    motherName: "",
+    motherBday: "",
+    motherArrested: "",
+    housingAssistance: "",
+    foodStamps: "",
+    motherMaritalStatus: "",
+    motherEducation: "",
+    motherNumChildren: "",
+    fatherName: "",
+    fatherBday: "",
+    fatherArrested: "",
+    siblings: "",
+    familyConflict: "",
+    familyRelocation : "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleDropdownChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <>
@@ -51,42 +87,66 @@ function FamilyDynamics() {
                 field={"Mother Name"}
                 id={"motherName"}
                 label={"Mother name"}
+                value={formData.motherName}
+                onChange={handleChange}
               />
 
               {/*Date of Birth*/}
 
-              <DateOfBirth />
+              <DateOfBirth 
+                field={"Date of Birth"}
+                id={"motherBday"}
+                label={"MM-DD-YYYY"}
+                value={formData.motherBday}
+                onChange={handleChange}
+              />
 
               {/*Question 1 */}
 
-              <RadioYesNo question={"Has your mother ever been arrested?"} />
+              <RadioYesNo 
+                id={"motherArrested"}
+                question={"Has your mother ever been arrested?"} 
+                value={formData.motherArrested}
+                onChange={handleChange}
+                checkedValue={formData.motherArrested}
+              />
 
               {/*Question 2 */}
 
               <RadioYesNo
+                id={"housingAssistance"}
                 question={
                   " Did your mother ever receive government housing assistance?"
                 }
+                value={formData.housingAssistance}
+                onChange={handleChange}
+                checkedValue={formData.housingAssistance}
               />
 
               {/*Question 3 */}
 
               <RadioYesNo
+                id={"foodStamps"}
                 question={"Did your family ever receive foodstamps?"}
+                value={formData.foodStamps}
+                onChange={handleChange}
+                checkedValue={formData.foodStamps}
               />
               {/*MArital Status */}
 
               <DropDown
                 question={"What is your mother's marital status?"}
-                id={"Mother marital status"}
+                id={"motherMaritalStatus"}
                 options={["Single", "Divorced", "Married", "Widow", "N/A"]}
+                value={formData.motherMaritalStatus}
+                onChange={handleDropdownChange}
               />
 
               {/*Education Status*/}
 
               <DropDown
                 question={"What is your mother's highest level of education?"}
-                id={"Mother Highest Level of Education"}
+                id={"motherEducation"}
                 options={[
                   "Middle school",
                   "High school",
@@ -95,14 +155,18 @@ function FamilyDynamics() {
                   "Masters",
                   "N/A",
                 ]}
+                value={formData.motherEducation}
+                onChange={handleDropdownChange}
               />
 
               {/*Number of Children*/}
 
               <DropDown
                 question={"How many children did your mother have?"}
-                id={"Mother - number of Children"}
+                id={"motherNumChildren"}
                 options={["1", "2", "3", "4", "5", "6", "7", "8", ">8", "N/A"]}
+                value={formData.motherNumChildren}
+                onChange={handleDropdownChange}
               />
             </Grid>
 
@@ -127,15 +191,29 @@ function FamilyDynamics() {
                 field={"Father Name"}
                 id={"fatherName"}
                 label={"Father name"}
+                value={formData.fatherName}
+                onChange={handleDropdownChange}
               />
 
               {/*Date of Birth*/}
 
-              <DateOfBirth />
+              <DateOfBirth 
+                field={"Date of Birth"}
+                id={"fatherBday"}
+                label={"MM-DD-YYYY"}
+                value={formData.fatherBday}
+                onChange={handleChange}
+              />
 
               {/*Question 4 text*/}
 
-              <RadioYesNo question={" Has your father ever been arrested?"} />
+              <RadioYesNo 
+                id={"fatherArrested"}
+                question={" Has your father ever been arrested?"} 
+                value={formData.fatherArrested}
+                onChange={handleChange}
+                checkedValue={formData.fatherArrested}
+              />
 
               {/*Siblings*/}
               <Grid item xs={12} sm={2}>
@@ -159,12 +237,14 @@ function FamilyDynamics() {
                   fullWidth
                   size="small"
                   variant="outlined"
+                  value={formData.siblings}
+                  onChange={handleChange}
                 />
               </Grid>
 
               <DropDown
                 question={"How often did your family have conflicts?"}
-                id={"Family Conflict"}
+                id={"familyConflict"}
                 options={[
                   "never",
                   "rarely",
@@ -173,10 +253,12 @@ function FamilyDynamics() {
                   "always",
                   "N/A",
                 ]}
+                value={formData.familyConflict}
+                onChange={handleDropdownChange}
               />
               <DropDown
                 question={"How often did your family relocate?"}
-                id={"Family relocation"}
+                id={"familyRelocation"}
                 options={[
                   "never",
                   "rarely",
@@ -185,6 +267,8 @@ function FamilyDynamics() {
                   "always",
                   "N/A",
                 ]}
+                value={formData.familyRelocation}
+                onChange={handleDropdownChange}
               />
             </Grid>
           </Box>
@@ -194,7 +278,7 @@ function FamilyDynamics() {
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => navigate("/community")}>
+        <Button variant="contained" onClick={() => { SaveJSON(formData, "familyDynamics"); navigate("/community"); }}>
           Next
         </Button>
       </Paper>

@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Grid, TextField, InputLabel } from "@mui/material";
 
-function DateOfBirth() {
+function DateOfBirth(props) {
+  const { field, id, label, value, onChange } = props;
   return (
     <>
       <Grid item xs={12} sm={2}>
@@ -12,7 +13,7 @@ function DateOfBirth() {
             fontWeight: 700,
           }}
         >
-          Date of Birth
+          {field}
         </InputLabel>
       </Grid>
 
@@ -22,11 +23,13 @@ function DateOfBirth() {
       <Grid item xs={12} sm={4}>
         <TextField
           required
-          id="DOB"
-          label="MM-DD-YYYY"
+          id={id}
+          label={label}
           fullWidth
           size="small"
           variant="outlined"
+          value={value}
+          onChange={onChange}
         />
       </Grid>
     </>
