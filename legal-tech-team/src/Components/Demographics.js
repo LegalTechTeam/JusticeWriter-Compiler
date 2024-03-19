@@ -36,13 +36,16 @@ function Demographics() {
     attorneyOffice: "",
     caseNumber: "",
     gender: "",
+    DOB: "",
     background: "",
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-    console.log("changing");
-    console.log(formData);
+  };
+
+  const handleDropdownChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -121,13 +124,19 @@ function Demographics() {
 
               {/*Date of Birth*/}
 
-              <DateOfBirth />
+              <DateOfBirth 
+                field={"Date of Birth"}
+                id={"DOB"}
+                label={"MM-DD-YYYY"}
+                value={formData.DOB}
+                onChange={handleChange}
+              />
 
               {/*Gender Drop Down*/}
 
               <DropDown
                 question={"What is your gender?"}
-                id={"Gender"}
+                id={"gender"}
                 value={formData.gender}
                 options={[
                   "Male",
@@ -135,7 +144,7 @@ function Demographics() {
                   "Non-binary",
                   "Prefer not to answer",
                 ]}
-                onChange={handleChange}
+                onChange={handleDropdownChange}
               />
             </Grid>
           </Box>

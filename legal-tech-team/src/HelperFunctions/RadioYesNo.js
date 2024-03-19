@@ -26,11 +26,8 @@ import dayjs from "dayjs";
 import themeSubHeading from "../Layouts/Theme";
 import AddQuotes from "./AddQuotes";
 function RadioYesNo(props) {
-  const [answer1, setAnswer1] = useState("");
+  const { question, id, value, onChange } = props;
 
-  const handleAnswer1Change = (event) => {
-    setAnswer1(event.target.value);
-  };
   return (
     <>
       {/*Question 1 text*/}
@@ -43,7 +40,7 @@ function RadioYesNo(props) {
             fontWeight: 700,
           }}
         >
-          {props.question}
+          {question}
         </InputLabel>
       </Grid>
 
@@ -53,11 +50,11 @@ function RadioYesNo(props) {
           row
           aria-label="answer"
           name="answer"
-          value={answer1}
-          onChange={handleAnswer1Change}
-        >
-          <FormControlLabel value="no" control={<Radio />} label="No" />
-          <FormControlLabel value="yes" control={<Radio />} label="yes" />
+          value={value}
+          onChange={onChange}
+           >
+          <FormControlLabel value="no" control={<Radio id={id} />} label="No" />
+          <FormControlLabel value="yes" control={<Radio  id={id} />} label="yes" />
         </RadioGroup>
         <AddQuotes />
       </Grid>
