@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -14,20 +14,35 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function ACEp1() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  const [sud, setSUD] = useState("no");
-  const [treatedSUD, setTreatedSUD] = useState("no");
+  useEffect(() => {
+    const existingDataACE = ReturnExistingInput("adverseChildhoodExpriences");
+    if (existingDataACE) {
+      setFormDataACE(existingDataACE);
+    }
+  }, []); 
 
-  const handleSUDChange = (event) => {
-    setSUD(event.target.value);
+  const [formDataACE, setFormDataACE] = useState({
+    emotionalAbuse: "",
+    physicalAbuse: "",
+    sexualAbuse: "",
+
+    emotionalNeglect: "",
+    physicalNeglect: "",
+    familyMemberAbusedOrThreatened: "",
+    alcoholAbuse: "",
+    mentalIllness: "",
+    separation: "",
+  });
+
+  const handleACEChange = (e) => {
+    setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
   };
 
-  const handleTreatedSUDChange = (event) => {
-    setTreatedSUD(event.target.value);
-  };
 
   return (
     <div>
@@ -70,10 +85,12 @@ function ACEp1() {
                 required
                 multiline={true}
                 rows={3}
-                id="Emotional neglect"
+                id="emotionalNeglect"
                 label="Emotional neglect"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.emotionalNeglect}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -101,10 +118,12 @@ function ACEp1() {
                 required
                 multiline={true}
                 rows={3}
-                id="Physical neglect"
+                id="physicalNeglect"
                 label="Physical neglect"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.physicalNeglect}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -132,10 +151,12 @@ function ACEp1() {
                 required
                 multiline={true}
                 rows={3}
-                id="Family member abused"
+                id="familyMemberAbusedOrThreatened"
                 label="Family member abused"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.familyMemberAbusedOrThreatened}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -163,10 +184,12 @@ function ACEp1() {
                 required
                 multiline={true}
                 rows={3}
-                id="Alcohol abuse"
+                id="alcoholAbuse"
                 label="Alcohol abuse"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.alcoholAbuse}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -194,10 +217,12 @@ function ACEp1() {
                 required
                 multiline={true}
                 rows={3}
-                id="Mental illness"
+                id="mentalIllness"
                 label="Mental illness"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.mentalIllness}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -225,10 +250,12 @@ function ACEp1() {
                 required
                 multiline={true}
                 rows={3}
-                id="Separation"
+                id="separation"
                 label="Separation"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.separation}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -238,7 +265,8 @@ function ACEp1() {
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button variant="contained" onClick={() => navigate("/aceTwo")}>
+
+        <Button variant="contained" onClick={() => { SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/aceTwo"); }}>
           Next
         </Button>
       </Paper>

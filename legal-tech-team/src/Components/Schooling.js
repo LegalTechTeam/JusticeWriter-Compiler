@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -20,25 +20,47 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function Schooling() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  const [sud, setSUD] = useState("no");
-  const [treatedSUD, setTreatedSUD] = useState("no");
+  useEffect(() => {
+    const existingData = ReturnExistingInput("schooling");
+    const existingDataACE = ReturnExistingInput("adverseChildhoodExpriences");
+    if (existingData) {
+      setFormData(existingData);
+    }
+    if (existingDataACE) {
+      setFormDataACE(existingDataACE);
+    }
+  }, []); 
 
-  const handleSUDChange = (event) => {
-    setSUD(event.target.value);
+  const [formData, setFormData] = useState({
+    schoolsAttended: "",
+    schoolChanges: "",
+    schoolExperiences: "",
+    schoolQuality: "",
+    wasSuspended: "",
+    wasExpelled: "",
+    didDropOut: "",
+    noDisciplinaryAction: "",
+  });
+
+  const [formDataACE, setFormDataACE] = useState({
+    emotionalAbuse: "",
+    physicalAbuse: "",
+    sexualAbuse: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleTreatedSUDChange = (event) => {
-    setTreatedSUD(event.target.value);
+  const handleACEChange = (e) => {
+    setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
   };
 
-  const [schoolQuality, setSchoolQuality] = useState();
-  const handleSchoolQualityChange = (event) => {
-    setSchoolQuality(event.target.value);
-  };
 
   return (
     <div>
@@ -80,10 +102,12 @@ function Schooling() {
                 required
                 multiline={true}
                 rows={3}
-                id="Schools attended"
+                id="schoolsAttended"
                 label="Schools attended"
                 fullWidth
                 variant="outlined"
+                value={formData.schoolsAttended}
+                onChange={handleChange}
               />
             </Grid>
           </Box>
@@ -110,10 +134,12 @@ function Schooling() {
               <TextField
                 required
                 multiline={false}
-                id="School changes"
+                id="schoolChanges"
                 label="School changes"
                 fullWidth
                 variant="outlined"
+                value={formData.schoolChanges}
+                onChange={handleChange}
               />
             </Grid>
           </Box>
@@ -141,10 +167,12 @@ function Schooling() {
                 required
                 multiline={true}
                 rows={3}
-                id="School experiences"
+                id="schoolExperiences"
                 label="School experiences"
                 fullWidth
                 variant="outlined"
+                value={formData.schoolExperiences}
+                onChange={handleChange}
               />
             </Grid>
           </Box>
@@ -172,27 +200,27 @@ function Schooling() {
                 row
                 aria-label="answer"
                 name="answer"
-                value={schoolQuality}
-                onChange={handleSchoolQualityChange}
+                value={formData.schoolQuality}
+                onChange={handleChange}
               >
                 <FormControlLabel
                   value="Poor"
-                  control={<Radio />}
+                  control={<Radio id={"schoolQuality"} />}
                   label="Poor"
                 />
                 <FormControlLabel
                   value="Average"
-                  control={<Radio />}
+                  control={<Radio id={"schoolQuality"} />}
                   label="Average"
                 />
                 <FormControlLabel
                   value="Good"
-                  control={<Radio />}
+                  control={<Radio id={"schoolQuality"} />}
                   label="Good"
                 />
                 <FormControlLabel
                   value="Excellent"
-                  control={<Radio />}
+                  control={<Radio id={"schoolQuality"} />}
                   label="Excellent"
                 />
               </RadioGroup>
@@ -217,14 +245,25 @@ function Schooling() {
                 Have you every been:
               </InputLabel>
             </Grid>
-            <FormGroup>
-              <FormControlLabel control={<Checkbox />} label="Suspended" />
-              <FormControlLabel control={<Checkbox />} label="Expelled" />
-              <FormControlLabel control={<Checkbox />} label="Dropped Out" />
-              <FormControlLabel
-                control={<Checkbox />}
-                label="None of the above"
-              />
+            <FormGroup
+              onChange={handleChange}
+            >
+                <FormControlLabel
+                  control={<Checkbox checked={formData.wasSuspended} onChange={handleChange} id="wasSuspended" />}
+                  label="Suspended"
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={formData.wasExpelled} onChange={handleChange} id="wasExpelled" />}
+                  label="Expelled"
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={formData.didDropOut} onChange={handleChange} id="didDropOut" />}
+                  label="Dropped Out"
+                />
+                <FormControlLabel
+                  control={<Checkbox checked={formData.noDisciplinaryAction} onChange={handleChange} id="noDisciplinaryAction" />}
+                  label="None of the above"
+                />
             </FormGroup>
           </Box>
 
@@ -257,10 +296,12 @@ function Schooling() {
                 required
                 multiline={true}
                 rows={3}
-                id="Emotional Abuse"
+                id="emotionalAbuse"
                 label="Emotional Abuse"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.emotionalAbuse}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -288,10 +329,12 @@ function Schooling() {
                 required
                 multiline={true}
                 rows={3}
-                id="Physical Abuse"
+                id="physicalAbuse"
                 label="Physical Abuse"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.physicalAbuse}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -319,10 +362,12 @@ function Schooling() {
                 required
                 multiline={true}
                 rows={3}
-                id="Sexual Abuse"
+                id="sexualAbuse"
                 label="Sexual Abuse"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.sexualAbuse}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -333,7 +378,7 @@ function Schooling() {
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => navigate("/aceOne")}>
+        <Button variant="contained" onClick={() => { SaveJSON(formData, "schooling"); SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/aceOne"); }}>
           Next
         </Button>
       </Paper>
