@@ -3,7 +3,10 @@ let globalJsonData = {
     familyDynamics: {},
     community: {},
     schooling: {},
-    adverseChildhoodExpriences: {}
+    adverseChildhoodExpriences: {},
+    peersAndRoleModels: {},
+    mentalHealth: {},
+    evidenceOfCharacter: {},
   };
 
 export function SaveJSON(formData, section) {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -9,15 +10,49 @@ import {
   InputLabel,
   Button,
   Radio,
+  RadioGroup,
   FormControlLabel,
 } from "@mui/material";
 import "react-dropdown/style.css";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function MentalHealth() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
+
+  useEffect(() => {
+    const existingData = ReturnExistingInput("mentalHealth");
+    if (existingData) {
+      setFormData(existingData);
+    }
+    const existingDataEvidence = ReturnExistingInput("evidenceOfCharacter");
+    if (existingDataEvidence) {
+      setFormDataEvidence(existingDataEvidence);
+    }
+  }, []); 
+
+  const [formData, setFormData] = useState({
+    receivedMentalHealthTreatment: "",
+    participatedMentalHealthOrDrugProgram: "",
+    treatmentOrCounseling: "",
+  });
+
+  const [formDataEvidence, setFormDataEvidence] = useState({
+    exampleOfCharacter: "",
+    exampleOfGoodDeed: "",
+    volunteeringAndCommunityEngagement: "",
+    areParent: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleChangeEvidence = (e) => {
+    setFormDataEvidence({ ...formDataEvidence, [e.target.id]: e.target.value });
+  };
 
   return (
     <div>
@@ -59,8 +94,16 @@ function MentalHealth() {
                 </InputLabel>
               </Grid>
               <Grid item xs={5}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
+              <RadioGroup
+                  row
+                  aria-label="participatedMentalHealthOrDrugProgram"
+                  name="participatedMentalHealthOrDrugProgram"
+                  value={formData.participatedMentalHealthOrDrugProgram}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel value="yes" control={<Radio id={"participatedMentalHealthOrDrugProgram"} />} label="Yes" />
+                  <FormControlLabel value="no" control={<Radio id={"participatedMentalHealthOrDrugProgram"} />} label="No" />
+                </RadioGroup>
               </Grid>
             </Grid>
           </Box>
@@ -90,8 +133,16 @@ function MentalHealth() {
               </Grid>
 
               <Grid item xs={5}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
+              <RadioGroup
+                  row
+                  aria-label="receivedMentalHealthTreatment"
+                  name="receivedMentalHealthTreatment"
+                  value={formData.receivedMentalHealthTreatment}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel value="yes" control={<Radio id={"receivedMentalHealthTreatment"} />} label="Yes" />
+                  <FormControlLabel value="no" control={<Radio id={"receivedMentalHealthTreatment"} />} label="No" />
+                </RadioGroup>
               </Grid>
             </Grid>
           </Box>
@@ -122,10 +173,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Treatments/Counseling"
+                id="treatmentOrCounseling"
                 label="Treatments/Counseling"
                 fullWidth
                 variant="outlined"
+                value={formData.treatmentOrCounseling}
+                onChange={handleChange}
               />
             </Grid>
           </Box>
@@ -160,10 +213,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Character Examples"
+                id="exampleOfCharacter"
                 label="Character Examples"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.exampleOfCharacter}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -194,10 +249,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Good Deeds"
+                id="exampleOfGoodDeed"
                 label="Good Deeds"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.exampleOfGoodDeed}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -229,10 +286,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Extracurriculars"
+                id="volunteeringAndCommunityEngagement"
                 label="Extracurriculars"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.volunteeringAndCommunityEngagement}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -260,8 +319,16 @@ function MentalHealth() {
                 </InputLabel>
               </Grid>
               <Grid item xs={5}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
+              <RadioGroup
+                  row
+                  aria-label="areParent"
+                  name="areParent"
+                  value={formDataEvidence.areParent}
+                  onChange={handleChangeEvidence}
+                >
+                  <FormControlLabel value="yes" control={<Radio id={"areParent"} />} label="Yes" />
+                  <FormControlLabel value="no" control={<Radio id={"areParent"} />} label="No" />
+                </RadioGroup>
               </Grid>
             </Grid>
           </Box>
@@ -276,7 +343,7 @@ function MentalHealth() {
 
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => navigate("/evidence")}>
+        <Button variant="contained" onClick={() => { SaveJSON(formData, "mentalHealth"); SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/evidence"); }}>
           Next
         </Button>
       </Paper>

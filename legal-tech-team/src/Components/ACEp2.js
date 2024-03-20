@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -18,19 +18,40 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function ACEp2() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  const [sud, setSUD] = useState("");
-  const [treatedSUD, setTreatedSUD] = useState("");
+  useEffect(() => {
+    const existingDataACE = ReturnExistingInput("adverseChildhoodExpriences");
+    if (existingDataACE) {
+      setFormDataACE(existingDataACE);
+    }
+  }, []); 
 
-  const handleSUDChange = (event) => {
-    setSUD(event.target.value);
-  };
+  const [formDataACE, setFormDataACE] = useState({
+    emotionalAbuse: "",
+    physicalAbuse: "",
+    sexualAbuse: "",
 
-  const handleTreatedSUDChange = (event) => {
-    setTreatedSUD(event.target.value);
+    emotionalNeglect: "",
+    physicalNeglect: "",
+    familyMemberAbusedOrThreatened: "",
+    alcoholAbuse: "",
+    mentalIllness: "",
+    separation: "",
+
+    familyMemberPrison: "",
+    lossesAndDeaths: "",
+    otherTraumaticExperience: "",
+    drugUse: "",
+    diagnosedSUD: "",
+    treatedOrTestedSUD: "",
+  });
+
+  const handleACEChange = (e) => {
+    setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
   };
 
   return (
@@ -74,10 +95,12 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Family in prison"
+                id="familyMemberPrison"
                 label="Family in prison"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.familyMemberPrison}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -105,10 +128,12 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Losses or deaths"
+                id="lossesAndDeaths"
                 label="Losses or deaths"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.lossesAndDeaths}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -136,10 +161,12 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Other"
+                id="otherTraumaticExperience"
                 label="Other"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.otherTraumaticExperience}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -173,10 +200,12 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Drugs used"
+                id="drugUse"
                 label="Drugs used"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.drugUse}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -204,15 +233,15 @@ function ACEp2() {
                   row
                   aria-label="sud"
                   name="sud"
-                  value={sud}
-                  onChange={handleSUDChange}
+                  value={formDataACE.diagnosedSUD}
+                  onChange={handleACEChange}
                 >
                   <FormControlLabel
                     value="yes"
-                    control={<Radio />}
+                    control={<Radio id={"diagnosedSUD"} />}
                     label="Yes"
                   />
-                  <FormControlLabel value="no" control={<Radio />} label="No" />
+                  <FormControlLabel value="no" control={<Radio id={"diagnosedSUD"} />} label="No" />
                 </RadioGroup>
               </Grid>
             </Grid>
@@ -241,15 +270,15 @@ function ACEp2() {
                   row
                   aria-label="treatedSUD"
                   name="treatedSUD"
-                  value={treatedSUD}
-                  onChange={handleTreatedSUDChange}
+                  value={formDataACE.treatedOrTestedSUD}
+                  onChange={handleACEChange}
                 >
                   <FormControlLabel
                     value="yes"
-                    control={<Radio />}
+                    control={<Radio id={"treatedOrTestedSUD"} />}
                     label="Yes"
                   />
-                  <FormControlLabel value="no" control={<Radio />} label="No" />
+                  <FormControlLabel value="no" control={<Radio id={"treatedOrTestedSUD"} />} label="No" />
                 </RadioGroup>
               </Grid>
             </Grid>
@@ -259,10 +288,7 @@ function ACEp2() {
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/peers-role-models")}
-        >
+        <Button variant="contained" onClick={() => { SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/peers-role-models"); }}>
           Next
         </Button>
       </Paper>

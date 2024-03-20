@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -13,10 +14,33 @@ import "react-dropdown/style.css";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 
 function Evidence() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
+
+
+  useEffect(() => {
+    const existingDataEvidence = ReturnExistingInput("evidenceOfCharacter");
+    if (existingDataEvidence) {
+      setFormDataEvidence(existingDataEvidence);
+    }
+  }, []); 
+
+  const [formDataEvidence, setFormDataEvidence] = useState({
+    exampleOfCharacter: "",
+    exampleOfGoodDeed: "",
+    volunteeringAndCommunityEngagement: "",
+    areParent: "",
+
+    remorseAndCompassion: "",
+    rehabilitationPlan: "",
+  });
+
+  const handleChangeEvidence = (e) => {
+    setFormDataEvidence({ ...formDataEvidence, [e.target.id]: e.target.value });
+  };
 
   return (
     <div>
@@ -61,10 +85,12 @@ function Evidence() {
                 required
                 multiline={true}
                 rows={3}
-                id="Remorse?"
+                id="remorseAndCompassion"
                 label="Remorse?"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.remorseAndCompassion}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -98,10 +124,12 @@ function Evidence() {
                 required
                 multiline={true}
                 rows={3}
-                id="Plans"
+                id="rehabilitationPlan"
                 label="Plans"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.rehabilitationPlan}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -113,7 +141,7 @@ function Evidence() {
 
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => navigate("/submit")}>
+        <Button variant="contained" onClick={() => { SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/submit"); }}>
           Save
         </Button>
       </Paper>
