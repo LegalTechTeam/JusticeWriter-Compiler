@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "./useLocalStorage";
 import {
   Grid,
   Typography,
@@ -16,6 +17,17 @@ import Header from "../Layouts/Header";
 
 function Evidence() {
     const navigate = useNavigate();
+    const [remorse, setRemorse] = useLocalStorage("remorse", "");
+    const [plan, setPlan] = useLocalStorage("plan", "");
+
+    const handleRemorse = (event) => {
+        setRemorse(event.target.value);
+    }
+
+    const handlePlan = (event) => {
+        setPlan(event.target.value);
+    }
+
     return (
         <div>
             <Header/>
@@ -56,6 +68,8 @@ function Evidence() {
                             label="Remorse?"
                             fullWidth
                             variant="outlined"
+                            onChange={handleRemorse}
+                            value={remorse}
                         />
                     </Grid>
                 </Box>
@@ -90,6 +104,8 @@ function Evidence() {
                             label="Plans"
                             fullWidth
                             variant="outlined"
+                            onChange={handlePlan}
+                            value={plan}
                         />
                     </Grid>
                 </Box>

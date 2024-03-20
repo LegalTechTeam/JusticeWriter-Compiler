@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "./useLocalStorage";
 import {
   Grid,
   Typography,
@@ -10,6 +11,7 @@ import {
   Button,
   Radio,
   FormControlLabel,
+  RadioGroup,
 } from "@mui/material";
 import "react-dropdown/style.css";
 
@@ -18,6 +20,44 @@ import Header from "../Layouts/Header";
 
 function MentalHealth() {
     const navigate = useNavigate();
+    const [received, setRecieved] = useLocalStorage("received", "");
+    const [participated, setParticipated] = useLocalStorage("participated", "");
+    const [treatments, setTreatments] = useLocalStorage("treatments", "");
+    const [character, setCharacter] = useLocalStorage("character", "");
+    const [goodDeeds, setGoodDeeds] = useLocalStorage("goodDeeds", "");
+    const [volunteering, setVolunteering] = useLocalStorage("volunteering", "");
+    const [isParent, setIsParent] = useLocalStorage("isParent", "");
+    
+    const handleRecieved = (event) => {
+        setRecieved(event.target.value);
+    }
+
+    const handleParticipated = (event) => {
+        setParticipated(event.target.value);
+    }
+
+    const handleTreatments = (event) => {
+        // 👇 Get input value from "event"
+        setTreatments(event.target.value);
+    }
+
+    const handleCharacter = (event) => {
+        setCharacter(event.target.value);
+    }
+
+    const handleGoodDeeds = (event) => {
+        setGoodDeeds(event.target.value);
+    }
+
+    const handleVolunteering = (event) => {
+        setVolunteering(event.target.value);
+    }
+
+    const handleIsParent = (event) => {
+        setIsParent(event.target.value);
+    }
+    
+
     return (
         <div>
             <Header/>
@@ -51,16 +91,22 @@ function MentalHealth() {
                             </InputLabel>
                         </Grid>
                         <Grid item xs={6}>
+                            <RadioGroup row onClick={handleRecieved} value={received} name="Yes/No1">
                             <FormControlLabel
                                 value="yes"
                                 control={<Radio />}
                                 label="Yes"
+                                sx={{
+                                    marginLeft: "30%",
+                                    marginRight: "10%"
+                                  }}
                             />
                             <FormControlLabel 
                                 value="no" 
                                 control={<Radio />} 
                                 label="No" 
                             />
+                            </RadioGroup>
                         </Grid>
                     </Grid>
                 </Box>
@@ -87,16 +133,22 @@ function MentalHealth() {
                             </InputLabel>
                         </Grid>
                         <Grid item xs={6}>
+                            <RadioGroup row onClick={handleParticipated} value={participated} name="Yes/No2">
                             <FormControlLabel
                                 value="yes"
                                 control={<Radio />}
                                 label="Yes"
+                                sx={{
+                                    marginLeft: "30%",
+                                    marginRight: "10%"
+                                  }}
                             />
                             <FormControlLabel 
                                 value="no" 
                                 control={<Radio />} 
                                 label="No" 
                             />
+                            </RadioGroup>
                         </Grid>
                     </Grid>
                 </Box>
@@ -130,6 +182,8 @@ function MentalHealth() {
                             label="Treatments/Counseling"
                             fullWidth
                             variant="outlined"
+                            onChange={handleTreatments}
+                            value={treatments}
                         />
                     </Grid>
                 </Box>
@@ -167,6 +221,8 @@ function MentalHealth() {
                             label="Character Examples"
                             fullWidth
                             variant="outlined"
+                            onChange={handleCharacter}
+                            value={character}
                         />
                     </Grid>
                 </Box>
@@ -200,6 +256,8 @@ function MentalHealth() {
                             label="Good Deeds"
                             fullWidth
                             variant="outlined"
+                            onChange={handleGoodDeeds}
+                            value={goodDeeds}
                         />
                     </Grid>
                 </Box>
@@ -233,6 +291,8 @@ function MentalHealth() {
                             label="Extracurriculars"
                             fullWidth
                             variant="outlined"
+                            onChange={handleVolunteering}
+                            value={volunteering}
                         />
                     </Grid>
                 </Box>
@@ -258,16 +318,22 @@ function MentalHealth() {
                             </InputLabel>
                         </Grid>
                         <Grid item xs={6}>
+                        <RadioGroup row onClick={handleIsParent} value={isParent} name="Yes/No3">
                             <FormControlLabel
                                 value="yes"
                                 control={<Radio />}
                                 label="Yes"
+                                sx={{
+                                    marginLeft: "30%",
+                                    marginRight: "10%"
+                                  }}
                             />
                             <FormControlLabel 
                                 value="no" 
                                 control={<Radio />} 
                                 label="No" 
                             />
+                            </RadioGroup>
                         </Grid>
                     </Grid>
                 </Box>
@@ -280,10 +346,12 @@ function MentalHealth() {
 
                 <Button
                     variant="contained"
+                    
                     onClick={() => navigate("/evidence")}
                 >
                     Next
                 </Button>
+                
 
             </Paper>
         </div>
