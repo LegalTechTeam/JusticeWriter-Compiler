@@ -22,3 +22,19 @@ export function SaveJSON(formData, section) {
 export function ReturnExistingInput(section) {
     return globalJsonData[section];
 }
+
+export function DownloadJsonData() {
+    const filename = 'globalJsonData.json';
+    const jsonStr = JSON.stringify(globalJsonData, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}

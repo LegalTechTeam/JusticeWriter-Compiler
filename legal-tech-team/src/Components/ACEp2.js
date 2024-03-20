@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function ACEp2() {
   const navigate = useNavigate();
@@ -208,81 +209,26 @@ function ACEp2() {
                 onChange={handleACEChange}
               />
             </Grid>
-          </Box>
+          
 
-          {/*Question 1 Radio buttons*/}
-          <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "5px" }}
-          >
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Ever been diagnosed with substance use disorder (SUD)?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <RadioGroup
-                  row
-                  aria-label="sud"
-                  name="sud"
+          <Grid container spacing={3} marginTop={1}>
+            <RadioYesNo 
+                  id={"diagnosedSUD"}
+                  question={"Ever been diagnosed with substance use disorder (SUD)?"} 
                   value={formDataACE.diagnosedSUD}
                   onChange={handleACEChange}
-                >
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio id={"diagnosedSUD"} />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="no" control={<Radio id={"diagnosedSUD"} />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
+                  checkedValue={formDataACE.diagnosedSUD}
+                />
+            <RadioYesNo 
+              id={"treatedSUD"}
+              question={"Ever been tested or treated for SUD?"} 
+              value={formDataACE.treatedSUD}
+              onChange={handleACEChange}
+              checkedValue={formDataACE.treatedSUD}
+            />
+          </Grid>
           </Box>
 
-          {/*Questionm 2 Radio buttons*/}
-          <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
-          >
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Ever been tested or treated for SUD?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <RadioGroup
-                  row
-                  aria-label="treatedSUD"
-                  name="treatedSUD"
-                  value={formDataACE.treatedOrTestedSUD}
-                  onChange={handleACEChange}
-                >
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio id={"treatedOrTestedSUD"} />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="no" control={<Radio id={"treatedOrTestedSUD"} />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
-          </Box>
         </Box>
         <Button variant="contained" onClick={() => navigate("/aceOne")}>
           Previous

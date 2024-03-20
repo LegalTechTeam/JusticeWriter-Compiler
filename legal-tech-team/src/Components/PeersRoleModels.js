@@ -21,10 +21,27 @@ import dayjs from "dayjs";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import DropDown from "../HelperFunctions/DropDown";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
+import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function PeersRoleModels() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
+
+  const peerList = [
+    {
+      label: "Association with delinquent peers",
+    },
+    {
+      label: "Involvement in gangs",
+    },
+    {
+      label: "Enjoy or admire street guys in my neighborhood",
+    },
+    {
+      label: "Enjoy or admire the gangsta lifestyle",
+    },
+  ]
 
   useEffect(() => {
     const existingData = ReturnExistingInput("peersAndRoleModels");
@@ -94,9 +111,19 @@ function PeersRoleModels() {
                   Other traumatic experiences
                 </InputLabel>
               </Grid>
-              <Grid item xs={6}>
-                <FormGroup>
-                  <FormControlLabel
+              <Grid container spacing={4} justifyContent="flex-end" alignItems="center">
+                <Grid item>
+                  <FormGroup>
+                    {peerList.map((peer, index) => (
+                      <CheckboxWithAdd
+                        key={index}
+                        label={peer.label}
+                      />
+                    ))}
+                  </FormGroup>
+                </Grid>
+              </Grid>
+                  {/* <FormControlLabel
                     control={
                       <Checkbox
                         checked={formData.associationWithPeers} 
@@ -135,9 +162,8 @@ function PeersRoleModels() {
                       />
                     }
                     label="Enjoy or admire the gangsta lifestyle"
-                  />
-                </FormGroup>
-              </Grid>
+                  /> */}
+               
             </Grid>
           </Box>
 
@@ -150,41 +176,6 @@ function PeersRoleModels() {
             }}
           >
             <Grid container>
-              {/* <Grid item xs={6}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1,
-                  }}
-                >
-                  How many peers in your neighborhood went to college?
-                </InputLabel>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1,
-                  }}
-                >
-                  How many of them went to prison?
-                </InputLabel>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1,
-                  }}
-                >
-                  How many relatives have been arrested?
-                </InputLabel>
-              </Grid> */}
               <Grid container spacing={3}>
                 <DropDown
                   options={options}
@@ -278,7 +269,7 @@ function PeersRoleModels() {
                 onChange={handleChange}
               />
             </Grid>
-          </Box>
+         
 
           <Divider orientation="horizontal" flexItem />
 
@@ -286,78 +277,23 @@ function PeersRoleModels() {
             Any Other Risk Factors
           </Typography>
 
-          {/*Question 1 Radio buttons*/}
-          <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "5px" }}
-          >
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Ever experienced mental health issues?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <RadioGroup
-                  row
-                  aria-label="mentalHealthIssues"
-                  name="mentalHealthIssues"
+
+          <Grid container spacing={3}>
+            <RadioYesNo 
+                  id={"mentalHealthIssues"}
+                  question={"Ever experienced mental health issues?"} 
                   value={formData.mentalHealthIssues}
                   onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio id={"mentalHealthIssues"} />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="no" control={<Radio id={"mentalHealthIssues"} />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
-          </Box>
-
-          {/*Questio 2 Radio buttons*/}
-          <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
-          >
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Ever been affected by mental health issues?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <RadioGroup
-                  row
-                  aria-label="affectedByMentalHealth"
-                  name="affectedByMentalHealth"
-                  value={formData.affectedByMentalHealth}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio id={"affectedByMentalHealth"} />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="no" control={<Radio id={"affectedByMentalHealth"} />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
+                  checkedValue={formData.mentalHealthIssues}
+                />
+            <RadioYesNo 
+              id={"affectedByMentalHealth"}
+              question={"Ever been affected by mental health issues?"} 
+              value={formData.affectedByMentalHealth}
+              onChange={handleChange}
+              checkedValue={formData.affectedByMentalHealth}
+            />
+          </Grid>
           </Box>
 
           {/*last input*/}

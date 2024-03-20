@@ -20,10 +20,27 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
+import AddQuotes from "../HelperFunctions/AddQuotes";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function Schooling() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
+
+  const schoolList = [
+    {
+      label: "Suspended",
+    },
+    {
+      label: "Expelled",
+    },
+    {
+      label: "Dropped Out",
+    },
+    {
+      label: "None of the Above",
+    },
+  ]
 
   useEffect(() => {
     const existingData = ReturnExistingInput("schooling");
@@ -223,6 +240,7 @@ function Schooling() {
                   control={<Radio id={"schoolQuality"} />}
                   label="Excellent"
                 />
+                <AddQuotes/>
               </RadioGroup>
             </Grid>
           </Box>
@@ -246,25 +264,34 @@ function Schooling() {
               </InputLabel>
             </Grid>
             <FormGroup
-              onChange={handleChange}
+              //onChange={handleChange}
             >
-                <FormControlLabel
-                  control={<Checkbox checked={formData.wasSuspended} onChange={handleChange} id="wasSuspended" />}
-                  label="Suspended"
+              {schoolList.map((action, index) => (
+                <CheckboxWithAdd
+                  key={index}
+                  label={action.label}
                 />
-                <FormControlLabel
-                  control={<Checkbox checked={formData.wasExpelled} onChange={handleChange} id="wasExpelled" />}
-                  label="Expelled"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={formData.didDropOut} onChange={handleChange} id="didDropOut" />}
-                  label="Dropped Out"
-                />
-                <FormControlLabel
-                  control={<Checkbox checked={formData.noDisciplinaryAction} onChange={handleChange} id="noDisciplinaryAction" />}
-                  label="None of the above"
-                />
-            </FormGroup>
+              ))}
+              {/* <CheckboxWithAdd>
+                  <FormControlLabel
+                    control={<Checkbox checked={formData.wasSuspended} onChange={handleChange} id="wasSuspended" />}
+                    label="Suspended"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={formData.wasExpelled} onChange={handleChange} id="wasExpelled" />}
+                    label="Expelled"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={formData.didDropOut} onChange={handleChange} id="didDropOut" />}
+                    label="Dropped Out"
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={formData.noDisciplinaryAction} onChange={handleChange} id="noDisciplinaryAction" />}
+                    label="None of the above"
+                  />
+                </CheckboxWithAdd> */}
+              </FormGroup>
+            
           </Box>
 
           <Divider orientation="horizontal" flexItem />

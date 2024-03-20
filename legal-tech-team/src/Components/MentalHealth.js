@@ -17,6 +17,7 @@ import "react-dropdown/style.css";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function MentalHealth() {
   const navigate = useNavigate();
@@ -79,72 +80,23 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid container>
-              <Grid item xs={7}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1,
-                  }}
-                >
-                  Have you ever received behavioral or mental health treatment?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={5}>
-              <RadioGroup
-                  row
-                  aria-label="participatedMentalHealthOrDrugProgram"
-                  name="participatedMentalHealthOrDrugProgram"
+
+          <Grid container spacing={3}>
+            <RadioYesNo 
+                  id={"participatedMentalHealthOrDrugProgram"}
+                  question={"Have you ever received behavioral or mental health treatment?"} 
                   value={formData.participatedMentalHealthOrDrugProgram}
                   onChange={handleChange}
-                >
-                  <FormControlLabel value="yes" control={<Radio id={"participatedMentalHealthOrDrugProgram"} />} label="Yes" />
-                  <FormControlLabel value="no" control={<Radio id={"participatedMentalHealthOrDrugProgram"} />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
-          </Box>
-
-          {/*Second Yes or no question */}
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <Grid container>
-              <Grid item xs={7}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    textWrap: "balance",
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Have you ever participated in a mental health or drug program?
-                </InputLabel>
-              </Grid>
-
-              <Grid item xs={5}>
-              <RadioGroup
-                  row
-                  aria-label="receivedMentalHealthTreatment"
-                  name="receivedMentalHealthTreatment"
-                  value={formData.receivedMentalHealthTreatment}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel value="yes" control={<Radio id={"receivedMentalHealthTreatment"} />} label="Yes" />
-                  <FormControlLabel value="no" control={<Radio id={"receivedMentalHealthTreatment"} />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
+                  checkedValue={formData.participatedMentalHealthOrDrugProgram}
+                />
+            <RadioYesNo 
+              id={"receivedMentalHealthTreatment"}
+              question={"Have you ever participated in a mental health or drug program?"} 
+              value={formData.receivedMentalHealthTreatment}
+              onChange={handleChange}
+              checkedValue={formData.receivedMentalHealthTreatment}
+            />
+          </Grid>
           </Box>
 
           <Box
@@ -303,33 +255,14 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid container>
-              <Grid item xs={7}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    textWrap: "balance",
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Are you a parent?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={5}>
-              <RadioGroup
-                  row
-                  aria-label="areParent"
-                  name="areParent"
-                  value={formDataEvidence.areParent}
-                  onChange={handleChangeEvidence}
-                >
-                  <FormControlLabel value="yes" control={<Radio id={"areParent"} />} label="Yes" />
-                  <FormControlLabel value="no" control={<Radio id={"areParent"} />} label="No" />
-                </RadioGroup>
-              </Grid>
+            <Grid container spacing={3}>
+              <RadioYesNo 
+                    id={"areParent"}
+                    question={"Are you a parent?"} 
+                    value={formDataEvidence.areParent}
+                    onChange={handleChangeEvidence}
+                    checkedValue={formDataEvidence.areParent}
+                  />
             </Grid>
           </Box>
         </Box>

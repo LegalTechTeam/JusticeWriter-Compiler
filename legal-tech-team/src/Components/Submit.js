@@ -5,6 +5,7 @@ import { Typography, Box, Paper, Button } from "@mui/material";
 import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
+import { DownloadJsonData } from "../HelperFunctions/formatJSON";
 
 function Submit() {
   const navigate = useNavigate();
@@ -50,8 +51,9 @@ function Submit() {
           </Box>
         </Box>
 
-        <Button variant="contained" onClick={() => navigate("/submit")}>
-          Open Raw Notes
+       
+        <Button variant="contained" onClick={() => {  DownloadJsonData(); navigate("/submit"); }}>
+            Open Raw Notes
         </Button>
       </Paper>
     </div>
