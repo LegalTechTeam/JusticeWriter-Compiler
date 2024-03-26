@@ -26,7 +26,14 @@ import dayjs from "dayjs";
 import themeSubHeading from "../Layouts/Theme";
 import AddQuotes from "./AddQuotes";
 function RadioYesNo(props) {
-  const { question, id, value, onChange } = props;
+  const { question, id, value, onChange, checkedValue, handleQuotesChange, section } = props;
+
+  const [quotes, setQuotes] = useState([]);
+
+  const quotesAdded = (newQuotes) => {
+    setQuotes(newQuotes);
+    handleQuotesChange(newQuotes);
+  };
 
   return (
     <>
@@ -52,11 +59,12 @@ function RadioYesNo(props) {
           name="answer"
           value={value}
           onChange={onChange}
+          checkedValue={checkedValue}
            >
           <FormControlLabel value="no" control={<Radio id={id} />} label="No" />
           <FormControlLabel value="yes" control={<Radio  id={id} />} label="yes" />
         </RadioGroup>
-        <AddQuotes />
+        <AddQuotes quotes={quotes} section={section} id={id} onQuotesChange={quotesAdded} />
       </Grid>
     </>
   );

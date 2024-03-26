@@ -33,26 +33,66 @@ function FamilyDynamics() {
   const [formData, setFormData] = useState({
     motherName: "",
     motherBday: "",
-    motherArrested: "",
-    housingAssistance: "",
-    foodStamps: "",
-    motherMaritalStatus: "",
-    motherEducation: "",
-    motherNumChildren: "",
+    motherArrested: {
+      motherArrested: "",
+      notes: [],
+    },
+    housingAssistance: {
+      housingAssistance: "",
+      notes: [],
+    },
+    foodStamps: {
+      foodStamps: "",
+      notes: [],
+    },
+    motherMaritalStatus: {
+      motherMaritalStatus: "",
+      notes: [],
+    },
+    motherEducation: {
+      motherEducation: "",
+      notes: [],
+    },
+    motherNumChildren: {
+      motherNumChildren: "",
+      notes: [],
+    },
     fatherName: "",
     fatherBday: "",
-    fatherArrested: "",
+    fatherArrested: {
+      fatherArrested: "",
+      notes: [],
+    },
     siblings: "",
-    familyConflict: "",
-    familyRelocation: "",
+    familyConflict: {
+      familyConflict: "",
+      notes: [],
+    },
+    familyRelocation: {
+      familyRelocation: "",
+      notes: [],
+    },
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleRadioChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
+  };
+
   const handleDropdownChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
+  };
+
+  const handleQuotesChange = (subSection, newQuotes) => {
+    setFormData({
+      ...formData,
+      [subSection]: { ...formData[subSection], ["notes"]: newQuotes },
+    });
   };
 
   return (
@@ -103,41 +143,57 @@ function FamilyDynamics() {
 
               <RadioYesNo
                 id={"motherArrested"}
+                section={"familyDynamics"}
                 question={"Has your mother ever been arrested?"}
-                value={formData.motherArrested}
-                onChange={handleChange}
-                checkedValue={formData.motherArrested}
+                value={formData.motherArrested?.motherArrested}
+                onChange={handleRadioChange}
+                checkedValue={formData.motherArrested?.motherArrested}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherArrested", newQuotes)
+                }
               />
 
               {/*Question 2 */}
 
               <RadioYesNo
                 id={"housingAssistance"}
+                section={"familyDynamics"}
                 question={
                   " Did your mother ever receive government housing assistance?"
                 }
-                value={formData.housingAssistance}
-                onChange={handleChange}
-                checkedValue={formData.housingAssistance}
+                value={formData.housingAssistance?.housingAssistance}
+                onChange={handleRadioChange}
+                checkedValue={formData.housingAssistance?.housingAssistance}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("housingAssistance", newQuotes)
+                }
               />
 
               {/*Question 3 */}
 
               <RadioYesNo
                 id={"foodStamps"}
+                section={"familyDynamics"}
                 question={"Did your family ever receive foodstamps?"}
-                value={formData.foodStamps}
-                onChange={handleChange}
-                checkedValue={formData.foodStamps}
+                value={formData.foodStamps?.foodStamps}
+                onChange={handleRadioChange}
+                checkedValue={formData.foodStamps?.foodStamps}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("foodStamps", newQuotes)
+                }
               />
               {/*MArital Status */}
 
               <DropDown
                 question={"What is your mother's marital status?"}
                 id={"motherMaritalStatus"}
+                section={"familyDynamics"}
                 options={["Single", "Divorced", "Married", "Widow", "N/A"]}
-                value={formData.motherMaritalStatus}
+                value={formData.motherMaritalStatus?.motherMaritalStatus}
                 onChange={handleDropdownChange}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherMaritalStatus", newQuotes)
+                }
               />
 
               {/*Education Status*/}
@@ -145,6 +201,7 @@ function FamilyDynamics() {
               <DropDown
                 question={"What is your mother's highest level of education?"}
                 id={"motherEducation"}
+                section={"familyDynamics"}
                 options={[
                   "Middle school",
                   "High school",
@@ -153,8 +210,11 @@ function FamilyDynamics() {
                   "Masters",
                   "N/A",
                 ]}
-                value={formData.motherEducation}
+                value={formData.motherEducation?.motherEducation}
                 onChange={handleDropdownChange}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherEducation", newQuotes)
+                }
               />
 
               {/*Number of Children*/}
@@ -162,9 +222,13 @@ function FamilyDynamics() {
               <DropDown
                 question={"How many children did your mother have?"}
                 id={"motherNumChildren"}
+                section={"familyDynamics"}
                 options={["1", "2", "3", "4", "5", "6", "7", "8", ">8", "N/A"]}
-                value={formData.motherNumChildren}
+                value={formData.motherNumChildren?.motherNumChildren}
                 onChange={handleDropdownChange}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherNumChildren", newQuotes)
+                }
               />
             </Grid>
 
@@ -207,10 +271,14 @@ function FamilyDynamics() {
 
               <RadioYesNo
                 id={"fatherArrested"}
+                section={"familyDynamics"}
                 question={" Has your father ever been arrested?"}
-                value={formData.fatherArrested}
-                onChange={handleChange}
-                checkedValue={formData.fatherArrested}
+                value={formData.fatherArrested?.fatherArrested}
+                onChange={handleRadioChange}
+                checkedValue={formData.fatherArrested?.fatherArrested}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("fatherArrested", newQuotes)
+                }
               />
 
               {/*Siblings*/}
@@ -243,6 +311,7 @@ function FamilyDynamics() {
               <DropDown
                 question={"How often did your family have conflicts?"}
                 id={"familyConflict"}
+                section={"familyDynamics"}
                 options={[
                   "never",
                   "rarely",
@@ -251,12 +320,16 @@ function FamilyDynamics() {
                   "always",
                   "N/A",
                 ]}
-                value={formData.familyConflict}
+                value={formData.familyConflict?.familyConflict}
                 onChange={handleDropdownChange}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("familyConflict", newQuotes)
+                }
               />
               <DropDown
                 question={"How often did your family relocate?"}
                 id={"familyRelocation"}
+                section={"familyDynamics"}
                 options={[
                   "never",
                   "rarely",
@@ -265,8 +338,11 @@ function FamilyDynamics() {
                   "always",
                   "N/A",
                 ]}
-                value={formData.familyRelocation}
+                value={formData.familyRelocation?.familyRelocation}
                 onChange={handleDropdownChange}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("familyRelocation", newQuotes)
+                }
               />
             </Grid>
           </Box>

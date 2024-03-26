@@ -23,6 +23,15 @@ export function ReturnExistingInput(section) {
     return globalJsonData[section];
 }
 
+export function ReturnExistingSubSection(section, sub) {
+    if (globalJsonData[section] && globalJsonData[section][sub]) {
+        return globalJsonData[section][sub];
+    } else {
+        console.error(`Sub-section '${sub}' does not exist in section '${section}'.`);
+        return null; 
+    }
+}
+
 export function DownloadJsonData() {
     const filename = 'globalJsonData.json';
     const jsonStr = JSON.stringify(globalJsonData, null, 2);

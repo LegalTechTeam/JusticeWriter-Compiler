@@ -75,7 +75,10 @@ function Schooling() {
     schoolsAttended: "",
     schoolChanges: "",
     schoolExperiences: "",
-    schoolQuality: "",
+    schoolQuality: {
+      schoolQuality: "",
+      notes: [],
+    },
     schoolImpact: "",
     noDisciplinaryAction: "",
   });
@@ -94,6 +97,24 @@ function Schooling() {
     setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
   };
 
+  const handleRadioChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
+  };
+
+  const handleQuotesChange = (newQuotes) => {
+    setFormData({
+      ...formData,
+      ["schoolQuality"]: { ...formData["schoolQuality"], ["notes"]: newQuotes },
+    });
+  };
+
+  const [quotes, setQuotes] = useState([]);
+
+  const quotesAdded = (newQuotes) => {
+    setQuotes(newQuotes);
+    handleQuotesChange(newQuotes);
+  };
   const handleSchoolImpactChange = (disadvantageId, isChecked) => {
     setSchoolImpact((prevSelected) => {
       if (isChecked) {
@@ -241,8 +262,9 @@ function Schooling() {
                 row
                 aria-label="answer"
                 name="answer"
-                value={formData.schoolQuality}
-                onChange={handleChange}
+                value={formData.schoolQuality?.schoolQuality}
+                onChange={handleRadioChange}
+                checkedValue={formData.schoolQuality?.schoolQuality}
               >
                 <FormControlLabel
                   value="Poor"
@@ -264,7 +286,12 @@ function Schooling() {
                   control={<Radio id={"schoolQuality"} />}
                   label="Excellent"
                 />
-                <AddQuotes />
+                <AddQuotes
+                  quotes={quotes}
+                  section={"schooling"}
+                  id={"schoolQuality"}
+                  onQuotesChange={quotesAdded}
+                />
               </RadioGroup>
             </Grid>
           </Box>
