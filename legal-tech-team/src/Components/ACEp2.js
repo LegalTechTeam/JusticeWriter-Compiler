@@ -47,12 +47,27 @@ function ACEp2() {
     lossesAndDeaths: "",
     otherTraumaticExperience: "",
     drugUse: "",
-    diagnosedSUD: "",
-    treatedOrTestedSUD: "",
+    diagnosedSUD: {
+      diagnosedSUD: "",
+      notes: [],
+    },
+    treatedOrTestedSUD: {
+      treatedOrTestedSUD: "",
+      notes: [],
+    },
   });
 
   const handleACEChange = (e) => {
     setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
+  };
+
+  const handleRadioChange = (e) => {
+    const { id, value } = e.target;
+    setFormDataACE({ ...formDataACE, [id]: { ...formDataACE[id], [id]: value }});
+  };
+
+  const handleQuotesChange = (subSection, newQuotes) => {
+    setFormDataACE({ ...formDataACE, [subSection]: { ...formDataACE[subSection], ["notes"]: newQuotes }});
   };
 
   return (
@@ -214,17 +229,21 @@ function ACEp2() {
           <Grid container spacing={3} marginTop={1}>
             <RadioYesNo 
                   id={"diagnosedSUD"}
+                  ection={"adverseChildhoodExpriences"}
                   question={"Ever been diagnosed with substance use disorder (SUD)?"} 
-                  value={formDataACE.diagnosedSUD}
-                  onChange={handleACEChange}
-                  checkedValue={formDataACE.diagnosedSUD}
+                  value={formDataACE.diagnosedSUD?.diagnosedSUD}
+                  onChange={handleRadioChange}
+                  checkedValue={formDataACE.diagnosedSUD?.diagnosedSUD}
+                  handleQuotesChange={newQuotes => handleQuotesChange("diagnosedSUD", newQuotes)}
                 />
             <RadioYesNo 
               id={"treatedSUD"}
+              section={"adverseChildhoodExpriences"}
               question={"Ever been tested or treated for SUD?"} 
-              value={formDataACE.treatedSUD}
-              onChange={handleACEChange}
-              checkedValue={formDataACE.treatedSUD}
+              value={formDataACE.treatedSUD?.treatedSUD}
+              onChange={handleRadioChange}
+              checkedValue={formDataACE.treatedSUD?.treatedSUD}
+              handleQuotesChange={newQuotes => handleQuotesChange("treatedSUD", newQuotes)}
             />
           </Grid>
           </Box>

@@ -14,69 +14,126 @@ import themeSubHeading from "../Layouts/Theme";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import OtherNotes from "../HelperFunctions/OtherNotes";
 import BigText from "../HelperFunctions/BigText";
+import { useState } from "react";
+
 function Community() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
+  const [selectedDisadvantages, setSelectedDisadvantages] = useState([]);
+
+  const handleDisadvantageChange = (disadvantageId) => {
+    setSelectedDisadvantages((prevSelected) => {
+      if (prevSelected.includes(disadvantageId)) {
+        return prevSelected.filter((id) => id !== disadvantageId);
+      } else {
+        return [...prevSelected, disadvantageId];
+      }
+    });
+  };
+
+  
+
   const disadvantagesList = [
     {
       label: "Poverty",
+      id: "poverty",
       subs: [],
     },
     {
       label: "Lack of HealthCare Options",
+      id: "lackOfHealthCareOptions",
       subs: [
-        "Limited access to healthy food options",
-        "Limited accesss to healthcare",
+        {
+          label: "Limited access to healthy food options",
+          id: "limitedAccessToHealthyFoodOptions",
+        }, 
+        {
+          label: "Limited accesss to healthcare",
+          id: "limitedAccesssToHealthcare",
+        },
       ],
+      
     },
     {
       label: "Crime",
+      id: "crime",
       subs: [
-        "Fights/Other violent conflicts",
-        "Gun Violence",
-        "Substance Abuse",
+        {
+          label: "Fights/Other violent conflicts",
+          id: "fightsViolentConflicts",
+        }, 
+        {
+          label: "Gun Violence",
+          id: "gunViolence",
+        },
+        {
+          label: "Substance Abuse",
+          id: "substanceAbuse",
+        },
       ],
     },
     {
       label: "Unsafe and poor quality schools",
+      id: "unsafeSchools",
       subs: [],
     },
     {
       label: "Prostitution",
+      id: "prostitution",
       subs: [],
     },
     {
       label: "Poor Infrastructure",
+      id: "poorInfrastructure",
       subs: [],
     },
     {
       label: "Inadequate public service",
+      id: "inadequatePublicService",
       subs: [
-        "Lack of safe Outdoor Spaces",
-        "Lack of Safe Recreational Areas",
-        "Poor public transportation",
-      ],
+        {
+          label: "Inadequate public transportation",
+          id: "inadequatePublicTransportation",
+        }, 
+        {
+          label: "Inadequate public safety",
+          id: "inadequatePublicSafety",
+        },
+        {
+          label: "Inadequate public health",
+          id: "inadequatePublicHealth",
+        },
+        {
+          label: "Inadequate public housing",
+          id: "inadequatePublicHousing",
+        },
+      ]
     },
     {
       label: "Housing Instability",
+      id: "housingInstability",
       subs: [],
     },
 
     {
       label: "Social Isolation",
+      id: "socialIsolation",
       subs: [],
     },
     {
       label: "Economic Stagnation",
+      id: "economicStagnation",
       subs: [],
     },
     {
       label: "Environmental Hazards",
+      id: "environmentalHazards",
       subs: [],
     },
     {
       label: "Residential Segregation",
+      id: "residentialSegregation",
       subs: [],
     },
   ];
@@ -131,13 +188,28 @@ function Community() {
             </Grid>
 
             <FormGroup>
-              {disadvantagesList.map((disadvantage, index) => (
-                <CheckboxWithAdd
-                  key={index}
-                  label={disadvantage.label}
-                  subs={disadvantage.subs}
-                />
-              ))}
+            {disadvantagesList.map((disadvantage, index) => (
+            <React.Fragment key={index}>
+              <CheckboxWithAdd
+                label={disadvantage.label}
+                id={disadvantage.id}
+                checked={selectedDisadvantages.includes(disadvantage.id)}
+                onChange={handleDisadvantageChange}
+                subs={disadvantage.subs}
+              />
+              {selectedDisadvantages.includes(disadvantage.id) && (
+                <React.Fragment>
+                  {disadvantage.subs.map((sub, subIndex) => (
+                    <CheckboxWithAdd
+                      key={subIndex}
+                      label={sub.label}
+                      id={sub.id}
+                    />
+                  ))}
+                </React.Fragment>
+              )}
+            </React.Fragment>
+          ))}
             </FormGroup>
 
             {/*other notes */}

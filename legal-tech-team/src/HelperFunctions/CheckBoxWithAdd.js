@@ -38,11 +38,11 @@ function CheckboxWithAdd(props) {
                 display: "flex",
                 flexDirection: "row",
               }}
+              key={index}
             >
               <FormControlLabel
-                key={index}
                 control={<Checkbox />}
-                label={sub}
+                label={sub.label} // Accessing the label key of the sub object
               />
               <AddQuotes />
             </div>

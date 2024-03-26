@@ -1,9 +1,17 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 
 import { Grid, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import AddQuotes from "./AddQuotes";
 function DropDown(props) {
-  const { question, id, value, onChange, options } = props;
+  const { question, id, value, onChange, handleQuotesChange, options, section } = props;
+
+  const [quotes, setQuotes] = useState([]);
+
+  const quotesAdded = (newQuotes) => {
+    setQuotes(newQuotes);
+    handleQuotesChange(newQuotes);
+  };
 
   return (
     <>
@@ -27,6 +35,7 @@ function DropDown(props) {
           id={id} 
           value={value || ''}
           onChange={onChange}
+          quotes={quotes}
           sx={{ width: "220px", height: "30px" }}
         >
           {options.map((choice, index) => (
@@ -39,7 +48,7 @@ function DropDown(props) {
           ))}
         </Select>
       </FormControl>
-      <AddQuotes />
+      <AddQuotes quotes={quotes} section={section} id={id} onQuotesChange={quotesAdded} />
     </>
   );
 }
