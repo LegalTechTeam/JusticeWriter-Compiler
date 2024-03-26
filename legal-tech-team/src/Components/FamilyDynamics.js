@@ -35,9 +35,18 @@ function FamilyDynamics() {
   const [formData, setFormData] = useState({
     motherName: "",
     motherBday: "",
-    motherArrested: "",
-    housingAssistance: "",
-    foodStamps: "",
+    motherArrested: {
+      motherArrested: "",
+      notes: [],
+    },
+    housingAssistance: {
+      housingAssistance: "",
+      notes: [],
+    },
+    foodStamps: {
+      foodStamps: "",
+      notes: [], 
+    },
     motherMaritalStatus: {
       motherMaritalStatus: "",
       notes: [],
@@ -52,7 +61,10 @@ function FamilyDynamics() {
     },
     fatherName: "",
     fatherBday: "",
-    fatherArrested: "",
+    fatherArrested: {
+      fatherArrested: "",
+      notes: [],
+    },
     siblings: "",
     familyConflict: {
       familyConflict: "",
@@ -68,14 +80,17 @@ function FamilyDynamics() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleRadioChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value }});
+  };
+
   const handleDropdownChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: { ...formData[name], [name]: value }});
   }
 
   const handleQuotesChange = (subSection, newQuotes) => {
-    console.log("handle quote change");   
-    console.log(subSection);     
     setFormData({ ...formData, [subSection]: { ...formData[subSection], ["notes"]: newQuotes }});
   };
 
@@ -127,32 +142,38 @@ function FamilyDynamics() {
 
               <RadioYesNo 
                 id={"motherArrested"}
+                section={"familyDynamics"}
                 question={"Has your mother ever been arrested?"} 
-                value={formData.motherArrested}
-                onChange={handleChange}
-                checkedValue={formData.motherArrested}
+                value={formData.motherArrested?.motherArrested}
+                onChange={handleRadioChange}
+                checkedValue={formData.motherArrested?.motherArrested}
+                handleQuotesChange={newQuotes => handleQuotesChange("motherArrested", newQuotes)}
               />
 
               {/*Question 2 */}
 
               <RadioYesNo
                 id={"housingAssistance"}
+                section={"familyDynamics"}
                 question={
                   " Did your mother ever receive government housing assistance?"
                 }
-                value={formData.housingAssistance}
-                onChange={handleChange}
-                checkedValue={formData.housingAssistance}
+                value={formData.housingAssistance?.housingAssistance}
+                onChange={handleRadioChange}
+                checkedValue={formData.housingAssistance?.housingAssistance}
+                handleQuotesChange={newQuotes => handleQuotesChange("housingAssistance", newQuotes)}
               />
 
               {/*Question 3 */}
 
               <RadioYesNo
                 id={"foodStamps"}
+                section={"familyDynamics"}
                 question={"Did your family ever receive foodstamps?"}
-                value={formData.foodStamps}
-                onChange={handleChange}
-                checkedValue={formData.foodStamps}
+                value={formData.foodStamps?.foodStamps}
+                onChange={handleRadioChange}
+                checkedValue={formData.foodStamps?.foodStamps}
+                handleQuotesChange={newQuotes => handleQuotesChange("foodStamps", newQuotes)}
               />
               {/*MArital Status */}
 
@@ -237,10 +258,12 @@ function FamilyDynamics() {
 
               <RadioYesNo 
                 id={"fatherArrested"}
+                section={"familyDynamics"}
                 question={" Has your father ever been arrested?"} 
-                value={formData.fatherArrested}
-                onChange={handleChange}
-                checkedValue={formData.fatherArrested}
+                value={formData.fatherArrested?.fatherArrested}
+                onChange={handleRadioChange}
+                checkedValue={formData.fatherArrested?.fatherArrested}
+                handleQuotesChange={newQuotes => handleQuotesChange("fatherArrested", newQuotes)}
               />
 
               {/*Siblings*/}

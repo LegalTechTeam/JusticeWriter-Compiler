@@ -69,8 +69,14 @@ function PeersRoleModels() {
     },
     neighborhoodArrests: "",
     neighborhoodDegrees: "",
-    mentalHealthIssues: "",
-    affectedByMentalHealth: "",
+    mentalHealthIssues: {
+      mentalHealthIssues: "",
+      notes: [],
+    },
+    affectedByMentalHealth: {
+      affectedByMentalHealth: "",
+      notes: [], 
+    },
     otherRiskFactors: "",
   });
 
@@ -78,14 +84,17 @@ function PeersRoleModels() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const handleRadioChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value }});
+  };
+
   const handleDropdownChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: { ...formData[name], [name]: value }});
   }
 
-  const handleQuotesChange = (subSection, newQuotes) => {
-    console.log("handle quote change");   
-    console.log(subSection);     
+  const handleQuotesChange = (subSection, newQuotes) => {    
     setFormData({ ...formData, [subSection]: { ...formData[subSection], ["notes"]: newQuotes }});
   };
 
@@ -262,17 +271,21 @@ function PeersRoleModels() {
           <Grid container spacing={3}>
             <RadioYesNo 
                   id={"mentalHealthIssues"}
+                  section={"peersAndRoleModels"}
                   question={"Ever experienced mental health issues?"} 
-                  value={formData.mentalHealthIssues}
-                  onChange={handleChange}
-                  checkedValue={formData.mentalHealthIssues}
+                  value={formData.mentalHealthIssues?.mentalHealthIssues}
+                  onChange={handleRadioChange}
+                  checkedValue={formData.mentalHealthIssues?.mentalHealthIssues}
+                  handleQuotesChange={newQuotes => handleQuotesChange("mentalHealthIssues", newQuotes)}
                 />
             <RadioYesNo 
               id={"affectedByMentalHealth"}
+              section={"peersAndRoleModels"}
               question={"Ever been affected by mental health issues?"} 
-              value={formData.affectedByMentalHealth}
-              onChange={handleChange}
-              checkedValue={formData.affectedByMentalHealth}
+              value={formData.affectedByMentalHealth?.affectedByMentalHealth}
+              onChange={handleRadioChange}
+              checkedValue={formData.affectedByMentalHealth?.affectedByMentalHealth}
+              handleQuotesChange={newQuotes => handleQuotesChange("affectedByMentalHealth", newQuotes)}
             />
           </Grid>
           </Box>
