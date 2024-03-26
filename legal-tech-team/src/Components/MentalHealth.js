@@ -300,10 +300,8 @@ function MentalHealth() {
           </Box>
         </Box>
 
-        <Button
-          variant="contained"
-          onClick={() => navigate("/peers-role-models")}
-        >
+        <Button variant="contained" onClick={() => { SaveJSON(formData, "mentalHealth"); SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/peers-role-models"); }}>
+
           Previous
         </Button>
 
