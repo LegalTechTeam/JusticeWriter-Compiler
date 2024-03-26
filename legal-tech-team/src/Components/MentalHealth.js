@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -9,15 +10,50 @@ import {
   InputLabel,
   Button,
   Radio,
+  RadioGroup,
   FormControlLabel,
 } from "@mui/material";
 import "react-dropdown/style.css";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function MentalHealth() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
+
+  useEffect(() => {
+    const existingData = ReturnExistingInput("mentalHealth");
+    if (existingData) {
+      setFormData(existingData);
+    }
+    const existingDataEvidence = ReturnExistingInput("evidenceOfCharacter");
+    if (existingDataEvidence) {
+      setFormDataEvidence(existingDataEvidence);
+    }
+  }, []); 
+
+  const [formData, setFormData] = useState({
+    receivedMentalHealthTreatment: "",
+    participatedMentalHealthOrDrugProgram: "",
+    treatmentOrCounseling: "",
+  });
+
+  const [formDataEvidence, setFormDataEvidence] = useState({
+    exampleOfCharacter: "",
+    exampleOfGoodDeed: "",
+    volunteeringAndCommunityEngagement: "",
+    areParent: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleChangeEvidence = (e) => {
+    setFormDataEvidence({ ...formDataEvidence, [e.target.id]: e.target.value });
+  };
 
   return (
     <div>
@@ -44,56 +80,23 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid container>
-              <Grid item xs={7}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1,
-                  }}
-                >
-                  Have you ever received behavioral or mental health treatment?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={5}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
-              </Grid>
-            </Grid>
-          </Box>
 
-          {/*Second Yes or no question */}
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <Grid container>
-              <Grid item xs={7}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    textWrap: "balance",
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Have you ever participated in a mental health or drug program?
-                </InputLabel>
-              </Grid>
-
-              <Grid item xs={5}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
-              </Grid>
-            </Grid>
+          <Grid container spacing={3}>
+            <RadioYesNo 
+                  id={"participatedMentalHealthOrDrugProgram"}
+                  question={"Have you ever received behavioral or mental health treatment?"} 
+                  value={formData.participatedMentalHealthOrDrugProgram}
+                  onChange={handleChange}
+                  checkedValue={formData.participatedMentalHealthOrDrugProgram}
+                />
+            <RadioYesNo 
+              id={"receivedMentalHealthTreatment"}
+              question={"Have you ever participated in a mental health or drug program?"} 
+              value={formData.receivedMentalHealthTreatment}
+              onChange={handleChange}
+              checkedValue={formData.receivedMentalHealthTreatment}
+            />
+          </Grid>
           </Box>
 
           <Box
@@ -122,10 +125,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Treatments/Counseling"
+                id="treatmentOrCounseling"
                 label="Treatments/Counseling"
                 fullWidth
                 variant="outlined"
+                value={formData.treatmentOrCounseling}
+                onChange={handleChange}
               />
             </Grid>
           </Box>
@@ -160,10 +165,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Character Examples"
+                id="exampleOfCharacter"
                 label="Character Examples"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.exampleOfCharacter}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -194,10 +201,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Good Deeds"
+                id="exampleOfGoodDeed"
                 label="Good Deeds"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.exampleOfGoodDeed}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -229,10 +238,12 @@ function MentalHealth() {
                 required
                 multiline={true}
                 rows={3}
-                id="Extracurriculars"
+                id="volunteeringAndCommunityEngagement"
                 label="Extracurriculars"
                 fullWidth
                 variant="outlined"
+                value={formDataEvidence.volunteeringAndCommunityEngagement}
+                onChange={handleChangeEvidence}
               />
             </Grid>
           </Box>
@@ -244,25 +255,14 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid container>
-              <Grid item xs={7}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    textWrap: "balance",
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Are you a parent?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={5}>
-                <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                <FormControlLabel value="no" control={<Radio />} label="No" />
-              </Grid>
+            <Grid container spacing={3}>
+              <RadioYesNo 
+                    id={"areParent"}
+                    question={"Are you a parent?"} 
+                    value={formDataEvidence.areParent}
+                    onChange={handleChangeEvidence}
+                    checkedValue={formDataEvidence.areParent}
+                  />
             </Grid>
           </Box>
         </Box>
@@ -276,7 +276,7 @@ function MentalHealth() {
 
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => navigate("/evidence")}>
+        <Button variant="contained" onClick={() => { SaveJSON(formData, "mentalHealth"); SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/evidence"); }}>
           Next
         </Button>
       </Paper>
