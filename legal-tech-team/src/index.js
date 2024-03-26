@@ -4,6 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+const {Configuration, OpenAIApi} = require("openai");
+const configuration = new Configuration({
+  apiKey: "",
+});
+const openai = new OpenAIApi(Configuration);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
