@@ -29,7 +29,7 @@ function ACEp2() {
     if (existingDataACE) {
       setFormDataACE(existingDataACE);
     }
-  }, []); 
+  }, []);
 
   const [formDataACE, setFormDataACE] = useState({
     emotionalAbuse: "",
@@ -209,32 +209,44 @@ function ACEp2() {
                 onChange={handleACEChange}
               />
             </Grid>
-          
 
-          <Grid container spacing={3} marginTop={1}>
-            <RadioYesNo 
-                  id={"diagnosedSUD"}
-                  question={"Ever been diagnosed with substance use disorder (SUD)?"} 
-                  value={formDataACE.diagnosedSUD}
-                  onChange={handleACEChange}
-                  checkedValue={formDataACE.diagnosedSUD}
-                />
-            <RadioYesNo 
-              id={"treatedSUD"}
-              question={"Ever been tested or treated for SUD?"} 
-              value={formDataACE.treatedSUD}
-              onChange={handleACEChange}
-              checkedValue={formDataACE.treatedSUD}
-            />
-          </Grid>
+            <Grid container spacing={3} marginTop={1}>
+              <RadioYesNo
+                id={"diagnosedSUD"}
+                question={
+                  "Ever been diagnosed with substance use disorder (SUD)?"
+                }
+                value={formDataACE.diagnosedSUD}
+                onChange={handleACEChange}
+                checkedValue={formDataACE.diagnosedSUD}
+              />
+              <RadioYesNo
+                id={"treatedSUD"}
+                question={"Ever been tested or treated for SUD?"}
+                value={formDataACE.treatedSUD}
+                onChange={handleACEChange}
+                checkedValue={formDataACE.treatedSUD}
+              />
+            </Grid>
           </Box>
-
         </Box>
-        <Button variant="contained" onClick={() => navigate("/aceOne")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/aceOne");
+          }}
+        >
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button variant="contained" onClick={() => { SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/peers-role-models"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/peers-role-models");
+          }}
+        >
           Next
         </Button>
       </Paper>

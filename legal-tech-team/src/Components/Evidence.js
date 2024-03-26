@@ -20,13 +20,12 @@ function Evidence() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-
   useEffect(() => {
     const existingDataEvidence = ReturnExistingInput("evidenceOfCharacter");
     if (existingDataEvidence) {
       setFormDataEvidence(existingDataEvidence);
     }
-  }, []); 
+  }, []);
 
   const [formDataEvidence, setFormDataEvidence] = useState({
     exampleOfCharacter: "",
@@ -135,13 +134,25 @@ function Evidence() {
           </Box>
         </Box>
 
-        <Button variant="contained" onClick={() => navigate("/mental-health")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/mental-health");
+          }}
+        >
           Previous
         </Button>
 
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/submit"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/submit");
+          }}
+        >
           Save
         </Button>
       </Paper>

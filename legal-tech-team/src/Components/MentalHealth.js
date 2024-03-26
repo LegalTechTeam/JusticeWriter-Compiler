@@ -32,7 +32,7 @@ function MentalHealth() {
     if (existingDataEvidence) {
       setFormDataEvidence(existingDataEvidence);
     }
-  }, []); 
+  }, []);
 
   const [formData, setFormData] = useState({
     receivedMentalHealthTreatment: "",
@@ -80,23 +80,26 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-
-          <Grid container spacing={3}>
-            <RadioYesNo 
-                  id={"participatedMentalHealthOrDrugProgram"}
-                  question={"Have you ever received behavioral or mental health treatment?"} 
-                  value={formData.participatedMentalHealthOrDrugProgram}
-                  onChange={handleChange}
-                  checkedValue={formData.participatedMentalHealthOrDrugProgram}
-                />
-            <RadioYesNo 
-              id={"receivedMentalHealthTreatment"}
-              question={"Have you ever participated in a mental health or drug program?"} 
-              value={formData.receivedMentalHealthTreatment}
-              onChange={handleChange}
-              checkedValue={formData.receivedMentalHealthTreatment}
-            />
-          </Grid>
+            <Grid container spacing={3}>
+              <RadioYesNo
+                id={"participatedMentalHealthOrDrugProgram"}
+                question={
+                  "Have you ever received behavioral or mental health treatment?"
+                }
+                value={formData.participatedMentalHealthOrDrugProgram}
+                onChange={handleChange}
+                checkedValue={formData.participatedMentalHealthOrDrugProgram}
+              />
+              <RadioYesNo
+                id={"receivedMentalHealthTreatment"}
+                question={
+                  "Have you ever participated in a mental health or drug program?"
+                }
+                value={formData.receivedMentalHealthTreatment}
+                onChange={handleChange}
+                checkedValue={formData.receivedMentalHealthTreatment}
+              />
+            </Grid>
           </Box>
 
           <Box
@@ -256,27 +259,38 @@ function MentalHealth() {
             }}
           >
             <Grid container spacing={3}>
-              <RadioYesNo 
-                    id={"areParent"}
-                    question={"Are you a parent?"} 
-                    value={formDataEvidence.areParent}
-                    onChange={handleChangeEvidence}
-                    checkedValue={formDataEvidence.areParent}
-                  />
+              <RadioYesNo
+                id={"areParent"}
+                question={"Are you a parent?"}
+                value={formDataEvidence.areParent}
+                onChange={handleChangeEvidence}
+                checkedValue={formDataEvidence.areParent}
+              />
             </Grid>
           </Box>
         </Box>
 
         <Button
           variant="contained"
-          onClick={() => navigate("/peers-role-models")}
+          onClick={() => {
+            SaveJSON(formData, "mentalHealth");
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/peers-role-models");
+          }}
         >
           Previous
         </Button>
 
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formData, "mentalHealth"); SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/evidence"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "mentalHealth");
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/evidence");
+          }}
+        >
           Next
         </Button>
       </Paper>

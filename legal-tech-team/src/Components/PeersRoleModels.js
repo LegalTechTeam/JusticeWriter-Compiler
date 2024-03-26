@@ -41,14 +41,14 @@ function PeersRoleModels() {
     {
       label: "Enjoy or admire the gangsta lifestyle",
     },
-  ]
+  ];
 
   useEffect(() => {
     const existingData = ReturnExistingInput("peersAndRoleModels");
     if (existingData) {
       setFormData(existingData);
     }
-  }, []); 
+  }, []);
 
   const [formData, setFormData] = useState({
     associationWithPeers: "",
@@ -111,19 +111,21 @@ function PeersRoleModels() {
                   Other traumatic experiences
                 </InputLabel>
               </Grid>
-              <Grid container spacing={4} justifyContent="flex-end" alignItems="center">
+              <Grid
+                container
+                spacing={4}
+                justifyContent="flex-end"
+                alignItems="center"
+              >
                 <Grid item>
                   <FormGroup>
                     {peerList.map((peer, index) => (
-                      <CheckboxWithAdd
-                        key={index}
-                        label={peer.label}
-                      />
+                      <CheckboxWithAdd key={index} label={peer.label} />
                     ))}
                   </FormGroup>
                 </Grid>
               </Grid>
-                  {/* <FormControlLabel
+              {/* <FormControlLabel
                     control={
                       <Checkbox
                         checked={formData.associationWithPeers} 
@@ -163,7 +165,6 @@ function PeersRoleModels() {
                     }
                     label="Enjoy or admire the gangsta lifestyle"
                   /> */}
-               
             </Grid>
           </Box>
 
@@ -180,7 +181,9 @@ function PeersRoleModels() {
                 <DropDown
                   options={options}
                   id={"numberNeighborhoodCollege"}
-                  question={"How many peers in your neighborhood went to college?"}
+                  question={
+                    "How many peers in your neighborhood went to college?"
+                  }
                   placeholder="Select an option"
                   value={formData.numberNeighborhoodCollege}
                   onChange={handleDropdownChange}
@@ -269,31 +272,29 @@ function PeersRoleModels() {
                 onChange={handleChange}
               />
             </Grid>
-         
 
-          <Divider orientation="horizontal" flexItem />
+            <Divider orientation="horizontal" flexItem />
 
-          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-            Any Other Risk Factors
-          </Typography>
+            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+              Any Other Risk Factors
+            </Typography>
 
-
-          <Grid container spacing={3}>
-            <RadioYesNo 
-                  id={"mentalHealthIssues"}
-                  question={"Ever experienced mental health issues?"} 
-                  value={formData.mentalHealthIssues}
-                  onChange={handleChange}
-                  checkedValue={formData.mentalHealthIssues}
-                />
-            <RadioYesNo 
-              id={"affectedByMentalHealth"}
-              question={"Ever been affected by mental health issues?"} 
-              value={formData.affectedByMentalHealth}
-              onChange={handleChange}
-              checkedValue={formData.affectedByMentalHealth}
-            />
-          </Grid>
+            <Grid container spacing={3}>
+              <RadioYesNo
+                id={"mentalHealthIssues"}
+                question={"Ever experienced mental health issues?"}
+                value={formData.mentalHealthIssues}
+                onChange={handleChange}
+                checkedValue={formData.mentalHealthIssues}
+              />
+              <RadioYesNo
+                id={"affectedByMentalHealth"}
+                question={"Ever been affected by mental health issues?"}
+                value={formData.affectedByMentalHealth}
+                onChange={handleChange}
+                checkedValue={formData.affectedByMentalHealth}
+              />
+            </Grid>
           </Box>
 
           {/*last input*/}
@@ -329,11 +330,23 @@ function PeersRoleModels() {
             </Grid>
           </Box>
         </Box>
-        <Button variant="contained" onClick={() => navigate("/aceTwo")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "peersAndRoleModels");
+            navigate("/aceTwo");
+          }}
+        >
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button variant="contained" onClick={() => { SaveJSON(formData, "peersAndRoleModels"); navigate("/mental-health"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "peersAndRoleModels");
+            navigate("/mental-health");
+          }}
+        >
           Next
         </Button>
       </Paper>

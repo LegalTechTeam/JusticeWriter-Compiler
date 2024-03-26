@@ -24,7 +24,7 @@ function ACEp1() {
     if (existingDataACE) {
       setFormDataACE(existingDataACE);
     }
-  }, []); 
+  }, []);
 
   const [formDataACE, setFormDataACE] = useState({
     emotionalAbuse: "",
@@ -42,7 +42,6 @@ function ACEp1() {
   const handleACEChange = (e) => {
     setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
   };
-
 
   return (
     <div>
@@ -261,12 +260,24 @@ function ACEp1() {
           </Box>
         </Box>
 
-        <Button variant="contained" onClick={() => navigate("/schooling")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/schooling");
+          }}
+        >
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/aceTwo"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/aceTwo");
+          }}
+        >
           Next
         </Button>
       </Paper>

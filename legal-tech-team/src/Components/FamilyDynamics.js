@@ -20,7 +20,6 @@ import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function FamilyDynamics() {
-  
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
@@ -29,8 +28,7 @@ function FamilyDynamics() {
     if (existingData) {
       setFormData(existingData);
     }
-    
-  }, []); 
+  }, []);
 
   const [formData, setFormData] = useState({
     motherName: "",
@@ -46,7 +44,7 @@ function FamilyDynamics() {
     fatherArrested: "",
     siblings: "",
     familyConflict: "",
-    familyRelocation : "",
+    familyRelocation: "",
   });
 
   const handleChange = (e) => {
@@ -93,7 +91,7 @@ function FamilyDynamics() {
 
               {/*Date of Birth*/}
 
-              <DateOfBirth 
+              <DateOfBirth
                 field={"Date of Birth"}
                 id={"motherBday"}
                 label={"MM-DD-YYYY"}
@@ -103,9 +101,9 @@ function FamilyDynamics() {
 
               {/*Question 1 */}
 
-              <RadioYesNo 
+              <RadioYesNo
                 id={"motherArrested"}
-                question={"Has your mother ever been arrested?"} 
+                question={"Has your mother ever been arrested?"}
                 value={formData.motherArrested}
                 onChange={handleChange}
                 checkedValue={formData.motherArrested}
@@ -197,7 +195,7 @@ function FamilyDynamics() {
 
               {/*Date of Birth*/}
 
-              <DateOfBirth 
+              <DateOfBirth
                 field={"Date of Birth"}
                 id={"fatherBday"}
                 label={"MM-DD-YYYY"}
@@ -207,9 +205,9 @@ function FamilyDynamics() {
 
               {/*Question 4 text*/}
 
-              <RadioYesNo 
+              <RadioYesNo
                 id={"fatherArrested"}
-                question={" Has your father ever been arrested?"} 
+                question={" Has your father ever been arrested?"}
                 value={formData.fatherArrested}
                 onChange={handleChange}
                 checkedValue={formData.fatherArrested}
@@ -273,12 +271,24 @@ function FamilyDynamics() {
             </Grid>
           </Box>
         </Box>
-        <Button variant="contained" onClick={() => navigate("/")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "familyDynamics");
+            navigate("/");
+          }}
+        >
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formData, "familyDynamics"); navigate("/community"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "familyDynamics");
+            navigate("/community");
+          }}
+        >
           Next
         </Button>
       </Paper>

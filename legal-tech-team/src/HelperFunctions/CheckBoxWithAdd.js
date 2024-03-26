@@ -1,13 +1,36 @@
 import * as React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 
 import AddQuotes from "./AddQuotes";
 
 function CheckboxWithAdd(props) {
-  const [checked, setChecked] = useState(false);
+  //console.log(props.checked + " " + props.id);
+  const [checked, setChecked] = useState(props.checked);
+  const [subChecked, setSubChecked] = useState(props.checked);
+
+  useEffect(() => {
+    setChecked(props.checked);
+    setSubChecked(props.checked);
+  }, [props.checked]);
+
   const handleChange = (event) => {
+    console.log("in handle change");
+    const isChecked = event.target.checked;
     setChecked(event.target.checked);
+    if (props.onChange) {
+      props.onChange(props.id, isChecked);
+    }
+  };
+
+  const handleSubChange = (event) => {
+    console.log("in handle change");
+    const isChecked = event.target.checked;
+    setChecked(event.target.checked);
+    if (props.onChange) {
+      props.onChange(props.id, isChecked);
+    }
   };
   return (
     <>
@@ -32,7 +55,7 @@ function CheckboxWithAdd(props) {
             paddingLeft: "25px",
           }}
         >
-          {props.subs.map((sub, index) => (
+          {/* {props.subs.map((sub, index) => (
             <div
               style={{
                 display: "flex",
@@ -41,12 +64,14 @@ function CheckboxWithAdd(props) {
               key={index}
             >
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox checked={subChecked} onChange={handleSubChange} />
+                }
                 label={sub.label} // Accessing the label key of the sub object
               />
               <AddQuotes />
             </div>
-          ))}
+          ))} */}
         </FormGroup>
       )}
     </>

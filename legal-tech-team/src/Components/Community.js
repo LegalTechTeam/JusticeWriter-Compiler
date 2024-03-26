@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import {
   Grid,
   Box,
@@ -15,6 +16,7 @@ import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import OtherNotes from "../HelperFunctions/OtherNotes";
 import BigText from "../HelperFunctions/BigText";
 import { useState } from "react";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
 
 function Community() {
   const navigate = useNavigate();
@@ -22,17 +24,32 @@ function Community() {
 
   const [selectedDisadvantages, setSelectedDisadvantages] = useState([]);
 
-  const handleDisadvantageChange = (disadvantageId) => {
+  const [forceUpdate, setForceUpdate] = useState(false);
+
+  const handleDisadvantageChange = (disadvantageId, isChecked) => {
+    console.log("Previous selected disadvantages:", selectedDisadvantages);
+
     setSelectedDisadvantages((prevSelected) => {
-      if (prevSelected.includes(disadvantageId)) {
-        return prevSelected.filter((id) => id !== disadvantageId);
-      } else {
+      if (isChecked) {
         return [...prevSelected, disadvantageId];
+      } else {
+        return prevSelected.filter((id) => id !== disadvantageId);
       }
     });
   };
 
-  
+  const loadSavedData = () => {
+    const savedData = ReturnExistingInput("community");
+    console.log(savedData);
+    if (savedData && savedData.selectedDisadvantages) {
+      console.log("in here");
+      setSelectedDisadvantages(savedData.selectedDisadvantages);
+    }
+  };
+
+  useEffect(() => {
+    loadSavedData();
+  }, []);
 
   const disadvantagesList = [
     {
@@ -47,13 +64,12 @@ function Community() {
         {
           label: "Limited access to healthy food options",
           id: "limitedAccessToHealthyFoodOptions",
-        }, 
+        },
         {
           label: "Limited accesss to healthcare",
           id: "limitedAccesssToHealthcare",
         },
       ],
-      
     },
     {
       label: "Crime",
@@ -62,7 +78,7 @@ function Community() {
         {
           label: "Fights/Other violent conflicts",
           id: "fightsViolentConflicts",
-        }, 
+        },
         {
           label: "Gun Violence",
           id: "gunViolence",
@@ -95,7 +111,7 @@ function Community() {
         {
           label: "Inadequate public transportation",
           id: "inadequatePublicTransportation",
-        }, 
+        },
         {
           label: "Inadequate public safety",
           id: "inadequatePublicSafety",
@@ -108,7 +124,7 @@ function Community() {
           label: "Inadequate public housing",
           id: "inadequatePublicHousing",
         },
-      ]
+      ],
     },
     {
       label: "Housing Instability",
@@ -188,40 +204,69 @@ function Community() {
             </Grid>
 
             <FormGroup>
-            {disadvantagesList.map((disadvantage, index) => (
-            <React.Fragment key={index}>
-              <CheckboxWithAdd
-                label={disadvantage.label}
-                id={disadvantage.id}
-                checked={selectedDisadvantages.includes(disadvantage.id)}
-                onChange={handleDisadvantageChange}
-                subs={disadvantage.subs}
-              />
-              {selectedDisadvantages.includes(disadvantage.id) && (
-                <React.Fragment>
-                  {disadvantage.subs.map((sub, subIndex) => (
-                    <CheckboxWithAdd
-                      key={subIndex}
-                      label={sub.label}
-                      id={sub.id}
-                    />
-                  ))}
+              {disadvantagesList.map((disadvantage, index) => (
+                <React.Fragment key={index}>
+                  <CheckboxWithAdd
+                    label={disadvantage.label}
+                    id={disadvantage.id}
+                    checked={selectedDisadvantages.includes(disadvantage.id)}
+                    onChange={handleDisadvantageChange}
+                    subs={disadvantage.subs}
+                  />
+                  {selectedDisadvantages.includes(disadvantage.id) && (
+                    <React.Fragment>
+                      <div style={{ paddingLeft: 30 }}>
+                        {disadvantage.subs.map((sub, subIndex) => (
+                          <CheckboxWithAdd
+                            key={subIndex}
+                            label={sub.label}
+                            id={sub.id}
+                            checked={selectedDisadvantages.includes(sub.id)}
+                            onChange={handleDisadvantageChange}
+                          />
+                        ))}
+                      </div>
+                    </React.Fragment>
+                  )}
                 </React.Fragment>
-              )}
-            </React.Fragment>
-          ))}
+              ))}
             </FormGroup>
 
             {/*other notes */}
             <OtherNotes />
           </Box>
         </Box>
-        <Button variant="contained" onClick={() => navigate("/familyDynamics")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(
+              {
+                selectedDisadvantages: selectedDisadvantages,
+              },
+              "community"
+            );
+
+            navigate("/familyDynamics");
+          }}
+        >
+          {" "}
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => navigate("/schooling")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(
+              {
+                selectedDisadvantages: selectedDisadvantages,
+              },
+              "community"
+            );
+
+            navigate("/schooling");
+          }}
+        >
           Next
         </Button>
       </Paper>
