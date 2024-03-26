@@ -55,9 +55,18 @@ function PeersRoleModels() {
     involvementInGangs: "",
     enjoyAdmireStreetGuys: "",
     enjoyAdmireGangstaLifestyle: "",
-    numberNeighborhoodCollege: "",
-    numberNeighborhoodPrsion: "",
-    numberRelativesArrested: "",
+    numberNeighborhoodCollege: {
+      numberNeighborhoodCollege: "",
+      notes: [],
+    },
+    numberNeighborhoodPrison: {
+      numberNeighborhoodPrison: "",
+      notes: [],
+    },
+    numberRelativesArrested: {
+      numberRelativesArrested: "",
+      notes: [],
+    },
     neighborhoodArrests: "",
     neighborhoodDegrees: "",
     mentalHealthIssues: "",
@@ -70,7 +79,14 @@ function PeersRoleModels() {
   };
 
   const handleDropdownChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: { ...formData[name], [name]: value }});
+  }
+
+  const handleQuotesChange = (subSection, newQuotes) => {
+    console.log("handle quote change");   
+    console.log(subSection);     
+    setFormData({ ...formData, [subSection]: { ...formData[subSection], ["notes"]: newQuotes }});
   };
 
   const options = ["None", "1", "< 5", "More than 5"];
@@ -122,48 +138,7 @@ function PeersRoleModels() {
                     ))}
                   </FormGroup>
                 </Grid>
-              </Grid>
-                  {/* <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.associationWithPeers} 
-                        id="associationWithPeers" 
-                        onChange={handleChange}
-                      />
-                    }
-                    label="Association with delinquent peers"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.involvementInGangs} 
-                        id="involvementInGangs" 
-                        onChange={handleChange}
-                      />
-                    }
-                    label="Involvement in gangs"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.enjoyAdmireStreetGuys} 
-                        id="enjoyAdmireStreetGuys" 
-                        onChange={handleChange}
-                      />
-                    }
-                    label="Enjoy or admire street guys in my neighborhood "
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.enjoyAdmireGangstaLifestyle} 
-                        id="enjoyAdmireGangstaLifestyle" 
-                        onChange={handleChange}
-                      />
-                    }
-                    label="Enjoy or admire the gangsta lifestyle"
-                  /> */}
-               
+              </Grid>               
             </Grid>
           </Box>
 
@@ -180,26 +155,32 @@ function PeersRoleModels() {
                 <DropDown
                   options={options}
                   id={"numberNeighborhoodCollege"}
+                  section={"peersAndRoleModels"}
                   question={"How many peers in your neighborhood went to college?"}
                   placeholder="Select an option"
-                  value={formData.numberNeighborhoodCollege}
+                  value={formData.numberNeighborhoodCollege?.numberNeighborhoodCollege}
                   onChange={handleDropdownChange}
+                  handleQuotesChange={newQuotes => handleQuotesChange("numberNeighborhoodCollege", newQuotes)}
                 />
                 <DropDown
                   options={options}
-                  id={"numberNeighborhoodPrsion"}
+                  id={"numberNeighborhoodPrison"}
+                  section={"peersAndRoleModels"}
                   question={"How many of them went to prison?"}
                   placeholder="Select an option"
-                  value={formData.numberNeighborhoodPrsion}
+                  value={formData.numberNeighborhoodPrison?.numberNeighborhoodPrison}
                   onChange={handleDropdownChange}
+                  handleQuotesChange={newQuotes => handleQuotesChange("numberNeighborhoodPrison", newQuotes)}
                 />
                 <DropDown
                   options={options}
                   id={"numberRelativesArrested"}
+                  section={"peersAndRoleModels"}
                   question={"How many relatives have been arrested?"}
                   placeholder="Select an option"
-                  value={formData.numberRelativesArrested}
+                  value={formData.numberRelativesArrested?.numberRelativesArrested}
                   onChange={handleDropdownChange}
+                  handleQuotesChange={newQuotes => handleQuotesChange("numberRelativesArrested", newQuotes)}
                 />
               </Grid>
             </Grid>

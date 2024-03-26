@@ -35,7 +35,10 @@ function Demographics() {
     attorneyName: "",
     attorneyOffice: "",
     caseNumber: "",
-    gender: "",
+    gender: {
+      gender: "",
+      notes: [],
+    },
     DOB: "",
     background: "",
   });
@@ -45,7 +48,14 @@ function Demographics() {
   };
 
   const handleDropdownChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: { ...formData[name], [name]: value }});
+  }
+
+  const handleQuotesChange = (subSection, newQuotes) => {
+    console.log("handle quote change");   
+    console.log(subSection);     
+    setFormData({ ...formData, [subSection]: { ...formData[subSection], ["notes"]: newQuotes }});
   };
 
   return (
@@ -137,7 +147,8 @@ function Demographics() {
               <DropDown
                 question={"What is your gender?"}
                 id={"gender"}
-                value={formData.gender}
+                section={"demographics"}
+                value={formData.gender?.gender}
                 options={[
                   "Male",
                   "Female",
@@ -145,6 +156,7 @@ function Demographics() {
                   "Prefer not to answer",
                 ]}
                 onChange={handleDropdownChange}
+                handleQuotesChange={newQuotes => handleQuotesChange("gender", newQuotes)}
               />
             </Grid>
           </Box>

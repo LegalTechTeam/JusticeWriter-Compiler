@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   TextField,
   IconButton,
@@ -14,8 +14,24 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import LibraryAddTwoToneIcon from "@mui/icons-material/LibraryAddTwoTone";
 import PostAddTwoToneIcon from "@mui/icons-material/PostAddTwoTone";
+import  { ReturnExistingSubSection } from "./formatJSON";
 
-function AddQuotes() {
+
+function AddQuotes(props) {
+  const { quotes, onQuotesChange, section, id } = props;
+
+  const [formData, setFormData] = useState({
+    notes: [],
+  });
+
+  useEffect(() => {
+    const existingData = ReturnExistingSubSection(section, id);
+    if (existingData) {
+      setFormData(existingData);
+      setQuotes(existingData.notes);
+    }
+  }, []); 
+
   // for opening/closing the quotes box?
   const [open, setOpen] = useState(false);
 
@@ -23,7 +39,7 @@ function AddQuotes() {
   const [input, setInput] = useState("");
 
   // for setting/adding quotes to a quotes list
-  const [quotes, setQuotes] = useState([]);
+  const [quotesS, setQuotes] = useState([]);
 
   // for editing saved quotes
   const [editIndex, setEditIndex] = useState(null);
@@ -45,14 +61,18 @@ function AddQuotes() {
   const handleSaveClick = () => {
     if (input !== "") {
       if (editIndex != null) {
-        const updatedQuotes = [...quotes];
+        const updatedQuotes = [...quotesS];
         updatedQuotes[editIndex] = input;
         setQuotes(updatedQuotes);
+        onQuotesChange(updatedQuotes);
         setEditIndex(null);
         setInput("");
       } else {
-        const tempQuotes = [...quotes, input];
+        const tempQuotes = [...quotesS, input];
+        console.log("tempQuotes");
+        console.log(tempQuotes);
         setQuotes(tempQuotes);
+        onQuotesChange(tempQuotes);
         setInput("");
       }
     }
@@ -60,7 +80,7 @@ function AddQuotes() {
 
   // for editing saved quotes
   const handleEditClick = (index) => {
-    setInput(quotes[index]);
+    setInput(quotesS[index]);
     setEditIndex(index);
     setOpen(true);
   };
@@ -74,7 +94,7 @@ function AddQuotes() {
       <Dialog fullWidth open={open} onClose={() => handleQuotesBox(false)}>
         <DialogContent>
           <div>
-            {quotes.map((quote, index) => (
+            {quotesS.map((quote, index) => (
               <>
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <li key={index}>{quote}</li>
