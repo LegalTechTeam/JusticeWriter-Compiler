@@ -6,15 +6,18 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import { DownloadJsonData } from "../HelperFunctions/formatJSON";
+import { generateReport } from "../HelperFunctions/apiCalls";
 
 function Submit() {
-  //if connected to wifi, ask for file path 
+  // if connected to wifi, ask for file path 
   const navigate = useNavigate();
 
+  // file path variable 
   const [sud, setSUD] = useState("no");
   const [treatedSUD, setTreatedSUD] = useState("no");
   const [filePath, setFilePath] = useState("");
   const [showFilePathInput, setShowFilePathInput] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false); // New state for submit success
 
   const handleSUDChange = (event) => {
     setSUD(event.target.value);
@@ -29,15 +32,20 @@ function Submit() {
   };
 
   const handleFilePathChange = (event) => {
-    setFilePath(event.target.value);
+    const newFilePath = event.target.value;
+    setFilePath(newFilePath);
+    console.log("File path:", newFilePath); // Log the file path for debugging
   };
 
   const handleSubmit = () => {
     // Perform submission logic here with filePath
     console.log("File path:", filePath);
-    // For demonstration, navigate to "/"
-    navigate("/");
+    // Set submit success to true
+    generateReport(filePath);
+    setSubmitSuccess(true);
   };
+
+  console.log("Rendering Submit component"); // Log statement for component rendering
 
   return (
     <div>
@@ -70,7 +78,7 @@ function Submit() {
               paddingBottom: "30px",
             }}
           >
-            Report will be sent to your email once connected to WiFi.
+            Report will be generated once connected to WiFi.
           </Box>
 
           {/* Container for buttons */}
@@ -96,10 +104,20 @@ function Submit() {
                 </Button>
               </Box>
             )}
+
+            {/* Display success message if submit success */}
+            {submitSuccess && (
+              <Typography variant="body1" style={{ marginTop: "10px", color: "green" }}>
+                Success! File path submitted.
+              </Typography>
+            )}
           </Box>
         </Box>
       </Paper>
     </div>
   );
 }
+
 export default Submit;
+
+
