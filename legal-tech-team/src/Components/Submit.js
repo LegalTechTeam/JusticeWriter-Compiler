@@ -15,6 +15,7 @@ function Submit() {
   const [treatedSUD, setTreatedSUD] = useState("no");
   const [file, setFile] = useState(null); // State to store the selected file
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [wifiConnected, setWifiConnected] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0]; // Get the first file from the array
@@ -28,8 +29,18 @@ function Submit() {
     // You can now use the 'file' variable to upload the selected file
     // Example: generateReport(file);
 
+    // After successful submission, set the submitSuccess state to true
     setSubmitSuccess(true);
   };
+
+  const handleWifiConnect = () => {
+    // Simulate connecting to WiFi (replace with actual logic)
+    console.log("Connecting to WiFi...");
+    setWifiConnected(true);
+  };
+
+  console.log("wifiConnected:", wifiConnected);
+  console.log("submitSuccess:", submitSuccess);
 
   return (
     <div>
@@ -69,11 +80,13 @@ function Submit() {
               Open Raw Notes
             </Button>
 
-            <Button variant="contained" onClick={() => setSubmitSuccess(true)} style={{ marginLeft: "10px" }}>
-              Connected to WiFi
-            </Button>
+            {!wifiConnected && (
+              <Button variant="contained" onClick={handleWifiConnect} style={{ marginLeft: "10px" }}>
+                Connect to WiFi
+              </Button>
+            )}
 
-            {submitSuccess && (
+            {wifiConnected && !submitSuccess && (
               <Box sx={{ marginTop: "20px" }}>
                 <input type="file" onChange={handleFileChange} />
                 <Button variant="contained" onClick={handleSubmit} style={{ marginLeft: "10px", marginTop: "10px" }}>
