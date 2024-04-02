@@ -1,23 +1,17 @@
 //functions for turning api calls from JSON
+import axios from 'axios'; // Import axios directly
 import { useState } from 'react';
-import fs from 'fs';
-const axios = require('axios');
+import OpenAI from "openai";
+const apiKey = ""; // Add your API key here
 
-const apiKey = ' ';
+const openai = new OpenAI({
+  apiKey: apiKey,
+  dangerouslyAllowBrowser: true,
+});
 
 
-/*
-"demographics": {},
-  "familyDynamics": {},
-  "community": {},
-  "schooling": {},
-  "adverseChildhoodExpriences": {},
-  "peersAndRoleModels": {},
-  "mentalHealth": {},
-  "evidenceOfCharacter": {}
-*/
 
-//descript each section 
+// Descriptions for each section
 const sectionDescriptions = {
     "demographics": "Demographics",
     "familyDynamics": "Family Dynamics",
@@ -29,59 +23,50 @@ const sectionDescriptions = {
     "evidenceOfCharacter": "Evidence of Character"
 }
 
-//function that calls the api with each prompt 
-
-export function callAPI(section_name, json_values) {
-    console.log(`Calling API for section: ${section_name}`);
-    console.log(`JSON values:`, json_values);
-    var prompt = "This section is about " + sectionDescriptions[section_name] + ". Please provide a summary of the data. \n\n" + JSON.stringify(json_values);
-    axios.post('https://api.openai.com/v1/completions', {
-        model: "text-davinci-003",
-        prompt: prompt
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            }
-        })
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-
+async function test_call() {
+  const stream = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [{ role: "user", content: "Say this is a test" }],
+        stream: true,
+    });
+    for await (const chunk of stream) {
+      console.log(chunk.choices[0]?.delta?.content || "");
+    }
 }
-//parameter for this function is a json 
-export function generateReport(filePath) {
-    console.log("Generating Report for file path in api calls ", filePath);
-    //file read json
-    var jsonData = fs.readFileSync(filePath, 'utf8');
-    console.log(jsonData);
-    fs.readFileSync(filePath, 'utf8', (err, data) => {
-        //check if file is empty
+var all_sections = "";
+// Function that calls the API with each prompt 
+async function callAPI(section_name, json_values) {
+  var prompt = "This section is about " + sectionDescriptions[section_name] + ". Please provide a summary of the information in this section using the data provided below:\n\n";
+  for (let key in json_values) {
+    prompt += key + ": " + json_values[key] + "\n";
+  }
 
-        if (err) {
-          console.error('Error reading file:', err);
-          return;
-        }
-      
-        try {
-          // Parse JSON data
-          const jsonData = JSON.parse(data);
-      
-          // Now you can work with the parsed JSON object
-          console.log(jsonData);
+  console.log("Prompt for", section_name, ":", prompt);
 
-          for (let section_name in jsonData) {
+  const stream = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [{ role: "user", content: prompt }],
+    stream: true,
+  });
+  all_sections += section_name + ": ";
+  for await (const chunk of stream) {
+    all_sections += chunk.choices[0]?.delta?.content || "";
+  }
+  
+}
+
+
+// Function to generate a report from JSON data
+export async function generateReport(jsonData) {
+    console.log("Generating Report for JSON data in api calls");
+    console.log("jsonData: \n", jsonData);
+    try {
+        for (let section_name in jsonData) {
             // Call the API function for each key and its corresponding value
             callAPI(section_name, jsonData[section_name]);
         }
-        } catch (error) {
-          console.error('Error parsing JSON:', error);
-        }
-      });
-
-    
-    
+        console.log("All sections:", all_sections);
+    } catch (error) {
+        console.error('Error parsing JSON:', error);
+    }
 }

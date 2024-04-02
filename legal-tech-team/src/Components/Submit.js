@@ -19,6 +19,31 @@ function Submit() {
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0]; // Get the first file from the array
+    
+    // Create a new FileReader instance
+    const reader = new FileReader();
+  
+    // Callback function to handle the file reading process
+    reader.onload = (e) => {
+      try {
+        // Parse the file contents as JSON
+        const jsonData = JSON.parse(e.target.result);
+        
+        // Now you can work with the parsed JSON data
+        console.log("Parsed JSON data:", jsonData);
+        
+        // Set the parsed JSON data to state or perform further processing
+        // For example, you can call the generateReport function with the parsed JSON data:
+        generateReport(jsonData);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    };
+  
+    // Read the file contents as text
+    reader.readAsText(selectedFile);
+  
+    // Set the selected file to state
     setFile(selectedFile);
   };
 
@@ -28,6 +53,9 @@ function Submit() {
 
     // You can now use the 'file' variable to upload the selected file
     // Example: generateReport(file);
+
+    // Call generateReport function with the selected file path
+    generateReport(file);
 
     // After successful submission, set the submitSuccess state to true
     setSubmitSuccess(true);
