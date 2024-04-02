@@ -3,7 +3,7 @@ import { useState } from 'react';
 import fs from 'fs';
 const axios = require('axios');
 
-const apiKey = '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 ';
+const apiKey = ' ';
 
 
 /*
