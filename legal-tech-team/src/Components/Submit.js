@@ -9,43 +9,27 @@ import { DownloadJsonData } from "../HelperFunctions/formatJSON";
 import { generateReport } from "../HelperFunctions/apiCalls";
 
 function Submit() {
-  // if connected to wifi, ask for file path 
   const navigate = useNavigate();
 
-  // file path variable 
   const [sud, setSUD] = useState("no");
   const [treatedSUD, setTreatedSUD] = useState("no");
-  const [filePath, setFilePath] = useState("");
-  const [showFilePathInput, setShowFilePathInput] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false); // New state for submit success
+  const [file, setFile] = useState(null); // State to store the selected file
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const handleSUDChange = (event) => {
-    setSUD(event.target.value);
-  };
-
-  const handleTreatedSUDChange = (event) => {
-    setTreatedSUD(event.target.value);
-  };
-
-  const handleConnectedToWifiClick = () => {
-    setShowFilePathInput(true);
-  };
-
-  const handleFilePathChange = (event) => {
-    const newFilePath = event.target.value;
-    setFilePath(newFilePath);
-    console.log("File path:", newFilePath); // Log the file path for debugging
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0]; // Get the first file from the array
+    setFile(selectedFile);
   };
 
   const handleSubmit = () => {
-    // Perform submission logic here with filePath
-    console.log("File path:", filePath);
-    // Set submit success to true
-    generateReport(filePath);
+    // Perform submission logic here with the selected file
+    console.log("Selected file:", file);
+
+    // You can now use the 'file' variable to upload the selected file
+    // Example: generateReport(file);
+
     setSubmitSuccess(true);
   };
-
-  console.log("Rendering Submit component"); // Log statement for component rendering
 
   return (
     <div>
@@ -70,7 +54,6 @@ function Submit() {
             Successfully Saved
           </Typography>
 
-          {/* Input emotional neglect */}
           <Box
             sx={{
               marginLeft: "10%",
@@ -81,34 +64,27 @@ function Submit() {
             Report will be generated once connected to WiFi.
           </Box>
 
-          {/* Container for buttons */}
           <Box sx={{ marginTop: "20px" }}>
             <Button variant="contained" onClick={() => { DownloadJsonData(); navigate("/submit"); }}>
               Open Raw Notes
             </Button>
 
-            <Button variant="contained" onClick={handleConnectedToWifiClick} style={{ marginLeft: "10px" }}>
+            <Button variant="contained" onClick={() => setSubmitSuccess(true)} style={{ marginLeft: "10px" }}>
               Connected to WiFi
             </Button>
 
-            {showFilePathInput && (
+            {submitSuccess && (
               <Box sx={{ marginTop: "20px" }}>
-                <TextField
-                  label="Enter File Path"
-                  variant="outlined"
-                  value={filePath}
-                  onChange={handleFilePathChange}
-                />
+                <input type="file" onChange={handleFileChange} />
                 <Button variant="contained" onClick={handleSubmit} style={{ marginLeft: "10px", marginTop: "10px" }}>
                   Submit
                 </Button>
               </Box>
             )}
 
-            {/* Display success message if submit success */}
             {submitSuccess && (
               <Typography variant="body1" style={{ marginTop: "10px", color: "green" }}>
-                Success! File path submitted.
+                Success! File submitted.
               </Typography>
             )}
           </Box>
@@ -119,5 +95,3 @@ function Submit() {
 }
 
 export default Submit;
-
-
