@@ -20,7 +20,6 @@ import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function FamilyDynamics() {
-  
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
@@ -29,8 +28,9 @@ function FamilyDynamics() {
     if (existingData) {
       setFormData(existingData);
     }
-    
-  }, []); 
+  }, []);
+
+  const [notes, setNotes] = useState([]);
 
   const [formData, setFormData] = useState({
     motherName: "",
@@ -45,7 +45,7 @@ function FamilyDynamics() {
     },
     foodStamps: {
       foodStamps: "",
-      notes: [], 
+      notes: [],
     },
     motherMaritalStatus: {
       motherMaritalStatus: "",
@@ -70,8 +70,8 @@ function FamilyDynamics() {
       familyConflict: "",
       notes: [],
     },
-    familyRelocation : {
-      familyRelocation : "",
+    familyRelocation: {
+      familyRelocation: "",
       notes: [],
     },
   });
@@ -82,16 +82,19 @@ function FamilyDynamics() {
 
   const handleRadioChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: { ...formData[id], [id]: value }});
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
 
   const handleDropdownChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: { ...formData[name], [name]: value }});
-  }
+    setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
+  };
 
   const handleQuotesChange = (subSection, newQuotes) => {
-    setFormData({ ...formData, [subSection]: { ...formData[subSection], ["notes"]: newQuotes }});
+    setFormData({
+      ...formData,
+      [subSection]: { ...formData[subSection], ["notes"]: newQuotes },
+    });
   };
 
   return (
@@ -130,7 +133,7 @@ function FamilyDynamics() {
 
               {/*Date of Birth*/}
 
-              <DateOfBirth 
+              <DateOfBirth
                 field={"Date of Birth"}
                 id={"motherBday"}
                 label={"MM-DD-YYYY"}
@@ -140,14 +143,16 @@ function FamilyDynamics() {
 
               {/*Question 1 */}
 
-              <RadioYesNo 
+              <RadioYesNo
                 id={"motherArrested"}
                 section={"familyDynamics"}
-                question={"Has your mother ever been arrested?"} 
+                question={"Has your mother ever been arrested?"}
                 value={formData.motherArrested?.motherArrested}
                 onChange={handleRadioChange}
                 checkedValue={formData.motherArrested?.motherArrested}
-                handleQuotesChange={newQuotes => handleQuotesChange("motherArrested", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherArrested", newQuotes)
+                }
               />
 
               {/*Question 2 */}
@@ -161,7 +166,9 @@ function FamilyDynamics() {
                 value={formData.housingAssistance?.housingAssistance}
                 onChange={handleRadioChange}
                 checkedValue={formData.housingAssistance?.housingAssistance}
-                handleQuotesChange={newQuotes => handleQuotesChange("housingAssistance", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("housingAssistance", newQuotes)
+                }
               />
 
               {/*Question 3 */}
@@ -173,7 +180,9 @@ function FamilyDynamics() {
                 value={formData.foodStamps?.foodStamps}
                 onChange={handleRadioChange}
                 checkedValue={formData.foodStamps?.foodStamps}
-                handleQuotesChange={newQuotes => handleQuotesChange("foodStamps", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("foodStamps", newQuotes)
+                }
               />
               {/*MArital Status */}
 
@@ -184,7 +193,9 @@ function FamilyDynamics() {
                 options={["Single", "Divorced", "Married", "Widow", "N/A"]}
                 value={formData.motherMaritalStatus?.motherMaritalStatus}
                 onChange={handleDropdownChange}
-                handleQuotesChange={newQuotes => handleQuotesChange("motherMaritalStatus", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherMaritalStatus", newQuotes)
+                }
               />
 
               {/*Education Status*/}
@@ -203,7 +214,9 @@ function FamilyDynamics() {
                 ]}
                 value={formData.motherEducation?.motherEducation}
                 onChange={handleDropdownChange}
-                handleQuotesChange={newQuotes => handleQuotesChange("motherEducation", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherEducation", newQuotes)
+                }
               />
 
               {/*Number of Children*/}
@@ -215,7 +228,9 @@ function FamilyDynamics() {
                 options={["1", "2", "3", "4", "5", "6", "7", "8", ">8", "N/A"]}
                 value={formData.motherNumChildren?.motherNumChildren}
                 onChange={handleDropdownChange}
-                handleQuotesChange={newQuotes => handleQuotesChange("motherNumChildren", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherNumChildren", newQuotes)
+                }
               />
             </Grid>
 
@@ -246,7 +261,7 @@ function FamilyDynamics() {
 
               {/*Date of Birth*/}
 
-              <DateOfBirth 
+              <DateOfBirth
                 field={"Date of Birth"}
                 id={"fatherBday"}
                 label={"MM-DD-YYYY"}
@@ -256,14 +271,16 @@ function FamilyDynamics() {
 
               {/*Question 4 text*/}
 
-              <RadioYesNo 
+              <RadioYesNo
                 id={"fatherArrested"}
                 section={"familyDynamics"}
-                question={" Has your father ever been arrested?"} 
+                question={" Has your father ever been arrested?"}
                 value={formData.fatherArrested?.fatherArrested}
                 onChange={handleRadioChange}
                 checkedValue={formData.fatherArrested?.fatherArrested}
-                handleQuotesChange={newQuotes => handleQuotesChange("fatherArrested", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("fatherArrested", newQuotes)
+                }
               />
 
               {/*Siblings*/}
@@ -307,7 +324,9 @@ function FamilyDynamics() {
                 ]}
                 value={formData.familyConflict?.familyConflict}
                 onChange={handleDropdownChange}
-                handleQuotesChange={newQuotes => handleQuotesChange("familyConflict", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("familyConflict", newQuotes)
+                }
               />
               <DropDown
                 question={"How often did your family relocate?"}
@@ -323,17 +342,31 @@ function FamilyDynamics() {
                 ]}
                 value={formData.familyRelocation?.familyRelocation}
                 onChange={handleDropdownChange}
-                handleQuotesChange={newQuotes => handleQuotesChange("familyRelocation", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("familyRelocation", newQuotes)
+                }
               />
             </Grid>
           </Box>
         </Box>
-        <Button variant="contained" onClick={() => navigate("/")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "familyDynamics");
+            navigate("/");
+          }}
+        >
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formData, "familyDynamics"); navigate("/community"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "familyDynamics");
+            navigate("/community");
+          }}
+        >
           Next
         </Button>
       </Paper>

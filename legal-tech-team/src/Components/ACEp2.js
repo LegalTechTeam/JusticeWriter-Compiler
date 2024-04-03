@@ -20,6 +20,7 @@ import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import BigText from "../HelperFunctions/BigText";
 function ACEp2() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -29,24 +30,61 @@ function ACEp2() {
     if (existingDataACE) {
       setFormDataACE(existingDataACE);
     }
-  }, []); 
+  }, []);
 
   const [formDataACE, setFormDataACE] = useState({
-    emotionalAbuse: "",
-    physicalAbuse: "",
-    sexualAbuse: "",
-
-    emotionalNeglect: "",
-    physicalNeglect: "",
-    familyMemberAbusedOrThreatened: "",
-    alcoholAbuse: "",
-    mentalIllness: "",
-    separation: "",
-
-    familyMemberPrison: "",
-    lossesAndDeaths: "",
-    otherTraumaticExperience: "",
-    drugUse: "",
+    emotionalAbuse: {
+      emotionalAbuse: "",
+      notes: [],
+    },
+    physicalAbuse: {
+      physicalAbuse: "",
+      notes: [],
+    },
+    sexualAbuse: {
+      sexualAbuse: "",
+      notes: [],
+    },
+    emotionalNeglect: {
+      emotionalNeglect: "",
+      notes: [],
+    },
+    physicalNeglect: {
+      physicalNeglect: "",
+      notes: [],
+    },
+    familyMembersAbusedOrThreatened: {
+      familyMembersAbusedOrThreatened: "",
+      notes: [],
+    },
+    alcoholAbuse: {
+      alcoholAbuse: "",
+      notes: [],
+    },
+    mentalIllness: {
+      mentalIllness: "",
+      notes: [],
+    },
+    separation: {
+      separation: "",
+      notes: [],
+    },
+    familyMembersInPrison: {
+      familyMembersInPrison: "",
+      notes: [],
+    },
+    lossesAndDeaths: {
+      lossesAndDeaths: "",
+      notes: [],
+    },
+    otherTraumaticExperience: {
+      otherTraumaticExperience: "",
+      notes: [],
+    },
+    drugUse: {
+      drugUse: "",
+      notes: [],
+    },
     diagnosedSUD: {
       diagnosedSUD: "",
       notes: [],
@@ -58,16 +96,29 @@ function ACEp2() {
   });
 
   const handleACEChange = (e) => {
-    setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormDataACE({
+      ...formDataACE,
+      [id]: { ...formDataACE[id], [id]: value },
+    });
   };
 
   const handleRadioChange = (e) => {
     const { id, value } = e.target;
-    setFormDataACE({ ...formDataACE, [id]: { ...formDataACE[id], [id]: value }});
+    setFormDataACE({
+      ...formDataACE,
+      [id]: { ...formDataACE[id], [id]: value },
+    });
   };
 
   const handleQuotesChange = (subSection, newQuotes) => {
-    setFormDataACE({ ...formDataACE, [subSection]: { ...formDataACE[subSection], ["notes"]: newQuotes }});
+    setFormDataACE((prevFormData) => ({
+      ...prevFormData,
+      [subSection]: {
+        ...prevFormData[subSection],
+        notes: newQuotes ? [...newQuotes] : [],
+      },
+    }));
   };
 
   return (
@@ -96,29 +147,17 @@ function ACEp2() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Family member in prison (if any)
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="familyMemberPrison"
-                label="Family in prison"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.familyMemberPrison}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Family members in prison if any"}
+              id={"familyMembersInPrision"}
+              label={"Family members in prison "}
+              onChange={handleACEChange}
+              value={formDataACE.familyMembersInPrison?.familyMembersInPrison}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("familyMembersInPrison", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*input two*/}
@@ -129,29 +168,17 @@ function ACEp2() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Any significant losses or deaths
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="lossesAndDeaths"
-                label="Losses or deaths"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.lossesAndDeaths}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Any significant losses or deaths"}
+              id={"lossesAndDeaths"}
+              label={"Family members in prison "}
+              onChange={handleACEChange}
+              value={formDataACE.lossesAndDeaths?.lossesAndDeaths}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("lossesAndDeaths", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*input three*/}
@@ -162,29 +189,19 @@ function ACEp2() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Other traumatic experiences
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="otherTraumaticExperience"
-                label="Other"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.otherTraumaticExperience}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Other traumatic Experiences"}
+              id={"otherTraumaticExperience"}
+              label={"Other traumatic Experiences"}
+              onChange={handleACEChange}
+              value={
+                formDataACE.otherTraumaticExperience?.otherTraumaticExperience
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("otherTraumaticExperience", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           <Divider orientation="horizontal" flexItem />
@@ -201,59 +218,62 @@ function ACEp2() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Types of drugs used and how often
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="drugUse"
-                label="Drugs used"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.drugUse}
-                onChange={handleACEChange}
+            <BigText
+              question={"Types of drugs used and how often"}
+              id={"drugUse"}
+              label={"Drug Use"}
+              onChange={handleACEChange}
+              value={formDataACE.drugUse?.drugUse}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("drugUse", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
+            <Grid container spacing={3} marginTop={1}>
+              <RadioYesNo
+                id={"diagnosedSUD"}
+                ection={"adverseChildhoodExpriences"}
+                question={
+                  "Ever been diagnosed with substance use disorder (SUD)?"
+                }
+                value={formDataACE.diagnosedSUD?.diagnosedSUD}
+                onChange={handleRadioChange}
+                checkedValue={formDataACE.diagnosedSUD?.diagnosedSUD}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("diagnosedSUD", newQuotes)
+                }
+              />
+              <RadioYesNo
+                id={"treatedSUD"}
+                section={"adverseChildhoodExpriences"}
+                question={"Ever been tested or treated for SUD?"}
+                value={formDataACE.treatedSUD?.treatedSUD}
+                onChange={handleRadioChange}
+                checkedValue={formDataACE.treatedSUD?.treatedSUD}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("treatedSUD", newQuotes)
+                }
               />
             </Grid>
-          
-
-          <Grid container spacing={3} marginTop={1}>
-            <RadioYesNo 
-                  id={"diagnosedSUD"}
-                  ection={"adverseChildhoodExpriences"}
-                  question={"Ever been diagnosed with substance use disorder (SUD)?"} 
-                  value={formDataACE.diagnosedSUD?.diagnosedSUD}
-                  onChange={handleRadioChange}
-                  checkedValue={formDataACE.diagnosedSUD?.diagnosedSUD}
-                  handleQuotesChange={newQuotes => handleQuotesChange("diagnosedSUD", newQuotes)}
-                />
-            <RadioYesNo 
-              id={"treatedSUD"}
-              section={"adverseChildhoodExpriences"}
-              question={"Ever been tested or treated for SUD?"} 
-              value={formDataACE.treatedSUD?.treatedSUD}
-              onChange={handleRadioChange}
-              checkedValue={formDataACE.treatedSUD?.treatedSUD}
-              handleQuotesChange={newQuotes => handleQuotesChange("treatedSUD", newQuotes)}
-            />
-          </Grid>
           </Box>
-
         </Box>
-        <Button variant="contained" onClick={() => navigate("/aceOne")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/aceOne");
+          }}
+        >
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button variant="contained" onClick={() => { SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/peers-role-models"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/peers-role-models");
+          }}
+        >
           Next
         </Button>
       </Paper>

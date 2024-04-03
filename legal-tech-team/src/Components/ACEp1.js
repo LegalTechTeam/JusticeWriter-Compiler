@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import BigText from "../HelperFunctions/BigText";
 function ACEp1() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -24,26 +25,63 @@ function ACEp1() {
     if (existingDataACE) {
       setFormDataACE(existingDataACE);
     }
-  }, []); 
+  }, []);
 
   const [formDataACE, setFormDataACE] = useState({
-    emotionalAbuse: "",
-    physicalAbuse: "",
-    sexualAbuse: "",
-
-    emotionalNeglect: "",
-    physicalNeglect: "",
-    familyMemberAbusedOrThreatened: "",
-    alcoholAbuse: "",
-    mentalIllness: "",
-    separation: "",
+    emotionalAbuse: {
+      emotionalAbuse: "",
+      notes: [],
+    },
+    physicalAbuse: {
+      physicalAbuse: "",
+      notes: [],
+    },
+    sexualAbuse: {
+      sexualAbuse: "",
+      notes: [],
+    },
+    emotionalNeglect: {
+      emotionalNeglect: "",
+      notes: [],
+    },
+    physicalNeglect: {
+      physicalNeglect: "",
+      notes: [],
+    },
+    familyMemberAbusedOrThreatened: {
+      familyMemberAbusedOrThreatened: "",
+      notes: [],
+    },
+    alcoholAbuse: {
+      alcoholAbuse: "",
+      notes: [],
+    },
+    mentalIllness: {
+      mentalIllness: "",
+      notes: [],
+    },
+    separation: {
+      separation: "",
+      notes: [],
+    },
   });
 
   const handleACEChange = (e) => {
-    setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormDataACE({
+      ...formDataACE,
+      [id]: { ...formDataACE[id], [id]: value },
+    });
   };
-
-
+  const handleQuotesChange = (subSection, newQuotes) => {
+    setFormDataACE((prevFormData) => ({
+      ...prevFormData,
+      [subSection]: {
+        ...prevFormData[subSection],
+        notes: newQuotes ? [...newQuotes] : [],
+      },
+    }));
+  };
   return (
     <div>
       <Header />
@@ -70,29 +108,17 @@ function ACEp1() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Emotional neglect
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="emotionalNeglect"
-                label="Emotional neglect"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.emotionalNeglect}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Emotional Neglect"}
+              id={"emotionalNeglect"}
+              label={"Emotional Neglect"}
+              onChange={handleACEChange}
+              value={formDataACE.emotionalNeglect?.emotionalNeglect}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("emotionalNeglect", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*input physical neglect*/}
@@ -103,29 +129,17 @@ function ACEp1() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Physical neglect
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="physicalNeglect"
-                label="Physical neglect"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.physicalNeglect}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Physical Neglect"}
+              id={"physicalNeglect"}
+              label={"Physical Neglect"}
+              onChange={handleACEChange}
+              value={formDataACE.physicalNeglect?.physicalNeglect}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("physicalNeglect", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*input three*/}
@@ -136,29 +150,20 @@ function ACEp1() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Family member Abused or Threatened
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="familyMemberAbusedOrThreatened"
-                label="Family member abused"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.familyMemberAbusedOrThreatened}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Family member abused or threatened"}
+              id={"familyMemberAbusedOrThreatened"}
+              label={"family Member Abused Or Threatened"}
+              onChange={handleACEChange}
+              value={
+                formDataACE.familyMemberAbusedOrThreatened
+                  ?.familyMemberAbusedOrThreatened
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("familyMemberAbusedOrThreatened", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*input alcohol abuse*/}
@@ -169,29 +174,17 @@ function ACEp1() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Alcohol abuse
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="alcoholAbuse"
-                label="Alcohol abuse"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.alcoholAbuse}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Alcohol Abuse"}
+              id={"alcoholAbuse"}
+              label={"Alcohol Abuse"}
+              onChange={handleACEChange}
+              value={formDataACE.alcoholAbuse?.alcoholAbuse}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("alcoholAbuse", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*input mental illness*/}
@@ -202,29 +195,17 @@ function ACEp1() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Mental illness
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="mentalIllness"
-                label="Mental illness"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.mentalIllness}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Mental Illness"}
+              id={"mentalIllness"}
+              label={"Mental Illness"}
+              onChange={handleACEChange}
+              value={formDataACE.mentalIllness?.mentalIllness}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("mentalIllness", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*input separation*/}
@@ -235,38 +216,38 @@ function ACEp1() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Separation
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="separation"
-                label="Separation"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.separation}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Separtion"}
+              id={"separation"}
+              label={"separation"}
+              onChange={handleACEChange}
+              value={formDataACE.separation?.separation}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("separation", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
         </Box>
 
-        <Button variant="contained" onClick={() => navigate("/schooling")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/schooling");
+          }}
+        >
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/aceTwo"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/aceTwo");
+          }}
+        >
           Next
         </Button>
       </Paper>

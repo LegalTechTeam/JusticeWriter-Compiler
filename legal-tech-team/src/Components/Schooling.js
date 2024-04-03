@@ -23,6 +23,8 @@ import themeSubHeading from "../Layouts/Theme";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import AddQuotes from "../HelperFunctions/AddQuotes";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import BigText from "../HelperFunctions/BigText";
+import SmallTextInput from "../HelperFunctions/SmallTextInput";
 function Schooling() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -30,17 +32,25 @@ function Schooling() {
   const schoolList = [
     {
       label: "Suspended",
+      id: "suspended",
+      subs: [],
     },
     {
       label: "Expelled",
+      id: "expelled",
+      subs: [],
     },
     {
       label: "Dropped Out",
+      id: "dropped-out",
+      subs: [],
     },
     {
       label: "None of the Above",
+      id: "none",
+      subs: [],
     },
-  ]
+  ];
 
   useEffect(() => {
     const existingData = ReturnExistingInput("schooling");
@@ -51,26 +61,45 @@ function Schooling() {
     if (existingDataACE) {
       setFormDataACE(existingDataACE);
     }
-  }, []); 
+  }, []);
 
   const [formData, setFormData] = useState({
-    schoolsAttended: "",
-    schoolChanges: "",
-    schoolExperiences: "",
+    schoolsAttended: {
+      schoolsAttended: "",
+      notes: [],
+    },
+    schoolChanges: {
+      schoolChanges: "",
+      notes: [],
+    },
+    schoolExperiences: {
+      schoolExperiences: "",
+      notes: [],
+    },
     schoolQuality: {
       schoolQuality: "",
       notes: [],
     },
-    wasSuspended: "",
-    wasExpelled: "",
-    didDropOut: "",
-    noDisciplinaryAction: "",
+
+    noDisciplinaryAction: {
+      noDisciplinaryAction: [],
+      notes: [],
+    },
   });
 
   const [formDataACE, setFormDataACE] = useState({
-    emotionalAbuse: "",
-    physicalAbuse: "",
-    sexualAbuse: "",
+    emotionalAbuse: {
+      emotionalAbuse: "",
+      notes: [],
+    },
+    physicalAbuse: {
+      physicalAbuse: "",
+      notes: [],
+    },
+    sexualAbuse: {
+      sexualAbuse: "",
+      notes: [],
+    },
   });
 
   const handleChange = (e) => {
@@ -78,16 +107,26 @@ function Schooling() {
   };
 
   const handleACEChange = (e) => {
-    setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormDataACE({
+      ...formDataACE,
+      [id]: { ...formDataACE[id], [id]: value },
+    });
   };
 
   const handleRadioChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: { ...formData[id], [id]: value }});
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
 
-  const handleQuotesChange = (newQuotes) => {
-    setFormData({ ...formData, ["schoolQuality"]: { ...formData["schoolQuality"], ["notes"]: newQuotes }});
+  const handleQuotesChange = (subSection, newQuotes) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [subSection]: {
+        ...prevFormData[subSection],
+        notes: newQuotes ? [...newQuotes] : [],
+      },
+    }));
   };
 
   const [quotes, setQuotes] = useState([]);
@@ -97,6 +136,25 @@ function Schooling() {
     handleQuotesChange(newQuotes);
   };
 
+  const handleDisadvantageChange = (disadvantagesId, isChecked) => {
+    setFormData((prevFormData) => {
+      const noDisciplinaryAction = prevFormData.noDisciplinaryAction || {
+        noDisciplinaryAction: [],
+      };
+
+      return {
+        ...prevFormData,
+        noDisciplinaryAction: {
+          ...noDisciplinaryAction,
+          noDisciplinaryAction: isChecked
+            ? [...noDisciplinaryAction.noDisciplinaryAction, disadvantagesId]
+            : noDisciplinaryAction.noDisciplinaryAction.filter(
+                (id) => id !== disadvantagesId
+              ),
+        },
+      };
+    });
+  };
   return (
     <div>
       <Header />
@@ -122,29 +180,19 @@ function Schooling() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                List names and school grades of the schools you attended
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="schoolsAttended"
-                label="Schools attended"
-                fullWidth
-                variant="outlined"
-                value={formData.schoolsAttended}
-                onChange={handleChange}
-              />
-            </Grid>
+            <BigText
+              question={
+                "List names and school grades of the schools you attended"
+              }
+              id={"schoolsAttended"}
+              label={"Schools attended"}
+              onChange={handleRadioChange}
+              value={formData.schoolsAttended?.schoolsAttended}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("schoolsAttended", newQuotes)
+              }
+              section={"schooling"}
+            />
           </Box>
 
           {/*input two*/}
@@ -155,28 +203,17 @@ function Schooling() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                How many times did you change schools?
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={false}
-                id="schoolChanges"
-                label="School changes"
-                fullWidth
-                variant="outlined"
-                value={formData.schoolChanges}
-                onChange={handleChange}
-              />
-            </Grid>
+            <SmallTextInput
+              field={"How many times did you change schools? "}
+              id={"schoolChanges"}
+              label={"School Changes"}
+              onChange={handleRadioChange}
+              value={formData.schoolChanges?.schoolChanges}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("schoolChanges", newQuotes)
+              }
+              section={"schooling"}
+            />
           </Box>
 
           {/*input three*/}
@@ -187,29 +224,17 @@ function Schooling() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                What were your experiences and grades like at school?
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="schoolExperiences"
-                label="School experiences"
-                fullWidth
-                variant="outlined"
-                value={formData.schoolExperiences}
-                onChange={handleChange}
-              />
-            </Grid>
+            <BigText
+              question={"What were your school experiences like?"}
+              id={"schoolExperiences"}
+              label={"School Experiences"}
+              onChange={handleRadioChange}
+              value={formData.schoolExperiences?.schoolExperiences}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("schoolExperiences", newQuotes)
+              }
+              section={"schooling"}
+            />
           </Box>
           {/*input four*/}
           <Box
@@ -259,7 +284,12 @@ function Schooling() {
                   control={<Radio id={"schoolQuality"} />}
                   label="Excellent"
                 />
-                <AddQuotes quotes={quotes} section={"schooling"} id={"schoolQuality"} onQuotesChange={quotesAdded}  />
+                <AddQuotes
+                  quotes={quotes}
+                  section={"schooling"}
+                  id={"schoolQuality"}
+                  onQuotesChange={quotesAdded}
+                />
               </RadioGroup>
             </Grid>
           </Box>
@@ -279,18 +309,33 @@ function Schooling() {
                   fontWeight: 700,
                 }}
               >
-                Have you every been:
+                Have you ever been:
               </InputLabel>
             </Grid>
             <FormGroup
-              //onChange={handleChange}
+            //onChange={handleChange}
             >
-              {schoolList.map((action, index) => (
-                <CheckboxWithAdd
-                  key={index}
-                  label={action.label}
-                />
+              {schoolList.map((disadvantage, index) => (
+                <React.Fragment key={index}>
+                  <CheckboxWithAdd
+                    label={disadvantage.label}
+                    id={disadvantage.id}
+                    checked={
+                      formData.noDisciplinaryAction &&
+                      formData.noDisciplinaryAction.noDisciplinaryAction.includes(
+                        disadvantage.id
+                      )
+                    }
+                    onChange={handleDisadvantageChange}
+                    subs={disadvantage.subs}
+                    handleQuotesChange={(newQuotes) =>
+                      handleQuotesChange(disadvantage.id, newQuotes)
+                    }
+                    section={"schooling"}
+                  />
+                </React.Fragment>
               ))}
+
               {/* <CheckboxWithAdd>
                   <FormControlLabel
                     control={<Checkbox checked={formData.wasSuspended} onChange={handleChange} id="wasSuspended" />}
@@ -309,8 +354,7 @@ function Schooling() {
                     label="None of the above"
                   />
                 </CheckboxWithAdd> */}
-              </FormGroup>
-            
+            </FormGroup>
           </Box>
 
           <Divider orientation="horizontal" flexItem />
@@ -327,29 +371,17 @@ function Schooling() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Emotional Abuse
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="emotionalAbuse"
-                label="Emotional Abuse"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.emotionalAbuse}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Emotional Abuse"}
+              id={"emotionalAbuse"}
+              label={"Emotional Abuse"}
+              onChange={handleACEChange}
+              value={formDataACE.emotionalAbuse?.emotionalAbuse}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("emotionalAbuse", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*Physical abuse input*/}
@@ -360,29 +392,17 @@ function Schooling() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Physical Abuse
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="physicalAbuse"
-                label="Physical Abuse"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.physicalAbuse}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Physical Abuse"}
+              id={"physicalAbuse"}
+              label={"Physical Abuse"}
+              onChange={handleACEChange}
+              value={formDataACE.physicalAbuse?.physicalAbuse}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("physicalAbuse", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
 
           {/*Sexual Abuse*/}
@@ -393,38 +413,41 @@ function Schooling() {
               paddingBottom: "40px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Sexual Abuse
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="sexualAbuse"
-                label="Sexual Abuse"
-                fullWidth
-                variant="outlined"
-                value={formDataACE.sexualAbuse}
-                onChange={handleACEChange}
-              />
-            </Grid>
+            <BigText
+              question={"Sexual Abuse"}
+              id={"sexualAbuse"}
+              label={"Sexual Abuse"}
+              onChange={handleACEChange}
+              value={formDataACE.sexualAbuse?.sexualAbuse}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("sexualAbuse", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
           </Box>
         </Box>
 
-        <Button variant="contained" onClick={() => navigate("/community")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "schooling");
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/community");
+          }}
+        >
+          {" "}
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formData, "schooling"); SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/aceOne"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "schooling");
+            SaveJSON(formDataACE, "adverseChildhoodExpriences");
+            navigate("/aceOne");
+          }}
+        >
           Next
         </Button>
       </Paper>

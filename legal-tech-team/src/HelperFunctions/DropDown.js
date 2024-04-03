@@ -4,7 +4,15 @@ import { useState, useEffect } from "react";
 import { Grid, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 import AddQuotes from "./AddQuotes";
 function DropDown(props) {
-  const { question, id, value, onChange, handleQuotesChange, options, section } = props;
+  const {
+    question,
+    id,
+    value,
+    onChange,
+    handleQuotesChange,
+    options,
+    section,
+  } = props;
 
   const [quotes, setQuotes] = useState([]);
 
@@ -27,28 +35,28 @@ function DropDown(props) {
         </InputLabel>
       </Grid>
       <FormControl sx={{ paddingTop: "20px", paddingLeft: "10px" }}>
-        <InputLabel sx={{ paddingTop: "10px" }} >
-          Select an option
-        </InputLabel>
+        <InputLabel sx={{ paddingTop: "10px" }}>Select an option</InputLabel>
         <Select
           name={id}
-          id={id} 
-          value={value || ''}
+          id={id}
+          value={value || ""}
           onChange={onChange}
           quotes={quotes}
           sx={{ width: "220px", height: "30px" }}
         >
           {options.map((choice, index) => (
-            <MenuItem 
-              key={index} 
-              value={choice.toLowerCase()}
-            >
+            <MenuItem key={index} value={choice.toLowerCase()}>
               {choice}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <AddQuotes quotes={quotes} section={section} id={id} onQuotesChange={quotesAdded} />
+      <AddQuotes
+        quotes={quotes}
+        section={section}
+        id={id}
+        onQuotesChange={quotesAdded}
+      />
     </>
   );
 }

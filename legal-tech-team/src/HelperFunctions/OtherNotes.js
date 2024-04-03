@@ -1,8 +1,17 @@
 import * as React from "react";
 import { useState } from "react";
 import { Grid, TextField, InputLabel } from "@mui/material";
+import AddQuotes from "./AddQuotes";
+function OtherNotes(props) {
+  const { id, handleQuotesChange, section } = props;
 
-function OtherNotes() {
+  const [quotes, setQuotes] = useState([]);
+
+  const quotesAdded = (newQuotes) => {
+    setQuotes((prevQuotes) => [...prevQuotes, ...newQuotes]);
+    handleQuotesChange(newQuotes);
+  };
+
   return (
     <>
       {/*Other Notes Text */}
@@ -17,6 +26,12 @@ function OtherNotes() {
           }}
         >
           Other notes:
+          <AddQuotes
+            quotes={quotes}
+            section={section}
+            id={id}
+            onQuotesChange={quotesAdded}
+          />{" "}
         </InputLabel>
       </Grid>
       {/*Other Notes Text Field*/}
@@ -25,10 +40,13 @@ function OtherNotes() {
         <TextField
           required
           multiline={true}
-          rows={4}
-          id="other"
+          rows={5}
+          id="otherNotes"
+          label="otherNotes"
           fullWidth
           variant="outlined"
+          onChange={props.handleChange}
+          value={props.value}
         />
       </Grid>
     </>

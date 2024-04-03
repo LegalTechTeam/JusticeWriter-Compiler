@@ -14,8 +14,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import LibraryAddTwoToneIcon from "@mui/icons-material/LibraryAddTwoTone";
 import PostAddTwoToneIcon from "@mui/icons-material/PostAddTwoTone";
-import  { ReturnExistingSubSection } from "./formatJSON";
-
+import { ReturnExistingSubSection } from "./formatJSON";
 
 function AddQuotes(props) {
   const { quotes, onQuotesChange, section, id } = props;
@@ -25,12 +24,23 @@ function AddQuotes(props) {
   });
 
   useEffect(() => {
+    console.log(section);
     const existingData = ReturnExistingSubSection(section, id);
+    console.log(section + " section");
+    console.log(id + " id");
     if (existingData) {
-      setFormData(existingData);
-      setQuotes(existingData.notes);
+      console.log(existingData);
+      var data = JSON.parse(existingData);
+      console.log("data " + existingData);
+      console.log("notest" + data.notes);
+      console.log("existing data notes " + data.notes);
+      setFormData(data);
+      setQuotes(data.notes || []);
+      console.log(quotesS);
+    } else {
+      setQuotes([]);
     }
-  }, []); 
+  }, []);
 
   // for opening/closing the quotes box?
   const [open, setOpen] = useState(false);
@@ -94,23 +104,24 @@ function AddQuotes(props) {
       <Dialog fullWidth open={open} onClose={() => handleQuotesBox(false)}>
         <DialogContent>
           <div>
-            {quotesS.map((quote, index) => (
-              <>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <li key={index}>{quote}</li>
-                  <Button
-                    style={{
-                      "min-height": "5px",
-                      width: "10%",
-                      fontSize: "12px",
-                    }}
-                    onClick={() => handleEditClick(index)}
-                  >
-                    Edit
-                  </Button>
-                </div>
-              </>
-            ))}
+            {quotesS &&
+              quotesS.map((quote, index) => (
+                <>
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <li key={index}>{quote}</li>
+                    <Button
+                      style={{
+                        "min-height": "5px",
+                        width: "10%",
+                        fontSize: "12px",
+                      }}
+                      onClick={() => handleEditClick(index)}
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                </>
+              ))}
           </div>
 
           {editIndex !== null ? (

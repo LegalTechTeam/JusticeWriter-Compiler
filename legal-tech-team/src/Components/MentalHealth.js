@@ -19,6 +19,7 @@ import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import BigText from "../HelperFunctions/BigText";
 function MentalHealth() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -32,7 +33,7 @@ function MentalHealth() {
     if (existingDataEvidence) {
       setFormDataEvidence(existingDataEvidence);
     }
-  }, []); 
+  }, []);
 
   const [formData, setFormData] = useState({
     receivedMentalHealthTreatment: {
@@ -43,13 +44,25 @@ function MentalHealth() {
       participatedMentalHealthOrDrugProgram: "",
       notes: [],
     },
-    treatmentOrCounseling: "",
+    treatmentOrCounseling: {
+      treatmentOrCounseling: "",
+      notes: [],
+    },
   });
 
   const [formDataEvidence, setFormDataEvidence] = useState({
-    exampleOfCharacter: "",
-    exampleOfGoodDeed: "",
-    volunteeringAndCommunityEngagement: "",
+    exampleOfCharacter: {
+      exampleOfCharacter: "",
+      notes: [],
+    },
+    exampleOfGoodDeed: {
+      exampleOfGoodDeed: "",
+      notes: [],
+    },
+    volunteeringAndCommunityEngagement: {
+      volunteeringAndCommunityEngagement: "",
+      notes: [],
+    },
     areParent: {
       areParent: "",
       notes: [],
@@ -57,29 +70,49 @@ function MentalHealth() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
 
   const handleChangeEvidence = (e) => {
-    setFormDataEvidence({ ...formDataEvidence, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormDataEvidence({
+      ...formDataEvidence,
+      [id]: { ...formDataEvidence[id], [id]: value },
+    });
   };
 
   const handleRadioChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: { ...formData[id], [id]: value }});
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
 
   const handleRadioChangeEvidence = (e) => {
     const { id, value } = e.target;
-    setFormDataEvidence({ ...formDataEvidence, [id]: { ...formDataEvidence[id], [id]: value }});
+    setFormDataEvidence({
+      ...formDataEvidence,
+      [id]: { ...formDataEvidence[id], [id]: value },
+    });
   };
 
-  const handleQuotesChange = (subSection, newQuotes) => {    
-    setFormData({ ...formData, [subSection]: { ...formData[subSection], ["notes"]: newQuotes }});
+  const handleQuotesChange = (subSection, newQuotes) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [subSection]: {
+        ...prevFormData[subSection],
+        notes: newQuotes ? [...newQuotes] : [],
+      },
+    }));
   };
 
-  const handleQuotesChangeEvidence = (subSection, newQuotes) => {    
-    setFormDataEvidence({ ...formDataEvidence, [subSection]: { ...formDataEvidence[subSection], ["notes"]: newQuotes }});
+  const handleQuotesChangeEvidence = (subSection, newQuotes) => {
+    setFormDataEvidence((prevFormData) => ({
+      ...prevFormData,
+      [subSection]: {
+        ...prevFormData[subSection],
+        notes: newQuotes ? [...newQuotes] : [],
+      },
+    }));
   };
 
   return (
@@ -107,27 +140,49 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-
-          <Grid container spacing={3}>
-            <RadioYesNo 
-                  id={"participatedMentalHealthOrDrugProgram"}
-                  section={"mentalHealth"}
-                  question={"Have you ever received behavioral or mental health treatment?"} 
-                  value={formData.participatedMentalHealthOrDrugProgram?.participatedMentalHealthOrDrugProgram}
-                  onChange={handleRadioChange}
-                  checkedValue={formData.participatedMentalHealthOrDrugProgram?.participatedMentalHealthOrDrugProgram}
-                  handleQuotesChange={newQuotes => handleQuotesChange("participatedMentalHealthOrDrugProgram", newQuotes)}
-                />
-            <RadioYesNo 
-              id={"receivedMentalHealthTreatment"}
-              section={"mentalHealth"}
-              question={"Have you ever participated in a mental health or drug program?"} 
-              value={formData.receivedMentalHealthTreatment?.receivedMentalHealthTreatment}
-              onChange={handleRadioChange}
-              checkedValue={formData.receivedMentalHealthTreatment?.receivedMentalHealthTreatment}
-              handleQuotesChange={newQuotes => handleQuotesChange("receivedMentalHealthTreatment", newQuotes)}
-            />
-          </Grid>
+            <Grid container spacing={3}>
+              <RadioYesNo
+                id={"participatedMentalHealthOrDrugProgram"}
+                section={"mentalHealth"}
+                question={
+                  "Have you ever received behavioral or mental health treatment?"
+                }
+                value={
+                  formData.participatedMentalHealthOrDrugProgram
+                    ?.participatedMentalHealthOrDrugProgram
+                }
+                onChange={handleRadioChange}
+                checkedValue={
+                  formData.participatedMentalHealthOrDrugProgram
+                    ?.participatedMentalHealthOrDrugProgram
+                }
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange(
+                    "participatedMentalHealthOrDrugProgram",
+                    newQuotes
+                  )
+                }
+              />
+              <RadioYesNo
+                id={"receivedMentalHealthTreatment"}
+                section={"mentalHealth"}
+                question={
+                  "Have you ever participated in a mental health or drug program?"
+                }
+                value={
+                  formData.receivedMentalHealthTreatment
+                    ?.receivedMentalHealthTreatment
+                }
+                onChange={handleRadioChange}
+                checkedValue={
+                  formData.receivedMentalHealthTreatment
+                    ?.receivedMentalHealthTreatment
+                }
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("receivedMentalHealthTreatment", newQuotes)
+                }
+              />
+            </Grid>
           </Box>
 
           <Box
@@ -137,33 +192,20 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  label: "Size",
-                  id: "outlined-size-small",
-                  defaultValue: "Small",
-                  size: "small",
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Treatments/Counseling (if any)
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="treatmentOrCounseling"
-                label="Treatments/Counseling"
-                fullWidth
-                variant="outlined"
-                value={formData.treatmentOrCounseling}
-                onChange={handleChange}
-              />
-            </Grid>
+            <BigText
+              question={"Treatments/Counseling (if any)"}
+              id={"treatment Or Counseling"}
+              label={"treatmentOrCounseling"}
+              onChange={handleChange}
+              value={
+                formData.treatmentOrCounseling &&
+                formData.treatmentOrCounseling.treatmentOrCounseling
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("treatmentOrCounseling", newQuotes)
+              }
+              section={"mentalHealth"}
+            />
           </Box>
 
           <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
@@ -177,33 +219,20 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  label: "Size",
-                  id: "outlined-size-small",
-                  defaultValue: "Small",
-                  size: "small",
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Provide an example of your character
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="exampleOfCharacter"
-                label="Character Examples"
-                fullWidth
-                variant="outlined"
-                value={formDataEvidence.exampleOfCharacter}
-                onChange={handleChangeEvidence}
-              />
-            </Grid>
+            <BigText
+              question={"Provide an example of your character"}
+              id={"exampleOfCharacter"}
+              label={"example Of Character"}
+              onChange={handleChangeEvidence}
+              value={
+                formDataEvidence.exampleOfCharacter &&
+                formDataEvidence.exampleOfCharacter.exampleOfCharacter
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChangeEvidence("exampleOfCharacter", newQuotes)
+              }
+              section={"evidenceOfCharacter"}
+            />
           </Box>
 
           <Box
@@ -213,33 +242,22 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  label: "Size",
-                  id: "outlined-size-small",
-                  defaultValue: "Small",
-                  size: "small",
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Give examples of good deeds and contributions that you’ve made
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="exampleOfGoodDeed"
-                label="Good Deeds"
-                fullWidth
-                variant="outlined"
-                value={formDataEvidence.exampleOfGoodDeed}
-                onChange={handleChangeEvidence}
-              />
-            </Grid>
+            <BigText
+              question={
+                "Give examples of good deeds and contributions that you’ve made"
+              }
+              id={"exampleOfGoodDeed"}
+              label={"example Of Good Deed"}
+              onChange={handleChangeEvidence}
+              value={
+                formDataEvidence.exampleOfGoodDeed &&
+                formDataEvidence.exampleOfGoodDeed.exampleOfGoodDeed
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChangeEvidence("exampleOfGoodDeed", newQuotes)
+              }
+              section={"evidenceOfCharacter"}
+            />
           </Box>
 
           <Box
@@ -249,34 +267,26 @@ function MentalHealth() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  label: "Size",
-                  id: "outlined-size-small",
-                  defaultValue: "Small",
-                  size: "small",
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                List any volunteering, employment, mentoring, community
-                engagement that you’ve done
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="volunteeringAndCommunityEngagement"
-                label="Extracurriculars"
-                fullWidth
-                variant="outlined"
-                value={formDataEvidence.volunteeringAndCommunityEngagement}
-                onChange={handleChangeEvidence}
-              />
-            </Grid>
+            <BigText
+              question={
+                "List any volunteering, employment, mentoring, community engagement that you’ve done"
+              }
+              id={"volunteeringAndCommunityEngagement"}
+              label={"volunteering And Community Engagement"}
+              onChange={handleChangeEvidence}
+              value={
+                formDataEvidence.volunteeringAndCommunityEngagement &&
+                formDataEvidence.volunteeringAndCommunityEngagement
+                  .volunteeringAndCommunityEngagement
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChangeEvidence(
+                  "volunteeringAndCommunityEngagement",
+                  newQuotes
+                )
+              }
+              section={"evidenceOfCharacter"}
+            />
           </Box>
 
           <Box
@@ -287,29 +297,42 @@ function MentalHealth() {
             }}
           >
             <Grid container spacing={3}>
-              <RadioYesNo 
-                    id={"areParent"}
-                    section={"evidenceOfCharacter"}
-                    question={"Are you a parent?"} 
-                    value={formDataEvidence.areParent?.areParent}
-                    onChange={handleRadioChangeEvidence}
-                    checkedValue={formDataEvidence.areParent?.areParent}
-                    handleQuotesChange={newQuotes => handleQuotesChangeEvidence("areParent", newQuotes)}
-                  />
+              <RadioYesNo
+                id={"areParent"}
+                section={"evidenceOfCharacter"}
+                question={"Are you a parent?"}
+                value={formDataEvidence.areParent?.areParent}
+                onChange={handleRadioChangeEvidence}
+                checkedValue={formDataEvidence.areParent?.areParent}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChangeEvidence("areParent", newQuotes)
+                }
+              />
             </Grid>
           </Box>
         </Box>
 
         <Button
           variant="contained"
-          onClick={() => navigate("/peers-role-models")}
+          onClick={() => {
+            SaveJSON(formData, "mentalHealth");
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/peers-role-models");
+          }}
         >
           Previous
         </Button>
 
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formData, "mentalHealth"); SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/evidence"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "mentalHealth");
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/evidence");
+          }}
+        >
           Next
         </Button>
       </Paper>
