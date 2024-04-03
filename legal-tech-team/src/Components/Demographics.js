@@ -27,7 +27,7 @@ function Demographics() {
     if (existingData) {
       setFormData(existingData);
     }
-  }, []); 
+  }, []);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -49,13 +49,16 @@ function Demographics() {
 
   const handleDropdownChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: { ...formData[name], [name]: value }});
-  }
+    setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
+  };
 
   const handleQuotesChange = (subSection, newQuotes) => {
-    console.log("handle quote change");   
-    console.log(subSection);     
-    setFormData({ ...formData, [subSection]: { ...formData[subSection], ["notes"]: newQuotes }});
+    console.log("handle quote change");
+    console.log(subSection);
+    setFormData({
+      ...formData,
+      [subSection]: { ...formData[subSection], ["notes"]: newQuotes },
+    });
   };
 
   return (
@@ -93,6 +96,7 @@ function Demographics() {
                 label={"First name"}
                 value={formData.firstName}
                 onChange={handleChange}
+                section={"demographics"}
               />
 
               {/*Last Name text*/}
@@ -103,6 +107,7 @@ function Demographics() {
                 label={"Last name"}
                 value={formData.lastName}
                 onChange={handleChange}
+                section={"demographics"}
               />
 
               {/*Attorney Name*/}
@@ -112,6 +117,7 @@ function Demographics() {
                 label={"Attorney name"}
                 value={formData.attorneyName}
                 onChange={handleChange}
+                section={"demographics"}
               />
 
               {/*Attorney Office*/}
@@ -121,6 +127,7 @@ function Demographics() {
                 label={"Attorney office"}
                 value={formData.attorneyOffice}
                 onChange={handleChange}
+                section={"demographics"}
               />
 
               {/*Case Number*/}
@@ -130,11 +137,12 @@ function Demographics() {
                 label={"Case Number"}
                 value={formData.caseNumber}
                 onChange={handleChange}
+                section={"demographics"}
               />
 
               {/*Date of Birth*/}
 
-              <DateOfBirth 
+              <DateOfBirth
                 field={"Date of Birth"}
                 id={"DOB"}
                 label={"MM-DD-YYYY"}
@@ -156,7 +164,9 @@ function Demographics() {
                   "Prefer not to answer",
                 ]}
                 onChange={handleDropdownChange}
-                handleQuotesChange={newQuotes => handleQuotesChange("gender", newQuotes)}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("gender", newQuotes)
+                }
               />
             </Grid>
           </Box>
@@ -194,7 +204,13 @@ function Demographics() {
             </Grid>
           </Box>
         </Box>
-        <Button variant="contained" onClick={() => { SaveJSON(formData, "demographics"); navigate("/familyDynamics"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "demographics");
+            navigate("/familyDynamics");
+          }}
+        >
           Next
         </Button>
       </Paper>

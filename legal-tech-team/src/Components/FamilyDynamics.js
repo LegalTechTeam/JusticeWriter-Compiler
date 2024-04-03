@@ -30,6 +30,8 @@ function FamilyDynamics() {
     }
   }, []);
 
+  const [notes, setNotes] = useState([]);
+
   const [formData, setFormData] = useState({
     motherName: "",
     motherBday: "",

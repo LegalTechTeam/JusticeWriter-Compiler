@@ -6,6 +6,7 @@ import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import AddQuotes from "./AddQuotes";
 
 function CheckboxWithAdd(props) {
+  const { id, handleQuotesChange, section } = props;
   //console.log(props.checked + " " + props.id);
   const [checked, setChecked] = useState(props.checked);
   const [subChecked, setSubChecked] = useState(props.checked);
@@ -16,12 +17,18 @@ function CheckboxWithAdd(props) {
   }, [props.checked]);
 
   const handleChange = (event) => {
-    console.log("in handle change");
     const isChecked = event.target.checked;
-    setChecked(event.target.checked);
+    setChecked(isChecked); // Update the checked state
     if (props.onChange) {
       props.onChange(props.id, isChecked);
+      //props.handleQuotesChange(props.id, isChecked ? [""] : []);
     }
+  };
+  const [quotes, setQuotes] = useState([]);
+
+  const quotesAdded = (newQuotes) => {
+    setQuotes((prevQuotes) => [...prevQuotes, ...newQuotes]);
+    handleQuotesChange(newQuotes);
   };
 
   const handleSubChange = (event) => {
@@ -44,8 +51,12 @@ function CheckboxWithAdd(props) {
           control={<Checkbox checked={checked} onChange={handleChange} />}
           label={props.label}
         />
-
-        <AddQuotes />
+        <AddQuotes
+          quotes={quotes}
+          section={section}
+          id={id}
+          onQuotesChange={quotesAdded}
+        />{" "}
       </div>
       {checked && (
         <FormGroup
@@ -54,25 +65,7 @@ function CheckboxWithAdd(props) {
             flexDirection: "column",
             paddingLeft: "25px",
           }}
-        >
-          {/* {props.subs.map((sub, index) => (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-              }}
-              key={index}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox checked={subChecked} onChange={handleSubChange} />
-                }
-                label={sub.label} // Accessing the label key of the sub object
-              />
-              <AddQuotes />
-            </div>
-          ))} */}
-        </FormGroup>
+        ></FormGroup>
       )}
     </>
   );

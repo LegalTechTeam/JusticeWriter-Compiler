@@ -24,6 +24,7 @@ import DropDown from "../HelperFunctions/DropDown";
 import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import BigText from "../HelperFunctions/BigText";
 function PeersRoleModels() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -31,30 +32,33 @@ function PeersRoleModels() {
   const peerList = [
     {
       label: "Association with delinquent peers",
+      id: "Association-with-delinquent-peers",
+      subs: [],
     },
     {
       label: "Involvement in gangs",
+      id: "Involvement-in-gangs",
+
+      subs: [],
     },
     {
       label: "Enjoy or admire street guys in my neighborhood",
+      id: "Enjoy-or-admire-street-guys-in-my-neighborhood",
+
+      subs: [],
     },
     {
       label: "Enjoy or admire the gangsta lifestyle",
+      id: "Enjoy-or-admire-the-gangsta-lifestyle",
+
+      subs: [],
     },
   ];
-
-  useEffect(() => {
-    const existingData = ReturnExistingInput("peersAndRoleModels");
-    if (existingData) {
-      setFormData(existingData);
-    }
-  }, []);
-
   const [formData, setFormData] = useState({
-    associationWithPeers: "",
-    involvementInGangs: "",
-    enjoyAdmireStreetGuys: "",
-    enjoyAdmireGangstaLifestyle: "",
+    associationWithPeers: {
+      associationWithPeers: "",
+      notes: [],
+    },
     numberNeighborhoodCollege: {
       numberNeighborhoodCollege: "",
       notes: [],
@@ -67,8 +71,14 @@ function PeersRoleModels() {
       numberRelativesArrested: "",
       notes: [],
     },
-    neighborhoodArrests: "",
-    neighborhoodDegrees: "",
+    neighborhoodArrests: {
+      neighborhoodArrests: "",
+      notes: [],
+    },
+    neighborhoodDegrees: {
+      neighborhoodDegrees: "",
+      notes: [],
+    },
     mentalHealthIssues: {
       mentalHealthIssues: "",
       notes: [],
@@ -77,11 +87,51 @@ function PeersRoleModels() {
       affectedByMentalHealth: "",
       notes: [],
     },
-    otherRiskFactors: "",
+    otherRiskFactorsExperienced: {
+      otherRiskFactorsExperienced: "",
+      notes: [],
+    },
   });
+  useEffect(() => {
+    const existingData = ReturnExistingInput("peersAndRoleModels");
+    if (existingData) {
+      setFormData(existingData);
+    }
+  }, []);
+
+  const handleDisadvantageChange = (disadvantagesId, isChecked) => {
+    setFormData((prevFormData) => {
+      const associationWithPeers = prevFormData.associationWithPeers || {
+        associationWithPeers: [],
+      };
+
+      return {
+        ...prevFormData,
+        associationWithPeers: {
+          ...associationWithPeers,
+          associationWithPeers: isChecked
+            ? [...associationWithPeers.associationWithPeers, disadvantagesId]
+            : associationWithPeers.associationWithPeers.filter(
+                (id) => id !== disadvantagesId
+              ),
+        },
+      };
+    });
+  };
+
+  const handleQuotesChange = (subSection, newQuotes) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [subSection]: {
+        ...prevFormData[subSection],
+        notes: newQuotes ? [...newQuotes] : [],
+      },
+    }));
+  };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
 
   const handleRadioChange = (e) => {
@@ -92,13 +142,6 @@ function PeersRoleModels() {
   const handleDropdownChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
-  };
-
-  const handleQuotesChange = (subSection, newQuotes) => {
-    setFormData({
-      ...formData,
-      [subSection]: { ...formData[subSection], ["notes"]: newQuotes },
-    });
   };
 
   const options = ["None", "1", "< 5", "More than 5"];
@@ -136,7 +179,7 @@ function PeersRoleModels() {
                     marginBottom: 1, // Adjust spacing as needed
                   }}
                 >
-                  Other traumatic experiences
+                  Association with peers:
                 </InputLabel>
               </Grid>
               <Grid
@@ -147,8 +190,25 @@ function PeersRoleModels() {
               >
                 <Grid item>
                   <FormGroup>
-                    {peerList.map((peer, index) => (
-                      <CheckboxWithAdd key={index} label={peer.label} />
+                    {peerList.map((disadvantage, index) => (
+                      <React.Fragment key={index}>
+                        <CheckboxWithAdd
+                          label={disadvantage.label}
+                          id={disadvantage.id}
+                          checked={
+                            formData.associationWithPeers &&
+                            formData.associationWithPeers.associationWithPeers.includes(
+                              disadvantage.id
+                            )
+                          }
+                          onChange={handleDisadvantageChange}
+                          subs={disadvantage.subs}
+                          handleQuotesChange={(newQuotes) =>
+                            handleQuotesChange(disadvantage.id, newQuotes)
+                          }
+                          section={"peersAndRoleModels"}
+                        />
+                      </React.Fragment>
                     ))}
                   </FormGroup>
                 </Grid>
@@ -223,29 +283,19 @@ function PeersRoleModels() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                In your neighborhood, do most youths and adults get arrested?
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="neighborhoodArrests"
-                label="Neighborhood arrests"
-                fullWidth
-                variant="outlined"
-                value={formData.neighborhoodArrests}
-                onChange={handleChange}
-              />
-            </Grid>
+            <BigText
+              question={
+                "In your neighborhood, do most youths and adults get arrested? "
+              }
+              id={"neighborhoodArrests"}
+              label={"neighborhood Arrests"}
+              onChange={handleChange}
+              value={formData.neighborhoodArrests?.neighborhoodArrests}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("neighborhoodArrests", newQuotes)
+              }
+              section={"peersAndRoleModels"}
+            />
           </Box>
 
           {/*input two*/}
@@ -256,29 +306,19 @@ function PeersRoleModels() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                In your neighborhood, do most youths and adults have degrees?
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="neighborhoodDegrees"
-                label="Neighborhood degrees"
-                fullWidth
-                variant="outlined"
-                value={formData.neighborhoodDegrees}
-                onChange={handleChange}
-              />
-            </Grid>
+            <BigText
+              question={
+                " In your neighborhood, do most youths and adults have degrees? "
+              }
+              id={"neighborhoodDegrees"}
+              label={"neighborhood Degrees"}
+              onChange={handleChange}
+              value={formData.neighborhoodDegrees?.neighborhoodDegrees}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("neighborhoodDegrees", newQuotes)
+              }
+              section={"peersAndRoleModels"}
+            />
 
             <Divider orientation="horizontal" flexItem />
 
@@ -322,29 +362,17 @@ function PeersRoleModels() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Potential other risk factors experienced
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="otherRiskFactors"
-                label="Other"
-                fullWidth
-                variant="outlined"
-                value={formData.otherRiskFactors}
-                onChange={handleChange}
-              />
-            </Grid>
+            <BigText
+              question={"Potential other risk factors experienced"}
+              id={"otherRiskFactors"}
+              label={"other Risk Factors"}
+              onChange={handleChange}
+              value={formData.otherRiskFactors?.otherRiskFactors}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("otherRiskFactors", newQuotes)
+              }
+              section={"peersAndRoleModels"}
+            />
           </Box>
         </Box>
         <Button
