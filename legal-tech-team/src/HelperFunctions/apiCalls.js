@@ -1,5 +1,5 @@
 //functions for turning api calls from JSON
-import axios from 'axios'; // Import axios directly
+import axios, { all } from 'axios'; // Import axios directly
 import { useState } from 'react';
 import OpenAI from "openai";
 const apiKey = ""; // Add your API key here
@@ -36,6 +36,7 @@ async function test_call() {
 var all_sections = "";
 // Function that calls the API with each prompt 
 async function callAPI(section_name, json_values) {
+  console.log("current section name: ", section_name);
   var prompt = "This section is about " + sectionDescriptions[section_name] + ". Please provide a summary of the information in this section using the data provided below:\n\n";
   for (let key in json_values) {
     prompt += key + ": " + json_values[key] + "\n";
@@ -48,7 +49,9 @@ async function callAPI(section_name, json_values) {
     messages: [{ role: "user", content: prompt }],
     stream: true,
   });
+  all_sections += "\n";
   all_sections += section_name + ": ";
+  all_sections += "\n";
   for await (const chunk of stream) {
     all_sections += chunk.choices[0]?.delta?.content || "";
   }
@@ -61,10 +64,13 @@ export async function generateReport(jsonData) {
     console.log("Generating Report for JSON data in api calls");
     console.log("jsonData: \n", jsonData);
     try {
-        for (let section_name in jsonData) {
-            // Call the API function for each key and its corresponding value
-            callAPI(section_name, jsonData[section_name]);
-        }
+      const sections = Object.keys(jsonData).filter(key => {
+        // Assuming sections have certain characteristics (you can adjust this condition)
+        return typeof jsonData[key] === "object" && !Array.isArray(jsonData[key]);
+      });
+        sections.forEach(async (section) => {
+          await callAPI(section, jsonData[section]);
+        });
         console.log("All sections:", all_sections);
     } catch (error) {
         console.error('Error parsing JSON:', error);
