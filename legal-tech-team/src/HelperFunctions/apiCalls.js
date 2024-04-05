@@ -2,13 +2,24 @@
 import axios, { all } from 'axios'; // Import axios directly
 import { useState } from 'react';
 import OpenAI from "openai";
-const apiKey = ""; // Add your API key here
+import Anthropic from '@anthropic-ai/sdk';
+import * as pdfjs from 'pdfjs-dist/build/pdf.min.mjs';
+await import('pdfjs-dist/build/pdf.worker.min.mjs');
+
+const apiKeyOpenAI = ""; // Add your API key here
+const apiKeyAnthropic = ""; // Add your API key here
 
 const openai = new OpenAI({
-  apiKey: apiKey,
+  apiKey: apiKeyOpenAI,
   dangerouslyAllowBrowser: true,
 });
 
+const domain = window?.location?.origin || '';
+const anthropic = new Anthropic({
+  apiKey: apiKeyAnthropic, // This is the default and can be omitted
+  baseURL: domain + '/api/anthropic', // This is the default and can be omitted
+
+});
 
 
 // Descriptions for each section
@@ -78,4 +89,66 @@ export async function generateReport(jsonData) {
     } catch (error) {
         console.error('Error parsing JSON:', error);
     }
+}
+
+const extractTextFromPDF = async (pdfFile) => {
+  // Load the PDF file using PDF.js
+  //const loadingTask = pdfjsLib.getDocument(pdfFile);
+  const loadingTask = pdfjs.getDocument(pdfFile);
+  
+  try {
+    // Wait for the PDF file to be loaded
+    const pdf = await loadingTask.promise;
+    
+    // Initialize an empty string to store the extracted text
+    let text = '';
+
+    // Iterate through each page of the PDF
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      // Get the text content of the page
+      const page = await pdf.getPage(pageNum);
+      const pageText = await page.getTextContent();
+      
+      // Concatenate the text content of the page to the overall text
+      pageText.items.forEach((item) => {
+        text += item.str + ' ';
+      });
+    }
+    
+    // Return the extracted text
+    if (text.length > 16000) {
+      console.warn('Extracted text is too long. Truncating to 16000 characters.');
+      return text.substring(0, 15000);
+    } else {
+      return text;
+    }
+  } catch (error) {
+    console.error('Error extracting text from PDF:', error);
+    return null;
+  }
+};
+
+export async function summarizeFile(pdfData) {
+
+  const text = await extractTextFromPDF(pdfData);
+
+  //check for token length 
+  console.log("Extracted text:", text);
+  var prompt = "Here is a pdf file. Summarize the text below: \n\n" + text;
+
+  // call openai 
+  const stream = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: prompt }],
+    stream: true,
+  });
+
+  var curr_section = "";
+  for await (const chunk of stream) {
+    //all_sections += chunk.choices[0]?.delta?.content || "";
+    curr_section += chunk.choices[0]?.delta?.content || "";
+  }
+  
+  console.log("Summary for the PDF file:", curr_section);
+  //return response.data.messages[0].content;
 }

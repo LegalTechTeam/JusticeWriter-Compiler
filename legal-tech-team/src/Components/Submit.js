@@ -6,16 +6,18 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import { DownloadJsonData } from "../HelperFunctions/formatJSON";
-import { generateReport } from "../HelperFunctions/apiCalls";
+import { generateReport, summarizeFile  } from "../HelperFunctions/apiCalls";
+import JSZip from 'jszip';
+import * as pdfjs from 'pdfjs-dist/build/pdf.min.mjs';
+await import('pdfjs-dist/build/pdf.worker.min.mjs');
 
 function Submit() {
   const navigate = useNavigate();
-
-  const [sud, setSUD] = useState("no");
-  const [treatedSUD, setTreatedSUD] = useState("no");
   const [file, setFile] = useState(null); // State to store the selected file
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [wifiConnected, setWifiConnected] = useState(false);
+  const fileInputRef = React.useRef(null); 
+
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0]; // Get the first file from the array
@@ -66,6 +68,48 @@ function Submit() {
     console.log("Connecting to WiFi...");
     setWifiConnected(true);
   };
+  
+  const handleFileChange_summarize = (event) => {
+    const selectedFile = event.target.files[0]; // Get the first file from the array
+    handleSummarizeFiles(selectedFile); // Call the summarize files function with the selected file
+  };
+
+  // Function to handle the "Summarize Files" button click
+  const handleSummarizeFiles = async (selectedFile) => {
+    fileInputRef.current.click();
+    try {
+        // Check if selectedFile is defined
+        if (!selectedFile) {
+            console.error('No file selected for summarization.');
+            return;
+        }
+
+        // Load the zip file
+        const zip = await JSZip.loadAsync(selectedFile);
+
+        // Initialize an array to store summaries
+        const summaries = [];
+
+        // Iterate through each file in the zip
+        zip.forEach(async (relativePath, file) => {
+            if (relativePath.endsWith('.pdf')) {
+                // Extract the PDF file
+                const pdfData = await file.async('uint8array');
+
+                // Process the PDF data (e.g., extract text, summarize)
+                const summary = await summarizeFile(pdfData);
+
+                // Store the summary
+                summaries.push({ filename: relativePath, summary });
+            }
+        });
+
+        // Display the summaries
+        console.log('Summaries:', summaries);
+    } catch (error) {
+        console.error('Error summarizing files:', error);
+    }
+};
 
   console.log("wifiConnected:", wifiConnected);
   console.log("submitSuccess:", submitSuccess);
@@ -110,9 +154,22 @@ function Submit() {
 
             {!wifiConnected && (
               <Button variant="contained" onClick={handleWifiConnect} style={{ marginLeft: "10px" }}>
-                Connect to WiFi
+                Generate Report
               </Button>
             )}
+
+            {!wifiConnected && (
+              <Button variant="contained" style={{ marginLeft: "10px" }} onClick={handleSummarizeFiles}>
+                Summarize Files 
+              </Button>
+            )}
+
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }} // Hide the file input
+              onChange={handleFileChange_summarize}
+            />
 
             {wifiConnected && !submitSuccess && (
               <Box sx={{ marginTop: "20px" }}>
