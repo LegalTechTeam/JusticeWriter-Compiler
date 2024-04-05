@@ -37,24 +37,27 @@ var all_sections = "";
 // Function that calls the API with each prompt 
 async function callAPI(section_name, json_values) {
   console.log("current section name: ", section_name);
-  var prompt = "This section is about " + sectionDescriptions[section_name] + ". Please provide a summary of the information in this section using the data provided below:\n\n";
+  var prompt = "This section is about " + sectionDescriptions[section_name] + ". Summarize this section with the data below: \n\n";
   for (let key in json_values) {
-    prompt += key + ": " + json_values[key] + "\n";
+    prompt += JSON.stringify(json_values[key]);
   }
 
   console.log("Prompt for", section_name, ":", prompt);
 
   const stream = await openai.chat.completions.create({
-    model: "gpt-4",
+    model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: prompt }],
     stream: true,
   });
-  all_sections += "\n";
-  all_sections += section_name + ": ";
-  all_sections += "\n";
+  //print the response
+  console.log("Response for", section_name, ":");
+  var curr_section = "";
   for await (const chunk of stream) {
-    all_sections += chunk.choices[0]?.delta?.content || "";
+    //all_sections += chunk.choices[0]?.delta?.content || "";
+    curr_section += chunk.choices[0]?.delta?.content || "";
   }
+  console.log(curr_section);
+  all_sections += "Results for " + section_name + ":\n" + curr_section + "\n\n";
   
 }
 
