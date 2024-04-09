@@ -17,31 +17,60 @@ import "react-dropdown/style.css";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import BigText from "../HelperFunctions/BigText";
 
 function Evidence() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
-
 
   useEffect(() => {
     const existingDataEvidence = ReturnExistingInput("evidenceOfCharacter");
     if (existingDataEvidence) {
       setFormDataEvidence(existingDataEvidence);
     }
-  }, []); 
+  }, []);
 
   const [formDataEvidence, setFormDataEvidence] = useState({
-    exampleOfCharacter: "",
-    exampleOfGoodDeed: "",
-    volunteeringAndCommunityEngagement: "",
-    areParent: "",
-
-    remorseAndCompassion: "",
-    rehabilitationPlan: "",
+    exampleOfCharacter: {
+      exampleOfCharacter: "",
+      notes: [],
+    },
+    exampleOfGoodDeed: {
+      exampleOfGoodDeed: "",
+      notes: [],
+    },
+    volunteeringAndCommunityEngagement: {
+      volunteeringAndCommunityEngagement: "",
+      notes: [],
+    },
+    areParent: {
+      areParent: "",
+      notes: [],
+    },
+    remorseAndCompassion: {
+      remorseAndCompassion: "",
+      notes: [],
+    },
+    rehabilitationPlan: {
+      rehabilitationPlan: "",
+      notes: [],
+    },
   });
-
   const handleChangeEvidence = (e) => {
-    setFormDataEvidence({ ...formDataEvidence, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormDataEvidence({
+      ...formDataEvidence,
+      [id]: { ...formDataEvidence[id], [id]: value },
+    });
+  };
+  const handleQuotesChangeEvidence = (subSection, newQuotes) => {
+    setFormDataEvidence((prevFormData) => ({
+      ...prevFormData,
+      [subSection]: {
+        ...prevFormData[subSection],
+        notes: newQuotes ? [...newQuotes] : [],
+      },
+    }));
   };
 
   return (
@@ -68,33 +97,22 @@ function Evidence() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  label: "Size",
-                  id: "outlined-size-small",
-                  defaultValue: "Small",
-                  size: "small",
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Can you provide evidence of remorse, compassion or regret?
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="remorseAndCompassion"
-                label="Remorse?"
-                fullWidth
-                variant="outlined"
-                value={formDataEvidence.remorseAndCompassion}
-                onChange={handleChangeEvidence}
-              />
-            </Grid>
+            <BigText
+              question={
+                "Can you provide evidence of remorse, compassion or regret?"
+              }
+              id={"remorseAndCompassion"}
+              label={"remorse And Compassion"}
+              onChange={handleChangeEvidence}
+              value={
+                formDataEvidence.remorseAndCompassion &&
+                formDataEvidence.remorseAndCompassion.remorseAndCompassion
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChangeEvidence("remorseAndCompassion", newQuotes)
+              }
+              section={"evidenceOfCharacter"}
+            />
           </Box>
 
           <Box
@@ -104,46 +122,44 @@ function Evidence() {
               paddingBottom: "30px",
             }}
           >
-            <Grid item xs={12} sm={10}>
-              <InputLabel
-                sx={{
-                  label: "Size",
-                  id: "outlined-size-small",
-                  defaultValue: "Small",
-                  size: "small",
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                  textWrap: "wrap",
-                }}
-              >
-                What is your plan for rehabilitation while in the system and/or
-                upon reentry? Include plans for work, living situations, and how
-                you plan to escape negative influences.
-              </InputLabel>
-
-              <TextField
-                required
-                multiline={true}
-                rows={3}
-                id="rehabilitationPlan"
-                label="Plans"
-                fullWidth
-                variant="outlined"
-                value={formDataEvidence.rehabilitationPlan}
-                onChange={handleChangeEvidence}
-              />
-            </Grid>
+            <BigText
+              question={
+                "What is your plan for rehabilitation while in the system and/or upon reentry? <br> Include plans for work,\n living situations, and how you plan to escape negative influences."
+              }
+              id={"rehabilitationPlan"}
+              label={"rehabilitation Plan"}
+              onChange={handleChangeEvidence}
+              value={
+                formDataEvidence.rehabilitationPlan &&
+                formDataEvidence.rehabilitationPlan.rehabilitationPlan
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChangeEvidence("rehabilitationPlan", newQuotes)
+              }
+              section={"evidenceOfCharacter"}
+            />
           </Box>
         </Box>
 
-        <Button variant="contained" onClick={() => navigate("/mental-health")}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/mental-health");
+          }}
+        >
           Previous
         </Button>
 
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button variant="contained" onClick={() => { SaveJSON(formDataEvidence, "evidenceOfCharacter"); navigate("/submit"); }}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formDataEvidence, "evidenceOfCharacter");
+            navigate("/submit");
+          }}
+        >
           Save
         </Button>
       </Paper>

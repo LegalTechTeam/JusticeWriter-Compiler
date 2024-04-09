@@ -1,6 +1,16 @@
 import { Grid, InputLabel, TextField } from "@mui/material";
+import { useState } from "react";
+import AddQuotes from "./AddQuotes";
 function SmallTextInput(props) {
-  const { field, id, label, value, onChange } = props;
+  const { id, handleQuotesChange, section, field } = props;
+
+  const [quotes, setQuotes] = useState([]);
+
+  const quotesAdded = (newQuotes) => {
+    setQuotes((prevQuotes) => [...prevQuotes, ...newQuotes]);
+    handleQuotesChange(newQuotes);
+  };
+
   return (
     <>
       <Grid item xs={12} sm={2}>
@@ -12,6 +22,15 @@ function SmallTextInput(props) {
           }}
         >
           {field}
+
+          {section !== "demographics" && (
+            <AddQuotes
+              quotes={quotes}
+              section={section}
+              id={id}
+              onQuotesChange={quotesAdded}
+            />
+          )}
         </InputLabel>
       </Grid>
 
@@ -19,13 +38,13 @@ function SmallTextInput(props) {
       <Grid item xs={12} sm={4}>
         <TextField
           required
-          id={id}
-          label={label}
+          id={props.id}
+          label={props.label}
           fullWidth
           size="small"
           variant="outlined"
-          value={value}
-          onChange={onChange}
+          value={props.value}
+          onChange={props.onChange}
         />
       </Grid>
     </>
