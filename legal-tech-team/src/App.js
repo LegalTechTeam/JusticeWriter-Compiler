@@ -1,18 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Demographics from "./components/Demographics";
-import ACEp1 from "./components/ACEp1";
-import ACEp2 from "./components/ACEp2";
-import PeersRoleModels from "./components/PeersRoleModels";
+import Demographics from "./Components/Demographics";
+import ACEp1 from "./Components/ACEp1";
+import ACEp2 from "./Components/ACEp2";
+import PeersRoleModels from "./Components/PeersRoleModels";
 
-import FamilyDynamics from "./components/FamilyDynamics";
-import Community from "./components/Community";
-import Schooling from "./components/Schooling";
+import FamilyDynamics from "./Components/FamilyDynamics";
+import Community from "./Components/Community";
+import Schooling from "./Components/Schooling";
 
-import Submit from "./components/Submit";
-import MentalHealth from "./components/MentalHealth";
-import Evidence from "./components/Evidence";
+import Submit from "./Components/Submit";
+import MentalHealth from "./Components/MentalHealth";
+import Evidence from "./Components/Evidence";
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -7,36 +7,45 @@ import {
   TextField,
   Box,
   Paper,
-  InputLabel,
   Divider,
-  FormControl,
-  Select,
   Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
-import dayjs from "dayjs";
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Header from "../Layouts/Header";
+import themeSubHeading from "../Layouts/Theme";
+import DateOfBirth from "../HelperFunctions/DateOfBirth";
+import SmallTextInput from "../HelperFunctions/SmallTextInput";
+import DropDown from "../HelperFunctions/DropDown";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 
 function Demographics() {
   const navigate = useNavigate();
-  // gender selection state
-  const [gender, setGender] = useState("male");
-  const [otherGender, setOtherGender] = useState("");
+  const themeTitle = themeSubHeading();
 
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
+  useEffect(() => {
+    const existingData = ReturnExistingInput("demographics");
+    if (existingData) {
+      setFormData(existingData);
+    }
+  }, []); 
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    attorneyName: "",
+    attorneyOffice: "",
+    caseNumber: "",
+    gender: "",
+    DOB: "",
+    background: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleOtherGenderChange = (event) => {
-    setOtherGender(event.target.value);
+  const handleDropdownChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -45,197 +54,135 @@ function Demographics() {
 
       <Paper
         elevation={3}
-        sx={{ marginRight: "15%", marginLeft: "15%", paddingBottom: "5%" }}
+        sx={{
+          marginRight: "15%",
+          marginLeft: "15%",
+          paddingBottom: "5%",
+          fontFamily: "Noto Sans",
+        }}
       >
-        <Box sx={{ padding: 5 }}>
+        <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
           {/*Title of section: Demographics*/}
-          <Typography
-            variant="h6"
-            gutterBottom
-            sx={{ paddingBottom: 5}}
-          >
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
             Demographics
           </Typography>
 
           {/*First Name text*/}
+          <Box
+            sx={{
+              marginRight: "10%",
+              marginLeft: "10%",
+              paddingBottom: "40px",
+              justifyContent: "left",
+            }}
+          >
+            <Grid container spacing={3}>
+              <SmallTextInput
+                field={"First Name"}
+                id={"firstName"}
+                label={"First name"}
+                value={formData.firstName}
+                onChange={handleChange}
+              />
 
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                First Name
-              </InputLabel>
-            </Grid>
+              {/*Last Name text*/}
 
-            {/*First Name text field*/}
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                id="firstName"
-                label="First Name"
-                fullWidth
-                size="small"
-                variant="outlined"
+              <SmallTextInput
+                field={"Last Name"}
+                id={"lastName"}
+                label={"Last name"}
+                value={formData.lastName}
+                onChange={handleChange}
+              />
+
+              {/*Attorney Name*/}
+              <SmallTextInput
+                field={"Attorney Name"}
+                id={"attorneyName"}
+                label={"Attorney name"}
+                value={formData.attorneyName}
+                onChange={handleChange}
+              />
+
+              {/*Attorney Office*/}
+              <SmallTextInput
+                field={"Attorney office"}
+                id={"attorneyOffice"}
+                label={"Attorney office"}
+                value={formData.attorneyOffice}
+                onChange={handleChange}
+              />
+
+              {/*Case Number*/}
+              <SmallTextInput
+                field={"Case Number"}
+                id={"caseNumber"}
+                label={"Case Number"}
+                value={formData.caseNumber}
+                onChange={handleChange}
+              />
+
+              {/*Date of Birth*/}
+
+              <DateOfBirth 
+                field={"Date of Birth"}
+                id={"DOB"}
+                label={"MM-DD-YYYY"}
+                value={formData.DOB}
+                onChange={handleChange}
+              />
+
+              {/*Gender Drop Down*/}
+
+              <DropDown
+                question={"What is your gender?"}
+                id={"gender"}
+                value={formData.gender}
+                options={[
+                  "Male",
+                  "Female",
+                  "Non-binary",
+                  "Prefer not to answer",
+                ]}
+                onChange={handleDropdownChange}
               />
             </Grid>
+          </Box>
 
-            {/*Last Name text*/}
+          {/*Divider*/}
 
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Last Name
-              </InputLabel>
-            </Grid>
+          <Divider orientation="horizontal" flexItem />
 
-            {/*Last Name text field*/}
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                id="lastName"
-                label="Last Name"
-                fullWidth
-                size="small"
-                variant="outlined"
-              />
-            </Grid>
+          {/*Section title: Background*/}
 
-            {/*Case Number*/}
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Case Number
-              </InputLabel>
-            </Grid>
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+            Background
+          </Typography>
 
-            {/*Case Number Text Field*/}
+          {/*Background Text Field*/}
+          <Box
+            sx={{
+              marginLeft: "10%",
+              marginRight: "10%",
+              paddingBottom: "40px",
+            }}
+          >
             <Grid item xs={12} sm={10}>
               <TextField
                 required
-                id="caseNumber"
-                label="Case Number"
+                multiline={true}
+                rows={15}
+                id="background"
+                label="Background"
                 fullWidth
-                size="small"
                 variant="outlined"
+                value={formData.background}
+                onChange={handleChange}
               />
             </Grid>
-
-            {/*Date of Birth*/}
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                }}
-              >
-                Date of Birth
-              </InputLabel>
-            </Grid>
-
-            {/*Date of Birth Selector*/}
-
-            <Grid item xs={12} sm={2}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="DOB"
-                  slotProps={{
-                    textField: {
-                      helperText: "MM/DD/YYYY",
-                    },
-                  }}
-                />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12} sm={2}></Grid>
-
-            {/*Gender Radio buttons*/}
-            <Grid item xs={12} sm={4}>
-              <RadioGroup
-                row
-                aria-label="gender"
-                name="gender"
-                value={gender}
-                onChange={handleGenderChange}
-              >
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                />
-              </RadioGroup>
-            </Grid>
-
-            {/*Other Gender Input*/}
-            <Grid item xs={12} sm={2}>
-              {gender === "other" && (
-                <TextField
-                  label="Other Gender"
-                  variant="outlined"
-                  value={otherGender}
-                  onChange={handleOtherGenderChange}
-                />
-              )}
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
-
-        {/*Divider*/}
-
-        <Divider orientation="horizontal" flexItem />
-
-        {/*Section title: Background*/}
-
-        <Typography
-          variant="h6"
-          gutterBottom
-          sx={{ paddingBottom: 5, fontFamily: "Noto Sans" }}
-        >
-          Background
-        </Typography>
-
-        {/*Background Text Field*/}
-        <Box
-          sx={{ marginLeft: "15%", marginRight: "15%", paddingBottom: "40px" }}
-        >
-          <Grid item xs={12} sm={10}>
-            <TextField
-              required
-              multiline={true}
-              rows={15}
-              id="background"
-              label="Background"
-              fullWidth
-              variant="outlined"
-            />
-          </Grid>
-        </Box>
-        <Button variant="contained" onClick={() => navigate("/familyDynamics")}>
+        <Button variant="contained" onClick={() => { SaveJSON(formData, "demographics"); navigate("/familyDynamics"); }}>
           Next
         </Button>
       </Paper>

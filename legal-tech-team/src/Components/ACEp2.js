@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -9,8 +9,6 @@ import {
   Paper,
   InputLabel,
   Divider,
-  FormControl,
-  Select,
   Button,
   Radio,
   RadioGroup,
@@ -19,19 +17,42 @@ import {
 import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
-
+import themeSubHeading from "../Layouts/Theme";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
+import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 function ACEp2() {
   const navigate = useNavigate();
+  const themeTitle = themeSubHeading();
 
-  const [sud, setSUD] = useState("no");
-  const [treatedSUD, setTreatedSUD] = useState("no");
+  useEffect(() => {
+    const existingDataACE = ReturnExistingInput("adverseChildhoodExpriences");
+    if (existingDataACE) {
+      setFormDataACE(existingDataACE);
+    }
+  }, []); 
 
-  const handleSUDChange = (event) => {
-    setSUD(event.target.value);
-  };
+  const [formDataACE, setFormDataACE] = useState({
+    emotionalAbuse: "",
+    physicalAbuse: "",
+    sexualAbuse: "",
 
-  const handleTreatedSUDChange = (event) => {
-    setTreatedSUD(event.target.value);
+    emotionalNeglect: "",
+    physicalNeglect: "",
+    familyMemberAbusedOrThreatened: "",
+    alcoholAbuse: "",
+    mentalIllness: "",
+    separation: "",
+
+    familyMemberPrison: "",
+    lossesAndDeaths: "",
+    otherTraumaticExperience: "",
+    drugUse: "",
+    diagnosedSUD: "",
+    treatedOrTestedSUD: "",
+  });
+
+  const handleACEChange = (e) => {
+    setFormDataACE({ ...formDataACE, [e.target.id]: e.target.value });
   };
 
   return (
@@ -40,10 +61,15 @@ function ACEp2() {
 
       <Paper
         elevation={3}
-        sx={{ marginRight: "10%", marginLeft: "15%", paddingBottom: "5%" }}
+        sx={{
+          marginRight: "15%",
+          marginLeft: "15%",
+          paddingBottom: "5%",
+          fontFamily: "Noto Sans",
+        }}
       >
-        <Box sx={{ padding: 3 }}>
-          <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
+        <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
             Adverse Childhood Experience (cont.)
           </Typography>
 
@@ -51,7 +77,7 @@ function ACEp2() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -70,10 +96,12 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Family in prison"
+                id="familyMemberPrison"
                 label="Family in prison"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.familyMemberPrison}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -82,7 +110,7 @@ function ACEp2() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -101,10 +129,12 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Losses or deaths"
+                id="lossesAndDeaths"
                 label="Losses or deaths"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.lossesAndDeaths}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
@@ -113,7 +143,7 @@ function ACEp2() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -132,17 +162,19 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Other"
+                id="otherTraumaticExperience"
                 label="Other"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.otherTraumaticExperience}
+                onChange={handleACEChange}
               />
             </Grid>
           </Box>
 
           <Divider orientation="horizontal" flexItem />
 
-          <Typography variant="h6" gutterBottom sx={{ paddingBottom: 3 }}>
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
             Drug Use
           </Typography>
 
@@ -150,7 +182,7 @@ function ACEp2() {
           <Box
             sx={{
               marginLeft: "10%",
-              marginRight: "15%",
+              marginRight: "10%",
               paddingBottom: "30px",
             }}
           >
@@ -169,96 +201,40 @@ function ACEp2() {
                 required
                 multiline={true}
                 rows={3}
-                id="Drugs used"
+                id="drugUse"
                 label="Drugs used"
                 fullWidth
                 variant="outlined"
+                value={formDataACE.drugUse}
+                onChange={handleACEChange}
               />
             </Grid>
+          
+
+          <Grid container spacing={3} marginTop={1}>
+            <RadioYesNo 
+                  id={"diagnosedSUD"}
+                  question={"Ever been diagnosed with substance use disorder (SUD)?"} 
+                  value={formDataACE.diagnosedSUD}
+                  onChange={handleACEChange}
+                  checkedValue={formDataACE.diagnosedSUD}
+                />
+            <RadioYesNo 
+              id={"treatedSUD"}
+              question={"Ever been tested or treated for SUD?"} 
+              value={formDataACE.treatedSUD}
+              onChange={handleACEChange}
+              checkedValue={formDataACE.treatedSUD}
+            />
+          </Grid>
           </Box>
 
-          {/*Question 1 Radio buttons*/}
-          <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "5px" }}
-          >
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Ever been diagnosed with substance use disorder (SUD)?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <RadioGroup
-                  row
-                  aria-label="sud"
-                  name="sud"
-                  value={sud}
-                  onChange={handleSUDChange}
-                >
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="no" control={<Radio />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
-          </Box>
-
-          {/*Questionm 2 Radio buttons*/}
-          <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
-          >
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                    fontWeight: 700,
-                    marginBottom: 1, // Adjust spacing as needed
-                  }}
-                >
-                  Ever been tested or treated for SUD?
-                </InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <RadioGroup
-                  row
-                  aria-label="treatedSUD"
-                  name="treatedSUD"
-                  value={treatedSUD}
-                  onChange={handleTreatedSUDChange}
-                >
-                  <FormControlLabel
-                    value="yes"
-                    control={<Radio />}
-                    label="Yes"
-                  />
-                  <FormControlLabel value="no" control={<Radio />} label="No" />
-                </RadioGroup>
-              </Grid>
-            </Grid>
-          </Box>
         </Box>
         <Button variant="contained" onClick={() => navigate("/aceOne")}>
           Previous
         </Button>
         <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button
-          variant="contained"
-          onClick={() => navigate("/peers-role-models")}
-        >
+        <Button variant="contained" onClick={() => { SaveJSON(formDataACE, "adverseChildhoodExpriences"); navigate("/peers-role-models"); }}>
           Next
         </Button>
       </Paper>
