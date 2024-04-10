@@ -45,7 +45,7 @@ function OtherNotes(props) {
           label="otherNotes"
           fullWidth
           variant="outlined"
-          onChange={props.handleChange}
+          onChange={props.onChange}
           value={props.value}
         />
       </Grid>

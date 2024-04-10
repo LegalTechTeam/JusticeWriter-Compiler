@@ -109,7 +109,9 @@ function ACEp1() {
             }}
           >
             <BigText
-              question={"Emotional Neglect"}
+              question={
+                "Emotional Neglect - Before the age of 18, did you often or very often feel that no one in your family loved you \n or thought you were important or special, or your family didn't look out for each other,\n feel close to each other, or support each other? Provide three examples, if possible"
+              }
               id={"emotionalNeglect"}
               label={"Emotional Neglect"}
               onChange={handleACEChange}
@@ -130,7 +132,9 @@ function ACEp1() {
             }}
           >
             <BigText
-              question={"Physical Neglect"}
+              question={
+                "Physical Neglect - Before the age of 18, did you often or very often feel that your needs for food, shelter, clothing, \n and hygiene were not met, leaving you dirty, without clothes, or living in an unsanitary or\n unsafe environment? Provide details, if possible."
+              }
               id={"physicalNeglect"}
               label={"Physical Neglect"}
               onChange={handleACEChange}
@@ -151,7 +155,9 @@ function ACEp1() {
             }}
           >
             <BigText
-              question={"Family member abused or threatened"}
+              question={
+                "Witnessing a Mother Being Abused - Before the age of 18, was your mother or stepmother often or very often \n pushed, grabbed, slapped, or had something thrown at her, or sometimes, often, or very often kicked, bitten, hit \nwith a fist, or hit with something hard, or ever repeatedly hit over at least a few minutes or \nthreatened with a gun or knife? Provide details, if possible."
+              }
               id={"familyMemberAbusedOrThreatened"}
               label={"family Member Abused Or Threatened"}
               onChange={handleACEChange}
@@ -175,7 +181,9 @@ function ACEp1() {
             }}
           >
             <BigText
-              question={"Alcohol Abuse"}
+              question={
+                "A Family Member Who is Addicted to Alcohol or Another Substance - Before the age of 18, did you live \n with anyone who was a problem drinker or alcoholic or who used street drugs? Provide evidence, if possible."
+              }
               id={"alcoholAbuse"}
               label={"Alcohol Abuse"}
               onChange={handleACEChange}
@@ -196,7 +204,9 @@ function ACEp1() {
             }}
           >
             <BigText
-              question={"Mental Illness"}
+              question={
+                "A Family Member Who is Depressed or Diagnosed with Other Mental Illness - Before the age of 18, \nwas a household member depressed or mentally ill, or did a household member attempt suicide? Provide \nevidence, if possible."
+              }
               id={"mentalIllness"}
               label={"Mental Illness"}
               onChange={handleACEChange}
@@ -217,7 +227,9 @@ function ACEp1() {
             }}
           >
             <BigText
-              question={"Separtion"}
+              question={
+                "Losing a Parent to Separation, Divorce, or Another Reason - Before the age of 18, were your parents \never separated or divorced, or did you lose a parent for another reason (such as death, abandonment, \nor another form of absence)? Provide details, if possible."
+              }
               id={"separation"}
               label={"separation"}
               onChange={handleACEChange}

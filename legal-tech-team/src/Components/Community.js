@@ -29,18 +29,19 @@ function Community() {
       notes: [],
     },
 
-    Neighborhoods: {
+    NeighborhoodsLivedIn: {
       NeighborhoodsLivedIn: "",
       notes: [],
     },
-    otherInfo: {
-      OtherNotes: "",
+    otherNotes: {
+      otherNotes: "",
       notes: [],
     },
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
   const disadvantagesList = [
     {
@@ -50,25 +51,27 @@ function Community() {
       notes: [],
     },
     {
-      label: "Lack of HealthCare Options",
-      id: "lackOfHealthCareOptions",
+      label: "Lack of HealthCare services",
+      id: "lackOfHealthCareServices",
       notes: [],
 
       subs: [
         {
-          label: "Limited access to healthy food options",
+          label: "Limited access to fresh, healthy and affordable food options",
           id: "limitedAccessToHealthyFoodOptions",
           notes: [],
         },
         {
-          label: "Limited accesss to healthcare",
+          label:
+            "Limited accesss to healthcare: Fewer clinics and hospitals, longer travel times for medical care, and less preventive care.",
           id: "limitedAccesssToHealthcare",
           notes: [],
         },
       ],
     },
     {
-      label: "Crime",
+      label:
+        "Crime: Higher incidences of petty and serious crimes, including theft, burglary, and violent offenses",
       id: "crime",
       subs: [
         {
@@ -77,12 +80,13 @@ function Community() {
           notes: [],
         },
         {
-          label: "Gun Violence",
+          label:
+            "Gun Violence: : Increased risk of injury or death related to firearms, affecting community safety and well-being",
           id: "gunViolence",
           notes: [],
         },
         {
-          label: "Substance Abuse",
+          label: "Substance Abuse: Prevalence of drug and alcohol addiction",
           id: "substanceAbuse",
           notes: [],
         },
@@ -95,13 +99,15 @@ function Community() {
       notes: [],
     },
     {
-      label: "Prostitution",
+      label:
+        "Prostitution: The presence of strippers, sex workers, sex trafficking, and related sex-related criminal activity",
       id: "prostitution",
       subs: [],
       notes: [],
     },
     {
-      label: "Poor Infrastructure",
+      label:
+        "Poor Infrastructure: Lack of maintenance and investment in buildings and public spaces, such as broken windows, abandoned houses",
       id: "poorInfrastructure",
       subs: [],
       notes: [],
@@ -130,36 +136,62 @@ function Community() {
           id: "inadequatePublicHousing",
           notes: [],
         },
+        {
+          label:
+            "Insufficient garbage collection, policing, and social services",
+          id: "InsufficientGarbageCollectionPolicingAndSocialServices",
+          notes: [],
+        },
       ],
       notes: [],
     },
     {
-      label: "Housing Instability",
+      label:
+        "Housing Instability: High rates of eviction, homelessness, and transience within the community.",
       id: "housingInstability",
       subs: [],
       notes: [],
     },
 
     {
-      label: "Social Isolation",
+      label:
+        "Social Isolation: Fewer community spaces and programs can lead to a lack of social cohesion and support networks",
       id: "socialIsolation",
       subs: [],
       notes: [],
     },
     {
-      label: "Economic Stagnation",
+      label:
+        "Economic Stagnation: High unemployment rates and lack of job opportunities",
       id: "economicStagnation",
       subs: [],
       notes: [],
     },
     {
-      label: "Environmental Hazards",
+      label:
+        "Environmental Hazards: Poor air quality, lead contamination, and other harmful conditions",
       id: "environmentalHazards",
       subs: [],
       notes: [],
     },
     {
-      label: "Residential Segregation",
+      label:
+        "Lack of Safe Outdoor Spaces: There is a shortage of safe recreational areas for children, limiting their opportunities for outdoor play",
+      id: "lackOfSafeOutdoorSpaces",
+      subs: [],
+      notes: [],
+    },
+    {
+      label:
+        "Lack of Safe Recreational Areas: Fewer parks and sports facilities, limiting opportunities for physical activity",
+      id: "lackOfSafeRecreationalAreas",
+      subs: [],
+      notes: [],
+    },
+
+    {
+      label:
+        "Residential Segregation:The majority of residents and members of your community belong to a minoritized group.",
       id: "residentialSegregation",
       subs: [],
       notes: [],
@@ -244,17 +276,14 @@ function Community() {
           >
             <BigText
               question={
-                "What were the names of the Neighborhoods you grew up in?"
+                "What are the names of the neighborhoods and cities you grew up in or primarily live in?"
               }
-              id={"Neighborhoods"}
+              id={"NeighborhoodsLivedIn"}
               label={"Neighborhoods"}
               onChange={handleChange}
-              value={
-                formData.Neighborhoods &&
-                formData.Neighborhoods.NeighborhoodsLivedIn
-              }
+              value={formData.NeighborhoodsLivedIn?.NeighborhoodsLivedIn}
               handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("Neighborhoods", newQuotes)
+                handleQuotesChange("NeighborhoodsLivedIn", newQuotes)
               }
               section={"community"}
             />
@@ -328,11 +357,11 @@ function Community() {
             <OtherNotes
               onChange={handleChange}
               handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("otherInfo", newQuotes)
+                handleQuotesChange("otherNotes", newQuotes)
               }
-              value={formData.otherInfo && formData.otherInfo.OtherNotes}
+              value={formData.otherNotes?.otherNotes}
               section={"community"}
-              id={"otherInfo"}
+              id={"otherNotes"}
             />
           </Box>
         </Box>

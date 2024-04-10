@@ -22,7 +22,7 @@ function BigText(props) {
   });
   return (
     <>
-      <Grid item xs={12} sm={2}>
+      <Grid item xs={12} sm={2} sx={{ display: "flex" }}>
         <InputLabel
           sx={{
             display: "flex",
@@ -31,26 +31,26 @@ function BigText(props) {
           }}
         >
           {questionLines}
-          <AddQuotes
-            quotes={quotes}
-            section={section}
-            id={id}
-            onQuotesChange={quotesAdded}
-          />{" "}
         </InputLabel>
+        <AddQuotes
+          quotes={quotes}
+          section={section}
+          id={id}
+          onQuotesChange={quotesAdded}
+        />{" "}
       </Grid>
 
       <Grid item xs={12} sm={10}>
         <TextField
           required
           multiline={true}
-          rows={4}
+          rows={props.rows ? props.rows : 4}
+          onChange={props.onChange}
+          value={props.value}
           id={props.id}
           label={props.label}
           fullWidth
           variant="outlined"
-          onChange={props.onChange}
-          value={props.value}
         />
       </Grid>
     </>

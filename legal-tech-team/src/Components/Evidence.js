@@ -49,6 +49,10 @@ function Evidence() {
       remorseAndCompassion: "",
       notes: [],
     },
+    examplesOfChange: {
+      examplesOfChange: "",
+      notes: [],
+    },
     rehabilitationPlan: {
       rehabilitationPlan: "",
       notes: [],
@@ -122,7 +126,29 @@ function Evidence() {
           >
             <BigText
               question={
-                "What is your plan for rehabilitation while in the system and/or upon reentry? <br> Include plans for work,\n living situations, and how you plan to escape negative influences."
+                "can you give examples of trustworthiness, commitment, and your contribution to society?"
+              }
+              id={"examplesOfChange"}
+              label={"examplesOfChange"}
+              onChange={handleChangeEvidence}
+              value={formDataEvidence.examplesOfChange?.examplesOfChange}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChangeEvidence("examplesOfChange", newQuotes)
+              }
+              section={"evidenceOfCharacter"}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              marginLeft: "10%",
+              marginRight: "10%",
+              paddingBottom: "30px",
+            }}
+          >
+            <BigText
+              question={
+                "What is your plan for rehabilitation while in the system and/or upon re-entry?  Include plans for work,\n living situations, and how you plan to escape negative influences."
               }
               id={"rehabilitationPlan"}
               label={"rehabilitation Plan"}
