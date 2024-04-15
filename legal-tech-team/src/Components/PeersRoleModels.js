@@ -25,10 +25,17 @@ import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 import BigText from "../HelperFunctions/BigText";
+import AddQuotes from "../HelperFunctions/AddQuotes";
 function PeersRoleModels() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
+  const [quotes, setQuotes] = useState([]);
+
+  const quotesAdded = (newQuotes) => {
+    setQuotes(newQuotes);
+    handleQuotesChange(newQuotes);
+  };
   const peerList = [
     {
       label: "Association with delinquent peers",
@@ -73,6 +80,10 @@ function PeersRoleModels() {
     },
     neighborhoodArrests: {
       neighborhoodArrests: "",
+      notes: [],
+    },
+    arePeopleHungOutWithLawful: {
+      arePeopleHungOutWithLawful: "",
       notes: [],
     },
     neighborhoodDegrees: {
@@ -179,7 +190,7 @@ function PeersRoleModels() {
                     marginBottom: 1, // Adjust spacing as needed
                   }}
                 >
-                  Association with peers:
+                  Which of these statements are true?
                 </InputLabel>
               </Grid>
               <Grid
@@ -319,7 +330,52 @@ function PeersRoleModels() {
               }
               section={"peersAndRoleModels"}
             />
+            <Grid item xs={12} sm={8}>
+              <InputLabel
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  fontWeight: 700,
+                }}
+              >
+                Are the people you hang out with and look up to law-abiding
+                citizens, or do they engage in illicit behavior?{" "}
+              </InputLabel>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <RadioGroup
+                row
+                aria-label="answer"
+                name="answer"
+                value={
+                  formData.arePeopleHungOutWithLawful
+                    ?.arePeopleHungOutWithLawful
+                }
+                onChange={handleRadioChange}
+                checkedValue={
+                  formData.arePeopleHungOutWithLawful
+                    ?.arePeopleHungOutWithLawful
+                }
+              >
+                <FormControlLabel
+                  value="Law-Abiding"
+                  control={<Radio id={"arePeopleHungOutWithLawful"} />}
+                  label="Law-Abiding"
+                />
 
+                <FormControlLabel
+                  value="Illicit Behaviort"
+                  control={<Radio id={"arePeopleHungOutWithLawful"} />}
+                  label="Illicit Behavior"
+                />
+                <AddQuotes
+                  quotes={quotes}
+                  section={"peersAndRoleModels"}
+                  id={"arePeopleHungOutWithLawful"}
+                  onQuotesChange={quotesAdded}
+                />
+              </RadioGroup>
+            </Grid>
             <Divider orientation="horizontal" flexItem />
 
             <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>

@@ -85,6 +85,10 @@ function ACEp2() {
       drugUse: "",
       notes: [],
     },
+    drugUseFrequencyAndSeverity: {
+      drugUseFrequencyAndSeverity: "",
+      notes: [],
+    },
     diagnosedSUD: {
       diagnosedSUD: "",
       notes: [],
@@ -169,7 +173,9 @@ function ACEp2() {
             }}
           >
             <BigText
-              question={"Any significant losses or deaths"}
+              question={
+                "Have you experienced any significant losses or deaths? Please describe."
+              }
               id={"lossesAndDeaths"}
               label={"Family members in prison "}
               onChange={handleACEChange}
@@ -190,7 +196,9 @@ function ACEp2() {
             }}
           >
             <BigText
-              question={"Other traumatic Experiences"}
+              question={
+                "Are there any other deeply traumatic or hurtful experiences that we have not discussed? Please describe."
+              }
               id={"otherTraumaticExperience"}
               label={"Other traumatic Experiences"}
               onChange={handleACEChange}
@@ -219,13 +227,29 @@ function ACEp2() {
             }}
           >
             <BigText
-              question={"Types of drugs used and how often"}
+              question={"What types of drugs have you used?"}
               id={"drugUse"}
               label={"Drug Use"}
               onChange={handleACEChange}
               value={formDataACE.drugUse?.drugUse}
               handleQuotesChange={(newQuotes) =>
                 handleQuotesChange("drugUse", newQuotes)
+              }
+              section={"adverseChildhoodExpriences"}
+            />
+            <BigText
+              question={
+                "How would you describe the frequency and severity of your drug use?"
+              }
+              id={"drugUseFrequencyAndSeverity"}
+              label={"Drug Use"}
+              onChange={handleACEChange}
+              value={
+                formDataACE.drugUseFrequencyAndSeverity
+                  ?.drugUseFrequencyAndSeverity
+              }
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("drugUseFrequencyAndSeverity", newQuotes)
               }
               section={"adverseChildhoodExpriences"}
             />

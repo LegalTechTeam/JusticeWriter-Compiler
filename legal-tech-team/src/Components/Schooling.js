@@ -52,6 +52,34 @@ function Schooling() {
     },
   ];
 
+  const gradesList = [
+    {
+      label: "A's",
+      id: "A",
+      subs: [],
+    },
+    {
+      label: "B's",
+      id: "B",
+      subs: [],
+    },
+    {
+      label: "C's",
+      id: "C",
+      subs: [],
+    },
+    {
+      label: "D's",
+      id: "D",
+      subs: [],
+    },
+    {
+      label: "F's",
+      id: "F",
+      subs: [],
+    },
+  ];
+
   useEffect(() => {
     const existingData = ReturnExistingInput("schooling");
     const existingDataACE = ReturnExistingInput("adverseChildhoodExpriences");
@@ -78,6 +106,10 @@ function Schooling() {
     },
     schoolQuality: {
       schoolQuality: "",
+      notes: [],
+    },
+    academicPerformance: {
+      academicPerformance: [],
       notes: [],
     },
 
@@ -155,6 +187,26 @@ function Schooling() {
       };
     });
   };
+
+  const handlePerformanceChange = (disadvantagesId, isChecked) => {
+    setFormData((prevFormData) => {
+      const academicPerformance = prevFormData.academicPerformance || {
+        academicPerformance: [],
+      };
+
+      return {
+        ...prevFormData,
+        academicPerformance: {
+          ...academicPerformance,
+          academicPerformance: isChecked
+            ? [...academicPerformance.academicPerformance, disadvantagesId]
+            : academicPerformance.academicPerformance.filter(
+                (id) => id !== disadvantagesId
+              ),
+        },
+      };
+    });
+  };
   return (
     <div>
       <Header />
@@ -182,7 +234,7 @@ function Schooling() {
           >
             <BigText
               question={
-                "List names and school grades of the schools you attended"
+                "What are the names and school grades (A school – F school) of the schools you attended?"
               }
               id={"schoolsAttended"}
               label={"Schools attended"}
@@ -204,7 +256,9 @@ function Schooling() {
             }}
           >
             <SmallTextInput
-              field={"How many times did you change schools? "}
+              field={
+                "How many times did you change schools not including graduations? "
+              }
               id={"schoolChanges"}
               label={"School Changes"}
               onChange={handleRadioChange}
@@ -224,8 +278,10 @@ function Schooling() {
               paddingBottom: "30px",
             }}
           >
-            <BigText
-              question={"What were your school experiences like?"}
+            <SmallTextInput
+              field={
+                "Did you have predominantly positive or negative experiences at school?"
+              }
               id={"schoolExperiences"}
               label={"School Experiences"}
               onChange={handleRadioChange}
@@ -309,9 +365,51 @@ function Schooling() {
                   fontWeight: 700,
                 }}
               >
+                What were your grades and academic performance like?
+              </InputLabel>
+            </Grid>
+            <FormGroup
+            //onChange={handleChange}
+            >
+              {gradesList.map((disadvantage, index) => (
+                <React.Fragment key={index}>
+                  <CheckboxWithAdd
+                    label={disadvantage.label}
+                    id={disadvantage.id}
+                    checked={formData.academicPerformance?.academicPerformance.includes(
+                      disadvantage.id
+                    )}
+                    onChange={handlePerformanceChange}
+                    subs={disadvantage.subs}
+                    handleQuotesChange={(newQuotes) =>
+                      handleQuotesChange(disadvantage.id, newQuotes)
+                    }
+                    section={"schooling"}
+                  />
+                </React.Fragment>
+              ))}
+            </FormGroup>
+          </Box>
+          <Box
+            sx={{
+              marginLeft: "10%",
+              marginRight: "10%",
+              paddingBottom: "30px",
+            }}
+          >
+            {/*input five*/}
+            <Grid item xs={12} sm={8}>
+              <InputLabel
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  fontWeight: 700,
+                }}
+              >
                 Have you ever been:
               </InputLabel>
             </Grid>
+
             <FormGroup
             //onChange={handleChange}
             >
@@ -335,25 +433,6 @@ function Schooling() {
                   />
                 </React.Fragment>
               ))}
-
-              {/* <CheckboxWithAdd>
-                  <FormControlLabel
-                    control={<Checkbox checked={formData.wasSuspended} onChange={handleChange} id="wasSuspended" />}
-                    label="Suspended"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked={formData.wasExpelled} onChange={handleChange} id="wasExpelled" />}
-                    label="Expelled"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked={formData.didDropOut} onChange={handleChange} id="didDropOut" />}
-                    label="Dropped Out"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox checked={formData.noDisciplinaryAction} onChange={handleChange} id="noDisciplinaryAction" />}
-                    label="None of the above"
-                  />
-                </CheckboxWithAdd> */}
             </FormGroup>
           </Box>
 
@@ -372,7 +451,9 @@ function Schooling() {
             }}
           >
             <BigText
-              question={"Emotional Abuse"}
+              question={
+                "Emotional Abuse - Before the age of 18, did a parent or other adult in the household often or very often \n swear at you, insult you, put you down, humiliate you, or act in a way that made you \n afraid that you might be physically hurt? Provide three examples, if possible."
+              }
               id={"emotionalAbuse"}
               label={"Emotional Abuse"}
               onChange={handleACEChange}
@@ -393,7 +474,9 @@ function Schooling() {
             }}
           >
             <BigText
-              question={"Physical Abuse"}
+              question={
+                "Physical Abuse - Before the age of 18, did a parent, guardian, or other adult in the household often or very often \n push, grab, slap, or throw something at you, or ever hit you so hard that you had marks or were injured?\n Provide three examples, if possible."
+              }
               id={"physicalAbuse"}
               label={"Physical Abuse"}
               onChange={handleACEChange}
@@ -414,7 +497,9 @@ function Schooling() {
             }}
           >
             <BigText
-              question={"Sexual Abuse"}
+              question={
+                "Sexual Abuse - Before the age of 18, did an adult or person at least five years older than you ever touch \n or fondle you in a sexual way, or have you touch their body in a sexual way, or attempt or actually have oral, \n anal, or vaginal intercourse with you? Provide details, if possible."
+              }
               id={"sexualAbuse"}
               label={"Sexual Abuse"}
               onChange={handleACEChange}
