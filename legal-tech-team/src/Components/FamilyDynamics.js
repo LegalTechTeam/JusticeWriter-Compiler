@@ -19,6 +19,7 @@ import DropDown from "../HelperFunctions/DropDown";
 import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import BigText from "../HelperFunctions/BigText";
 function FamilyDynamics() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -33,8 +34,20 @@ function FamilyDynamics() {
   const [notes, setNotes] = useState([]);
 
   const [formData, setFormData] = useState({
-    motherName: "",
+    motherName: {
+      motherName: "",
+      notes: [],
+    },
     motherBday: "",
+    motherAgeWhenSheFirstGaveBirth: {
+      motherAgeWhenSheFirstGaveBirth: "",
+      notes: [],
+    },
+    motherAgeWhenSheGaveBirthToClient: {
+      motherAgeWhenSheFirstGaveBirthToClient: "",
+      notes: [],
+    },
+
     motherArrested: {
       motherArrested: "",
       notes: [],
@@ -65,7 +78,10 @@ function FamilyDynamics() {
       fatherArrested: "",
       notes: [],
     },
-    siblings: "",
+    siblings: {
+      siblings: "",
+      notes: [],
+    },
     familyConflict: {
       familyConflict: "",
       notes: [],
@@ -74,10 +90,17 @@ function FamilyDynamics() {
       familyRelocation: "",
       notes: [],
     },
+    zipCodesLivedIn: {
+      zipCodesLivedIn: "",
+      notes: [],
+    },
   });
-
-  const handleChange = (e) => {
+  const handleDateChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
 
   const handleRadioChange = (e) => {
@@ -127,8 +150,12 @@ function FamilyDynamics() {
                 field={"Mother Name"}
                 id={"motherName"}
                 label={"Mother name"}
-                value={formData.motherName}
+                value={formData.motherName?.motherName}
                 onChange={handleChange}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("motherName", newQuotes)
+                }
+                section={"familyDynamics"}
               />
 
               {/*Date of Birth*/}
@@ -138,9 +165,49 @@ function FamilyDynamics() {
                 id={"motherBday"}
                 label={"MM-DD-YYYY"}
                 value={formData.motherBday}
-                onChange={handleChange}
+                onChange={handleDateChange}
               />
+            </Grid>
+            <Grid>
+              <BigText
+                question={"How old was your mother when you were born?"}
+                onChange={handleChange}
+                id={"motherAgeWhenSheGaveBirthToClient"}
+                label={"motherAgeWhenSheGaveBirthToClient"}
+                rows={1}
+                value={
+                  formData.motherAgeWhenSheGaveBirthToClient
+                    ?.motherAgeWhenSheGaveBirthToClient
+                }
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange(
+                    "motherAgeWhenSheGaveBirthToClient",
+                    newQuotes
+                  )
+                }
+                section={"familyDynamics"}
+              />
+              <BigText
+                question={"At what age did your mother first give birth?"}
+                onChange={handleChange}
+                id={"motherAgeWhenSheFirstGaveBirth"}
+                label={"motherAgeWhenSheFirstGaveBirth"}
+                rows={1}
+                value={
+                  formData.motherAgeWhenSheFirstGaveBirth
+                    ?.motherAgeWhenSheFirstGaveBirth
+                }
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange(
+                    "motherAgeWhenSheFirstGaveBirth",
+                    newQuotes
+                  )
+                }
+                section={"familyDynamics"}
+              />
+            </Grid>
 
+            <Grid container spacing={3}>
               {/*Question 1 */}
 
               <RadioYesNo
@@ -282,34 +349,27 @@ function FamilyDynamics() {
                   handleQuotesChange("fatherArrested", newQuotes)
                 }
               />
+            </Grid>
 
-              {/*Siblings*/}
-              <Grid item xs={12} sm={2}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "left",
-                    fontWeight: 700,
-                  }}
-                >
-                  Any siblings?
-                </InputLabel>
-              </Grid>
+            <BigText
+              question={"Please list the names of YOUR siblings (if any)"}
+              onChange={handleChange}
+              id={"siblings"}
+              label={"siblings"}
+              rows={1}
+              value={formData.siblings?.siblings}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("siblings", newQuotes)
+              }
+              section={"familyDynamics"}
+            />
+            <Grid item xs={12} sm={2}></Grid>
 
-              {/*Siblings Text Field*/}
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  required
-                  id="siblings"
-                  label="Siblings"
-                  fullWidth
-                  size="small"
-                  variant="outlined"
-                  value={formData.siblings}
-                  onChange={handleChange}
-                />
-              </Grid>
-
+            <Grid
+              container
+              spacing={3}
+              sx={{ paddingTop: "40px", paddingBottom: "40px" }}
+            >
               <DropDown
                 question={"How often did your family have conflicts?"}
                 id={"familyConflict"}
@@ -347,6 +407,19 @@ function FamilyDynamics() {
                 }
               />
             </Grid>
+
+            <BigText
+              question={"What were the zip codes where you primarily lived?"}
+              onChange={handleChange}
+              id={"zipCodesLivedIn"}
+              label={"zipCodesLivedIn"}
+              rows={1}
+              value={formData.zipCodesLivedIn?.zipCodesLivedIn}
+              handleQuotesChange={(newQuotes) =>
+                handleQuotesChange("zipCodesLivedIn", newQuotes)
+              }
+              section={"familyDynamics"}
+            />
           </Box>
         </Box>
         <Button

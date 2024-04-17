@@ -31,8 +31,10 @@ function Demographics() {
 
   const [formData, setFormData] = useState({
     firstName: "",
+    middleName: "",
     lastName: "",
     attorneyName: "",
+    investigatorName: "",
     attorneyOffice: "",
     caseNumber: "",
     gender: {
@@ -75,26 +77,80 @@ function Demographics() {
         }}
       >
         <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-          {/*Title of section: Demographics*/}
-          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-            Demographics
-          </Typography>
-
-          {/*First Name text*/}
           <Box
+            sx={{
+              marginLeft: "10%",
+              marginRight: "10%",
+              paddingBottom: "30px",
+            }}
+          >
+            {/*Title of section: Demographics*/}
+            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+              Demographics
+            </Typography>
+            <Grid container spacing={3}>
+              {/*Case Number*/}
+              <SmallTextInput
+                field={"Case Number"}
+                id={"caseNumber"}
+                label={"Case Number"}
+                value={formData.caseNumber}
+                onChange={handleChange}
+                section={"demographics"}
+              />
+              {/*Attorney Name*/}
+              <SmallTextInput
+                field={"Attorney Name"}
+                id={"attorneyName"}
+                label={"Attorney name"}
+                value={formData.attorneyName}
+                onChange={handleChange}
+                section={"demographics"}
+              />
+              {/*Investigator Name*/}
+
+              <SmallTextInput
+                field={"Investigator Name"}
+                id={"investigatorName"}
+                label={"Investigator name"}
+                value={formData.investigatorName}
+                onChange={handleChange}
+                section={"demographics"}
+              />
+              {/*Attorney Office*/}
+              <SmallTextInput
+                field={"Attorney office"}
+                id={"attorneyOffice"}
+                label={"Attorney office"}
+                value={formData.attorneyOffice}
+                onChange={handleChange}
+                section={"demographics"}
+              />
+              {/* </Grid> */}
+
+              {/*First Name text*/}
+              {/* <Box
             sx={{
               marginRight: "10%",
               marginLeft: "10%",
               paddingBottom: "40px",
               justifyContent: "left",
             }}
-          >
-            <Grid container spacing={3}>
+          > */}
+              {/* <Grid container spacing={3}> */}
               <SmallTextInput
                 field={"First Name"}
                 id={"firstName"}
                 label={"First name"}
                 value={formData.firstName}
+                onChange={handleChange}
+                section={"demographics"}
+              />
+              <SmallTextInput
+                field={"Middle Name"}
+                id={"middleName"}
+                label={"Middle name"}
+                value={formData.middleName}
                 onChange={handleChange}
                 section={"demographics"}
               />
@@ -106,36 +162,6 @@ function Demographics() {
                 id={"lastName"}
                 label={"Last name"}
                 value={formData.lastName}
-                onChange={handleChange}
-                section={"demographics"}
-              />
-
-              {/*Attorney Name*/}
-              <SmallTextInput
-                field={"Attorney Name"}
-                id={"attorneyName"}
-                label={"Attorney name"}
-                value={formData.attorneyName}
-                onChange={handleChange}
-                section={"demographics"}
-              />
-
-              {/*Attorney Office*/}
-              <SmallTextInput
-                field={"Attorney office"}
-                id={"attorneyOffice"}
-                label={"Attorney office"}
-                value={formData.attorneyOffice}
-                onChange={handleChange}
-                section={"demographics"}
-              />
-
-              {/*Case Number*/}
-              <SmallTextInput
-                field={"Case Number"}
-                id={"caseNumber"}
-                label={"Case Number"}
-                value={formData.caseNumber}
                 onChange={handleChange}
                 section={"demographics"}
               />

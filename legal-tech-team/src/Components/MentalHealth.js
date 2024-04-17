@@ -13,6 +13,7 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  FormGroup,
 } from "@mui/material";
 import "react-dropdown/style.css";
 
@@ -21,6 +22,7 @@ import themeSubHeading from "../Layouts/Theme";
 import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 import BigText from "../HelperFunctions/BigText";
+import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 function MentalHealth() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -35,7 +37,62 @@ function MentalHealth() {
       setFormDataEvidence(existingDataEvidence);
     }
   }, []);
+  const mentalHealthList = [
+    {
+      label: "Therapy",
+      id: "Therapy",
+      subs: [],
+    },
+    {
+      label: "Mental health coaching",
+      id: "Mental health coaching",
+      subs: [],
+    },
+    {
+      label: "Counseling to address mental health",
+      id: "Counseling to address mental health",
+      subs: [],
+    },
+    {
+      label: "Services for trauma",
+      id: "Services for trauma",
+      subs: [],
+    },
+    {
+      label: "Grief counseling",
+      id: "Grief counseling",
+      subs: [],
+    },
+    {
+      label: "None of the Above",
+      id: "none",
+      subs: [],
+    },
+  ];
 
+  const handlePerformanceChange = (disadvantagesId, isChecked) => {
+    setFormData((prevFormData) => {
+      const addressedMentalHealthIssues =
+        prevFormData.addressedMentalHealthIssues || {
+          addressedMentalHealthIssues: [],
+        };
+
+      return {
+        ...prevFormData,
+        addressedMentalHealthIssues: {
+          ...addressedMentalHealthIssues,
+          addressedMentalHealthIssues: isChecked
+            ? [
+                ...addressedMentalHealthIssues.addressedMentalHealthIssues,
+                disadvantagesId,
+              ]
+            : addressedMentalHealthIssues.addressedMentalHealthIssues.filter(
+                (id) => id !== disadvantagesId
+              ),
+        },
+      };
+    });
+  };
   const [formData, setFormData] = useState({
     receivedMentalHealthTreatment: {
       receivedMentalHealthTreatment: "",
@@ -47,6 +104,10 @@ function MentalHealth() {
     },
     treatmentOrCounseling: {
       treatmentOrCounseling: "",
+      notes: [],
+    },
+    addressedMentalHealthIssues: {
+      addressedMentalHealthIssues: "",
       notes: [],
     },
   });
@@ -183,6 +244,41 @@ function MentalHealth() {
                   handleQuotesChange("receivedMentalHealthTreatment", newQuotes)
                 }
               />
+
+              <Grid item xs={12} sm={8}>
+                <InputLabel
+                  sx={{
+                    display: "flex",
+                    justifyContent: "left",
+                    fontWeight: 700,
+                  }}
+                >
+                  Have you ever completed therapy, coaching, or counseling to{" "}
+                  <br></br>
+                  address mental health, trauma, or grief?{" "}
+                </InputLabel>
+              </Grid>
+              <FormGroup
+              //onChange={handleChange}
+              >
+                {mentalHealthList.map((disadvantage, index) => (
+                  <React.Fragment key={index}>
+                    <CheckboxWithAdd
+                      label={disadvantage.label}
+                      id={disadvantage.id}
+                      checked={formData.addressedMentalHealthIssues?.addressedMentalHealthIssues.includes(
+                        disadvantage.id
+                      )}
+                      onChange={handlePerformanceChange}
+                      subs={disadvantage.subs}
+                      handleQuotesChange={(newQuotes) =>
+                        handleQuotesChange(disadvantage.id, newQuotes)
+                      }
+                      section={"mentalHealth"}
+                    />
+                  </React.Fragment>
+                ))}
+              </FormGroup>
             </Grid>
           </Box>
 
