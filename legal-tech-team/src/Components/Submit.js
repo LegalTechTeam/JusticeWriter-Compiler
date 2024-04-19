@@ -6,9 +6,13 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import { DownloadJsonData } from "../HelperFunctions/formatJSON";
+import { IPatch, patchDocument, PatchType, TextRun } from "docx";
+import { saveAs } from 'file-saver';
+
 import { generateReport, summarizeFile  } from "../HelperFunctions/apiCalls";
 import JSZip from 'jszip';
 import * as pdfjs from 'pdfjs-dist/build/pdf.min.mjs';
+import { handleTemplateInput } from "../HelperFunctions/GenerateWordDocument";
 await import('pdfjs-dist/build/pdf.worker.min.mjs');
 
 function Submit() {
@@ -17,6 +21,7 @@ function Submit() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [wifiConnected, setWifiConnected] = useState(false);
   const fileInputRef = React.useRef(null); 
+  const [callSuccess, setCallSuccess] = useState(false);
 
 
   const handleFileChange = (event) => {
@@ -47,6 +52,7 @@ function Submit() {
   
     // Set the selected file to state
     setFile(selectedFile);
+    setCallSuccess(true);
   };
 
   const handleSubmit = () => {
@@ -170,6 +176,7 @@ function Submit() {
               style={{ display: "none" }} // Hide the file input
               onChange={handleFileChange_summarize}
             />
+            
 
             {wifiConnected && !submitSuccess && (
               <Box sx={{ marginTop: "20px" }}>
@@ -177,6 +184,12 @@ function Submit() {
                 <Button variant="contained" onClick={handleSubmit} style={{ marginLeft: "10px", marginTop: "10px" }}>
                   Submit
                 </Button>
+              </Box>
+            )}
+
+            {wifiConnected && !submitSuccess && callSuccess && (
+              <Box sx={{ marginTop: "20px" }}>
+                <input type="file" onChange={handleTemplateInput} />
               </Box>
             )}
 
@@ -191,5 +204,4 @@ function Submit() {
     </div>
   );
 }
-
 export default Submit;

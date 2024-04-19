@@ -44,7 +44,7 @@ async function test_call() {
       console.log(chunk.choices[0]?.delta?.content || "");
     }
 }
-var all_sections = "";
+var all_sections = '{';
 // Function that calls the API with each prompt 
 async function callAPI(section_name, json_values) {
   console.log("current section name: ", section_name);
@@ -62,17 +62,18 @@ async function callAPI(section_name, json_values) {
   });
   //print the response
   console.log("Response for", section_name, ":");
-  var curr_section = "";
+  var curr_section = '';
   for await (const chunk of stream) {
     //all_sections += chunk.choices[0]?.delta?.content || "";
     curr_section += chunk.choices[0]?.delta?.content || "";
   }
   console.log(curr_section);
-  all_sections += "Results for " + section_name + ":\n" + curr_section + "\n\n";
+  all_sections += '"' + section_name + '": "' + curr_section + '",\n';
   
 }
 
 
+export var chatPatches = null;
 // Function to generate a report from JSON data
 export async function generateReport(jsonData) {
     console.log("Generating Report for JSON data in api calls");
@@ -82,14 +83,23 @@ export async function generateReport(jsonData) {
         // Assuming sections have certain characteristics (you can adjust this condition)
         return typeof jsonData[key] === "object" && !Array.isArray(jsonData[key]);
       });
-        sections.forEach(async (section) => {
+        /*await Promise.all(sections.forEach(async (section) => {
           await callAPI(section, jsonData[section]);
-        });
-        console.log("All sections:", all_sections);
+        }));*/
+        await Promise.all(sections.map(async section => {
+          await callAPI(section, jsonData[section]);
+        }));
+        all_sections = all_sections.substring(0, all_sections.length - 2);
+        all_sections += '}';
+        chatPatches = JSON.parse(all_sections);
+        console.log("All sections:", chatPatches);
+        //console.log(all_sections);
     } catch (error) {
         console.error('Error parsing JSON:', error);
     }
 }
+
+
 
 const extractTextFromPDF = async (pdfFile) => {
   // Load the PDF file using PDF.js
