@@ -76,14 +76,14 @@ async function callAPI(section_name, json_values, inputText) {
   });
   //print the response
   console.log("Response for", section_name, ":");
-  var curr_section = "";
+  let curr_section = '';
   for await (const chunk of stream) {
     //all_sections += chunk.choices[0]?.delta?.content || "";
     curr_section += chunk.choices[0]?.delta?.content || "";
   }
   console.log(curr_section);
   all_sections += "Results for " + section_name + ":\n" + curr_section + "\n\n";
-  all_sections += '"' + section_name + '": "' + curr_section + '",\n';
+  all_sections += '"' + section_name + '": "' + escapeDoubleQuotes(curr_section) + '",\n';
 }
 
 export var chatPatches = null;
@@ -120,8 +120,9 @@ export async function generateReport(jsonData, inputText) {
     );
     all_sections = all_sections.substring(0, all_sections.length - 2);
     all_sections += "}";
+        console.log("All Sections: ", all_sections);
     //chatPatches = JSON.parse(all_sections);
-    console.log("All sections:", chatPatches);
+    console.log("Chat Patches:", chatPatches);
     //console.log(all_sections);
   } catch (error) {
     console.error("Error parsing JSON:", error);
@@ -189,4 +190,10 @@ export async function summarizeFile(pdfData) {
 
   console.log("Summary for the PDF file:", curr_section);
   //return response.data.messages[0].content;
+}
+
+function escapeDoubleQuotes(str) {
+  return str.replace(/([^\\])"/g, '$1\\"');
+  //matches any character that is not a backslash followed by a double quote. 
+  //This ensures that the replacement only occurs if the quote is not already escaped.
 }

@@ -6,7 +6,7 @@ import {
   Box,
   Paper,
   Button,
-  TextField,
+  TextField, FormLabel,
   Dialog,
   DialogContent,
   DialogActions,
@@ -349,6 +349,7 @@ function Submit() {
 
             {wifiConnected && !submitSuccess && callSuccess && (
               <Box sx={{ marginTop: "20px" }}>
+                <FormLabel sx={{ marginRight: "20px" }}>Insert Template Doc</FormLabel>
                 <input type="file" onChange={handleTemplateInput} />
               </Box>
             )}
