@@ -1,6 +1,8 @@
 //functions for turning api calls from JSON
 import axios, { all } from "axios"; // Import axios directly
 import { useState } from "react";
+import axios, { all } from "axios"; // Import axios directly
+import { useState } from "react";
 import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 // import * as pdfjs from "pdfjs-dist/build/pdf.min.mjs";
@@ -44,6 +46,8 @@ async function test_call() {
 }
 var all_sections = "";
 // Function that calls the API with each prompt
+var all_sections = "{";
+// Function that calls the API with each prompt
 async function callAPI(section_name, json_values) {
   console.log("current section name: ", section_name);
   var prompt =
@@ -70,8 +74,10 @@ async function callAPI(section_name, json_values) {
   }
   console.log(curr_section);
   all_sections += "Results for " + section_name + ":\n" + curr_section + "\n\n";
+  all_sections += '"' + section_name + '": "' + curr_section + '",\n';
 }
 
+export var chatPatches = null;
 // Function to generate a report from JSON data
 export async function generateReport(jsonData) {
   console.log("Generating Report for JSON data in api calls");
@@ -85,6 +91,29 @@ export async function generateReport(jsonData) {
       await callAPI(section, jsonData[section]);
     });
     console.log("All sections:", all_sections);
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+  }
+  console.log("Generating Report for JSON data in api calls");
+  console.log("jsonData: \n", jsonData);
+  try {
+    const sections = Object.keys(jsonData).filter((key) => {
+      // Assuming sections have certain characteristics (you can adjust this condition)
+      return typeof jsonData[key] === "object" && !Array.isArray(jsonData[key]);
+    });
+    /*await Promise.all(sections.forEach(async (section) => {
+          await callAPI(section, jsonData[section]);
+        }));*/
+    await Promise.all(
+      sections.map(async (section) => {
+        await callAPI(section, jsonData[section]);
+      })
+    );
+    all_sections = all_sections.substring(0, all_sections.length - 2);
+    all_sections += "}";
+    chatPatches = JSON.parse(all_sections);
+    console.log("All sections:", chatPatches);
+    //console.log(all_sections);
   } catch (error) {
     console.error("Error parsing JSON:", error);
   }

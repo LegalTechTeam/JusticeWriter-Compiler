@@ -6,8 +6,14 @@ import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import { DownloadJsonData } from "../HelperFunctions/formatJSON";
+import { IPatch, patchDocument, PatchType, TextRun } from "docx";
+import { saveAs } from "file-saver";
+
 import { generateReport, summarizeFile } from "../HelperFunctions/apiCalls";
 import JSZip from "jszip";
+import { handleTemplateInput } from "../HelperFunctions/GenerateWordDocument";
+import { clearJSON } from "../HelperFunctions/formatJSON";
+await import("pdfjs-dist/build/pdf.worker.min.mjs");
 
 function Submit() {
   const navigate = useNavigate();
@@ -15,6 +21,7 @@ function Submit() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [wifiConnected, setWifiConnected] = useState(false);
   const fileInputRef = React.useRef(null);
+  const [callSuccess, setCallSuccess] = useState(false);
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0]; // Get the first file from the array
@@ -44,6 +51,7 @@ function Submit() {
 
     // Set the selected file to state
     setFile(selectedFile);
+    setCallSuccess(true);
   };
 
   const handleSubmit = () => {
@@ -175,6 +183,30 @@ function Submit() {
               </Button>
             )}
 
+            <Box sx={{ marginTop: "20px" }}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  navigate("/evidence");
+                }}
+              >
+                {" "}
+                Previous
+              </Button>
+            </Box>
+            <Box sx={{ marginTop: "20px" }}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  clearJSON();
+                  navigate("/");
+                }}
+              >
+                {" "}
+                Start new Report
+              </Button>
+            </Box>
+
             <input
               type="file"
               ref={fileInputRef}
@@ -195,6 +227,12 @@ function Submit() {
               </Box>
             )}
 
+            {wifiConnected && !submitSuccess && callSuccess && (
+              <Box sx={{ marginTop: "20px" }}>
+                <input type="file" onChange={handleTemplateInput} />
+              </Box>
+            )}
+
             {submitSuccess && (
               <Typography
                 variant="body1"
@@ -209,5 +247,4 @@ function Submit() {
     </div>
   );
 }
-
 export default Submit;
