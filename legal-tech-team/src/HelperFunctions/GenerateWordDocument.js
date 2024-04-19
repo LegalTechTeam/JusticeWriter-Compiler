@@ -30,6 +30,10 @@ function uint8ArrayToWordDoc(uint8Array) {
   saveAs(blob, 'My Document.docx');
 }
 
+function unescapeDoubleQuotes(str) {
+    return str.replace(/\\"/g, '"');
+}
+
 export const handleTemplateInput = (event) => {
   const file = event.target.files[0];
   const reader = new FileReader();
