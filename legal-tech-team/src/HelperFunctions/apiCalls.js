@@ -50,6 +50,12 @@ async function callAPI(section_name, json_values, inputText) {
   if (inputText === null) {
     inputText =
       "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.";
+  } else {
+    //combine tone, grammar, quotes, and theme sections of the input text
+    //iterate through the input text and combine the sections
+    for (let key in inputText) {
+      inputText += inputText[key];
+    }
   }
   console.log("current section name: ", section_name);
   var prompt =

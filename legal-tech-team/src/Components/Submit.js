@@ -26,6 +26,30 @@ import { handleTemplateInput } from "../HelperFunctions/GenerateWordDocument";
 import { clearJSON } from "../HelperFunctions/formatJSON";
 await import("pdfjs-dist/build/pdf.worker.min.mjs");
 
+const prompts = {
+  "grammar": ["Write in third person.", 
+  "Refer to all persons by Mr. and Ms.", 
+  "Do not write run-on sentences.", 
+  "Avoid using commas unless they are used as a list.",],
+
+  "tone": ["Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
+  "You are an expert witness writing a report about a client’s life, trauma, and social disadvantages."],
+
+  "quotes": ["Please identify direct quotes and insert direct quotes using quotation marks. Do not edit the direct quotes.",
+  "Do not write curse words or expletives."],
+
+  "themes": ["Transform the following notes, bullet points, and data points into complete sentences. Each point should be a complete sentence.",
+  "Do not abbreviate or consolidate the information. Each bullet point and each line should be transformed into a complete sentence.",]
+}
+
+//combine prompts 
+const combinedQuotes = {
+  "grammar": prompts.grammar.join(" "),
+  "tone": prompts.tone.join(" "),
+  "quotes": prompts.quotes.join(" "),
+  "themes": prompts.themes.join(" "),
+};
+
 function Submit() {
   const navigate = useNavigate();
   const [file, setFile] = useState(null); // State to store the selected file
@@ -34,9 +58,14 @@ function Submit() {
   const fileInputRef = React.useRef(null);
   const [callSuccess, setCallSuccess] = useState(false);
   const [open, setOpen] = useState(false);
-  const [inputText, setInputText] = useState(
-    "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.The notes section in the JSON are to be treated as quotes (DO NOT CHANGE THOSE)"
-  );
+  const [inputText, setInputText] = useState({
+    tone: combinedQuotes.tone,
+    grammar: combinedQuotes.grammar,
+    quotes: combinedQuotes.quotes,
+    themes: combinedQuotes.themes,
+  });
+
+  
 
   var called = 1;
   useEffect(() => {
@@ -95,7 +124,9 @@ function Submit() {
     setSubmitSuccess(true);
     setCallSuccess(true);
 
-    setInputText(inputText);
+    generateReport(file, inputText);
+
+    setOpen(false);
   };
 
   const handleWifiConnect = () => {
@@ -257,19 +288,51 @@ function Submit() {
                   </Button>
                 </Box>
                 <Dialog open={open} onClose={handleClose} maxWidth="lg">
-                  <DialogTitle>Prompt (if want to change)</DialogTitle>
-                  <DialogContent style={{ width: "60vw" }}>
+                  <DialogTitle>Enter a prompt for each section</DialogTitle>
+                  <DialogContent>
                     <TextField
-                      autoFocus
-                      margin="dense"
-                      label="Prompt"
-                      type="text"
+                      label="Tone"
+                      multiline
+                      rows={4}
                       fullWidth
-                      value={inputText}
-                      // InputLabelProps={{
-                      //   style: { maxWidth: "100vw" },
-                      // }}
-                      onChange={(e) => setInputText(e.target.value)}
+                      value={inputText.tone}
+                      onChange={(e) =>
+                        setInputText({ ...inputText, tone: e.target.value })
+                      }
+                      style = {{marginBottom: "20px", marginTop: "30px"}}
+                    />
+                    <TextField
+                      label="Grammar"
+                      multiline
+                      rows={4}
+                      fullWidth
+                      value={inputText.grammar}
+                      onChange={(e) =>
+                        setInputText({ ...inputText, grammar: e.target.value })
+                      }
+                      style = {{marginBottom: "20px"}}
+                    />
+                    <TextField
+                      label="Quotes"
+                      multiline
+                      rows={4}
+                      fullWidth
+                      value={inputText.quotes}
+                      onChange={(e) =>
+                        setInputText({ ...inputText, quotes: e.target.value })
+                      }
+                      style = {{marginBottom: "20px"}}
+                    />
+                    <TextField
+                      label="Themes"
+                      multiline
+                      rows={4}
+                      fullWidth
+                      value={inputText.themes}
+                      onChange={(e) =>
+                        setInputText({ ...inputText, themes: e.target.value })
+                      }
+                      style = {{marginBottom: "20px", marginTop: "10px"}}
                     />
                   </DialogContent>
                   <DialogActions>
