@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Typography, Box, Paper, Button, TextField } from "@mui/material";
+import { Typography, Box, Paper, Button, TextField, FormLabel } from "@mui/material";
 import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
@@ -180,15 +180,14 @@ function Submit() {
 
             {wifiConnected && !submitSuccess && (
               <Box sx={{ marginTop: "20px" }}>
+                <FormLabel sx={{ marginRight: "20px" }}>Insert Raw Notes</FormLabel>
                 <input type="file" onChange={handleFileChange} />
-                <Button variant="contained" onClick={handleSubmit} style={{ marginLeft: "10px", marginTop: "10px" }}>
-                  Submit
-                </Button>
               </Box>
             )}
 
             {wifiConnected && !submitSuccess && callSuccess && (
               <Box sx={{ marginTop: "20px" }}>
+                <FormLabel sx={{ marginRight: "20px" }}>Insert Template Doc</FormLabel>
                 <input type="file" onChange={handleTemplateInput} />
               </Box>
             )}
