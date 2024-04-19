@@ -1,8 +1,6 @@
 //functions for turning api calls from JSON
 import axios, { all } from "axios"; // Import axios directly
 import { useState } from "react";
-import axios, { all } from "axios"; // Import axios directly
-import { useState } from "react";
 import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 // import * as pdfjs from "pdfjs-dist/build/pdf.min.mjs";
@@ -48,12 +46,17 @@ var all_sections = "";
 // Function that calls the API with each prompt
 var all_sections = "{";
 // Function that calls the API with each prompt
-async function callAPI(section_name, json_values) {
+async function callAPI(section_name, json_values, inputText) {
+  if (inputText === null) {
+    inputText =
+      "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.";
+  }
   console.log("current section name: ", section_name);
   var prompt =
     "This section is about " +
     sectionDescriptions[section_name] +
-    ". Summarize this section with the data below: \n\n";
+    inputText +
+    " \n\n";
   for (let key in json_values) {
     prompt += JSON.stringify(json_values[key]);
   }
@@ -79,7 +82,7 @@ async function callAPI(section_name, json_values) {
 
 export var chatPatches = null;
 // Function to generate a report from JSON data
-export async function generateReport(jsonData) {
+export async function generateReport(jsonData, inputText) {
   console.log("Generating Report for JSON data in api calls");
   console.log("jsonData: \n", jsonData);
   try {
@@ -106,12 +109,12 @@ export async function generateReport(jsonData) {
         }));*/
     await Promise.all(
       sections.map(async (section) => {
-        await callAPI(section, jsonData[section]);
+        await callAPI(section, jsonData[section], inputText);
       })
     );
     all_sections = all_sections.substring(0, all_sections.length - 2);
     all_sections += "}";
-    chatPatches = JSON.parse(all_sections);
+    //chatPatches = JSON.parse(all_sections);
     console.log("All sections:", chatPatches);
     //console.log(all_sections);
   } catch (error) {

@@ -1,11 +1,22 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Typography, Box, Paper, Button, TextField } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Paper,
+  Button,
+  TextField,
+  Dialog,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+} from "@mui/material";
 import dayjs from "dayjs";
 
 import Header from "../Layouts/Header";
 import { DownloadJsonData } from "../HelperFunctions/formatJSON";
+
 import { IPatch, patchDocument, PatchType, TextRun } from "docx";
 import { saveAs } from "file-saver";
 
@@ -22,7 +33,34 @@ function Submit() {
   const [wifiConnected, setWifiConnected] = useState(false);
   const fileInputRef = React.useRef(null);
   const [callSuccess, setCallSuccess] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [inputText, setInputText] = useState(
+    "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.The notes section in the JSON are to be treated as quotes (DO NOT CHANGE THOSE)"
+  );
 
+  var called = 1;
+  useEffect(() => {
+    if (file !== null && submitSuccess) {
+      generateReport(file, inputText);
+
+      console.log("called once!");
+    }
+  }, [file, submitSuccess]);
+
+  useEffect(() => {
+    return () => {
+      setFile(null);
+      setSubmitSuccess(false);
+      setWifiConnected(false);
+    };
+  }, []);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0]; // Get the first file from the array
 
@@ -34,13 +72,14 @@ function Submit() {
       try {
         // Parse the file contents as JSON
         const jsonData = JSON.parse(e.target.result);
+        setFile(jsonData);
 
         // Now you can work with the parsed JSON data
         console.log("Parsed JSON data:", jsonData);
 
         // Set the parsed JSON data to state or perform further processing
         // For example, you can call the generateReport function with the parsed JSON data:
-        generateReport(jsonData);
+        //generateReport(jsonData);
       } catch (error) {
         console.error("Error parsing JSON:", error);
       }
@@ -50,22 +89,13 @@ function Submit() {
     reader.readAsText(selectedFile);
 
     // Set the selected file to state
-    setFile(selectedFile);
-    setCallSuccess(true);
   };
 
   const handleSubmit = () => {
-    // Perform submission logic here with the selected file
-    console.log("Selected file:", file);
-
-    // You can now use the 'file' variable to upload the selected file
-    // Example: generateReport(file);
-
-    // Call generateReport function with the selected file path
-    generateReport(file);
-
-    // After successful submission, set the submitSuccess state to true
     setSubmitSuccess(true);
+    setCallSuccess(true);
+
+    setInputText(inputText);
   };
 
   const handleWifiConnect = () => {
@@ -215,16 +245,43 @@ function Submit() {
             />
 
             {wifiConnected && !submitSuccess && (
-              <Box sx={{ marginTop: "20px" }}>
-                <input type="file" onChange={handleFileChange} />
-                <Button
-                  variant="contained"
-                  onClick={handleSubmit}
-                  style={{ marginLeft: "10px", marginTop: "10px" }}
-                >
-                  Submit
-                </Button>
-              </Box>
+              <>
+                <Box sx={{ marginTop: "20px" }}>
+                  <input type="file" onChange={handleFileChange} />
+                  <Button
+                    variant="contained"
+                    onClick={handleOpen}
+                    style={{ marginLeft: "10px", marginTop: "10px" }}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+                <Dialog open={open} onClose={handleClose} maxWidth="lg">
+                  <DialogTitle>Prompt (if want to change)</DialogTitle>
+                  <DialogContent style={{ width: "60vw" }}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      label="Prompt"
+                      type="text"
+                      fullWidth
+                      value={inputText}
+                      // InputLabelProps={{
+                      //   style: { maxWidth: "100vw" },
+                      // }}
+                      onChange={(e) => setInputText(e.target.value)}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button variant="contained" onClick={handleClose}>
+                      Close
+                    </Button>
+                    <Button variant="contained" onClick={handleSubmit}>
+                      Submit
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </>
             )}
 
             {wifiConnected && !submitSuccess && callSuccess && (
