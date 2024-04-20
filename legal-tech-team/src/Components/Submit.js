@@ -37,7 +37,7 @@ const prompts = {
 
   tone: [
     "Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
-    "You are an expert witness writing a report about a client’s life, trauma, and social disadvantages.",
+    "You are an expert witness writing a report about a client's life, trauma, and social disadvantages.",
   ],
 
   quotes: [
@@ -51,10 +51,12 @@ const prompts = {
   ],
 };
 
+const randIndex = Math.floor(Math.random() * prompts.tone.length);
+console.log("randIndex: ", randIndex);
 //combine prompts
 const combinedQuotes = {
   grammar: prompts.grammar.join(" "),
-  tone: prompts.tone.join(" "),
+  tone: prompts.tone[randIndex],
   quotes: prompts.quotes.join(" "),
   themes: prompts.themes.join(" "),
 };
