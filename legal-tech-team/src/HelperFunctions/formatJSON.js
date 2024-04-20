@@ -23,6 +23,19 @@ export function ReturnExistingInput(section) {
   return globalJsonData[section];
 }
 
+export function clearJSON() {
+  globalJsonData = {
+    demographics: {},
+    familyDynamics: {},
+    community: {},
+    schooling: {},
+    adverseChildhoodExpriences: {},
+    peersAndRoleModels: {},
+    mentalHealth: {},
+    evidenceOfCharacter: {},
+  };
+}
+
 export function ReturnExistingSubSection(section, sub) {
   if (globalJsonData[section] && globalJsonData[section][sub]) {
     return JSON.stringify(globalJsonData[section][sub]);
