@@ -51,10 +51,12 @@ const prompts = {
   ],
 };
 
+const randIndex = Math.floor(Math.random() * prompts.tone.length);
+console.log("randIndex: ", randIndex);
 //combine prompts
 const combinedQuotes = {
   grammar: prompts.grammar.join(" "),
-  tone: prompts.tone.join(" "),
+  tone: prompts.tone[randIndex],
   quotes: prompts.quotes.join(" "),
   themes: prompts.themes.join(" "),
 };

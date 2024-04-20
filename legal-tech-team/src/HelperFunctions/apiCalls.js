@@ -1,23 +1,13 @@
 //functions for turning api calls from JSON
-import axios, { all } from "axios"; // Import axios directly
 import { useState } from "react";
 import OpenAI from "openai";
-import Anthropic from "@anthropic-ai/sdk";
-// import * as pdfjs from "pdfjs-dist/build/pdf.min.mjs";
-// await import("pdfjs-dist/build/pdf.worker.min.mjs");
+import { json } from "react-router-dom";
 
 const apiKeyOpenAI = ""; // Add your API key here
-const apiKeyAnthropic = ""; // Add your API key here
 
 const openai = new OpenAI({
   apiKey: apiKeyOpenAI,
   dangerouslyAllowBrowser: true,
-});
-
-const domain = window?.location?.origin || "";
-const anthropic = new Anthropic({
-  apiKey: apiKeyAnthropic, // This is the default and can be omitted
-  baseURL: domain + "/api/anthropic", // This is the default and can be omitted
 });
 
 // Descriptions for each section
@@ -32,6 +22,8 @@ const sectionDescriptions = {
   evidenceOfCharacter: "Evidence of Character",
 };
 
+var all_sections = {};
+
 async function test_call() {
   const stream = await openai.chat.completions.create({
     model: "gpt-4",
@@ -42,27 +34,47 @@ async function test_call() {
     console.log(chunk.choices[0]?.delta?.content || "");
   }
 }
-var all_sections = {};
+
 // Function that calls the API with each prompt
-//var all_sections = "{";
-// Function that calls the API with each prompt
-async function callAPI(section_name, json_values, inputText) {
+async function callAPI(section_name, json_values, inputText, jsonData) {
   if (inputText === null) {
     inputText =
       "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.";
   } else {
     //combine tone, grammar, quotes, and theme sections of the input text
     //iterate through the input text and combine the sections
+    console.log("inputText: ", inputText);
     for (let key in inputText) {
       inputText += inputText[key];
     }
   }
+  var adjustedPrompts = sectionDescriptions;
+
+  if (json_values !== null) {
+    //adjust the prompts based on the section
+    adjustedPrompts = {
+      demographics: "This section is about " + sectionDescriptions[section_name] + " The interviewee is " + jsonData.demographics.firstName + " " + jsonData.demographics.lastName + ". ",
+      familyDynamics: "This section discusses the " + sectionDescriptions[section_name] + " of " + jsonData.demographics.firstName + " " + jsonData.demographics.lastName + ". ",
+      community: "This section is about " + sectionDescriptions[section_name] + ". ",
+      schooling: "This section is about " + sectionDescriptions[section_name] + ". ",
+      adverseChildhoodExpriences: "This section is about " + sectionDescriptions[section_name] + ". ",
+      peersAndRoleModels: "This section is about " + sectionDescriptions[section_name] + ". ",
+      mentalHealth: "This section is about " + jsonData.demographics.firstName + " " + jsonData.demographics.lastName + "'s " + sectionDescriptions[section_name] + ". ",
+      evidenceOfCharacter: "This section is about " + sectionDescriptions[section_name],
+    };
+  }
   console.log("current section name: ", section_name);
-  var prompt =
-    "This section is about " +
-    sectionDescriptions[section_name] +
-    inputText +
-    " \n\n";
+  console.log("inputText: ", inputText);
+  var prompt = adjustedPrompts[section_name];
+  if (inputText !== null) {
+    //tone, grammar, quotes, and theme sections of the input text
+    for (let key in inputText) {
+      for (let key2 in inputText[key]) {
+        prompt += inputText[key][key2];
+    }
+  }
+}
+
   for (let key in json_values) {
     prompt += JSON.stringify(json_values[key]);
   }
@@ -74,17 +86,16 @@ async function callAPI(section_name, json_values, inputText) {
     messages: [{ role: "user", content: prompt }],
     stream: true,
   });
+
   //print the response
   console.log("Response for", section_name, ":");
   let curr_section = "";
   for await (const chunk of stream) {
-    //all_sections += chunk.choices[0]?.delta?.content || "";
     curr_section += chunk.choices[0]?.delta?.content || "";
   }
+
   console.log(curr_section);
-  // all_sections += "Results for " + section_name + ":\n" + curr_section + "\n\n";
-  // all_sections +=
-  //   '"' + section_name + '": "' + escapeDoubleQuotes(curr_section) + '",\n';
+
   all_sections[section_name] = escapeDoubleQuotes(curr_section);
 }
 
@@ -123,10 +134,11 @@ export async function generateReport(jsonData, inputText) {
       return typeof jsonData[key] === "object" && !Array.isArray(jsonData[key]);
     });
     sections.forEach(async (section) => {
-      await callAPI(section, jsonData[section]);
+      await callAPI(section, jsonData[section], inputText, jsonData);
     });
     console.log("All sections:", all_sections);
   } catch (error) {
+    console.log("error caused by this section of json " + section);
     console.error("Error parsing JSON:", error);
   }
   console.log("Generating Report for JSON data in api calls");
@@ -141,7 +153,7 @@ export async function generateReport(jsonData, inputText) {
         }));*/
     await Promise.all(
       sections.map(async (section) => {
-        await callAPI(section, jsonData[section], inputText);
+        await callAPI(section, jsonData[section], inputText, jsonData);
       })
     );
     // all_sections = all_sections.substring(0, all_sections.length - 2);
@@ -153,6 +165,7 @@ export async function generateReport(jsonData, inputText) {
     console.log("Chat Patches:", chatPatches);
     //console.log(all_sections);
   } catch (error) {
+    console.log("line 168");
     console.error("Error parsing JSON:", error);
   }
 }
