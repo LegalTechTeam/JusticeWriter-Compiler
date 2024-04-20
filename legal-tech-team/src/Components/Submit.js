@@ -37,7 +37,7 @@ const prompts = {
 
   tone: [
     "Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
-    "You are an expert witness writing a report about a client’s life, trauma, and social disadvantages.",
+    "You are an expert witness writing a report about a client's life, trauma, and social disadvantages.",
   ],
 
   quotes: [

@@ -10,6 +10,29 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
+//condensed prompts 
+const prompts = {
+  grammar: [
+    "Write in third person.",
+    "Do not write run-on sentences.",
+  ],
+
+  tone: [
+    "Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
+    "You are an expert witness writing a report about a client's life, trauma, and social disadvantages.",
+  ],
+
+  quotes: [
+    "Do not edit the direct quotes.",
+    "Do not write curse words or expletives.",
+  ],
+
+  themes: [
+    "Transform the following notes into complete sentences.",
+    "Do not abbreviate or consolidate the information.",
+  ],
+};
+
 // Descriptions for each section
 const sectionDescriptions = {
   demographics: "Demographics",
@@ -35,22 +58,33 @@ async function test_call() {
   }
 }
 
+function add_from_json (inputText, key, prompt) {
+  //check length of input text at key
+  var instructions = "";
+  if (inputText[key] !== null && inputText[key].length > 0) {
+    instructions += inputText[key];
+  } else {
+    //add from prompts 
+    for (let key2 in prompts[key]) {
+      instructions += prompts[key][key2];
+    }
+   
+  }
+  //cast to string
+  return instructions.toString();
+
+}
+
 // Function that calls the API with each prompt
 async function callAPI(section_name, json_values, inputText, jsonData) {
+  //console.log("given input text is ", inputText);
   if (inputText === null) {
     inputText =
       "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.";
-  } else {
-    //combine tone, grammar, quotes, and theme sections of the input text
-    //iterate through the input text and combine the sections
-    console.log("inputText: ", inputText);
-    for (let key in inputText) {
-      inputText += inputText[key];
-    }
-  }
+  } 
   var adjustedPrompts = sectionDescriptions;
 
-  if (json_values !== null) {
+  if (json_values !== null && jsonData !== null) {
     //adjust the prompts based on the section
     adjustedPrompts = {
       demographics: "This section is about " + sectionDescriptions[section_name] + " The interviewee is " + jsonData.demographics.firstName + " " + jsonData.demographics.lastName + ". ",
@@ -64,19 +98,72 @@ async function callAPI(section_name, json_values, inputText, jsonData) {
     };
   }
   console.log("current section name: ", section_name);
-  console.log("inputText: ", inputText);
-  var prompt = adjustedPrompts[section_name];
-  if (inputText !== null) {
-    //tone, grammar, quotes, and theme sections of the input text
-    for (let key in inputText) {
-      for (let key2 in inputText[key]) {
-        prompt += inputText[key][key2];
-    }
-  }
-}
 
+  var prompt = adjustedPrompts[section_name];
+
+  //add the prompt for the section
+  //first checking input text
+  if (section_name === "demographics") {
+    //add grammar 
+    prompt += add_from_json(inputText, "tone", prompt);
+    prompt += add_from_json(inputText, "grammar", prompt);
+  } else if (section_name === "familyDynamics") {
+    //add grammar, quotes, themes
+    prompt += add_from_json(inputText, "quotes", prompt);
+    prompt += add_from_json(inputText, "themes", prompt);
+    prompt += add_from_json(inputText, "grammar", prompt);
+
+  } else if (section_name === "community") {
+    //add grammar, tone, themes
+    prompt += add_from_json(inputText, "grammar", prompt);
+    prompt += add_from_json(inputText, "tone", prompt);
+    prompt += add_from_json(inputText, "themes", prompt);
+
+  } else if (section_name === "schooling") {
+    //add grammar 
+    prompt += add_from_json(inputText, "grammar", prompt);
+
+  } else if (section_name === "adverseChildhoodExpriences") {
+    //add tone 
+    prompt += add_from_json(inputText, "tone", prompt);
+
+  } else if (section_name === "peersAndRoleModels") {
+    //add grammar, themes 
+    prompt += add_from_json(inputText, "grammar", prompt);
+    prompt += add_from_json(inputText, "themes", prompt);
+
+  } else if (section_name === "mentalHealth") {
+    //add tone, quotes 
+    prompt += add_from_json(inputText, "tone", prompt);
+    prompt += add_from_json(inputText, "quotes", prompt);
+
+  } else if (section_name === "evidenceOfCharacter") {
+    //add quotes, themes 
+    prompt += add_from_json(inputText, "quotes", prompt);
+    prompt += add_from_json(inputText, "themes", prompt);
+
+  } else {
+    //throw error
+    console.warn("Section name not found, report sections may not be accurate.");
+  }
+
+  //console.log ("prompt on line 141: ", prompt);
+  prompt += "Below is the information provided by the interviewee: \n\n"
   for (let key in json_values) {
-    prompt += JSON.stringify(json_values[key]);
+    //check if json at key is a list 
+    if (typeof(json_values[key]) !== "string") {
+     // console.log("json_values[key] is a list");
+      prompt += key + ": ";
+      for (let key2 in json_values[key]) {
+        prompt += JSON.stringify(json_values[key][key2]);
+        prompt += "\n";
+      }
+    } else {
+      prompt += key + ": ";
+      prompt += JSON.stringify(json_values[key]);
+      prompt += "\n";
+    }
+    prompt += "\n";
   }
 
   console.log("Prompt for", section_name, ":", prompt);
@@ -165,7 +252,6 @@ export async function generateReport(jsonData, inputText) {
     console.log("Chat Patches:", chatPatches);
     //console.log(all_sections);
   } catch (error) {
-    console.log("line 168");
     console.error("Error parsing JSON:", error);
   }
 }
