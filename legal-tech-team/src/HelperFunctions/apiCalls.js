@@ -42,9 +42,9 @@ async function test_call() {
     console.log(chunk.choices[0]?.delta?.content || "");
   }
 }
-var all_sections = "";
+var all_sections = {};
 // Function that calls the API with each prompt
-var all_sections = "{";
+//var all_sections = "{";
 // Function that calls the API with each prompt
 async function callAPI(section_name, json_values, inputText) {
   if (inputText === null) {
@@ -76,14 +76,16 @@ async function callAPI(section_name, json_values, inputText) {
   });
   //print the response
   console.log("Response for", section_name, ":");
-  let curr_section = '';
+  let curr_section = "";
   for await (const chunk of stream) {
     //all_sections += chunk.choices[0]?.delta?.content || "";
     curr_section += chunk.choices[0]?.delta?.content || "";
   }
   console.log(curr_section);
-  all_sections += "Results for " + section_name + ":\n" + curr_section + "\n\n";
-  all_sections += '"' + section_name + '": "' + escapeDoubleQuotes(curr_section) + '",\n';
+  // all_sections += "Results for " + section_name + ":\n" + curr_section + "\n\n";
+  // all_sections +=
+  //   '"' + section_name + '": "' + escapeDoubleQuotes(curr_section) + '",\n';
+  all_sections[section_name] = escapeDoubleQuotes(curr_section);
 }
 
 export var chatPatches = null;
@@ -91,6 +93,30 @@ export var chatPatches = null;
 export async function generateReport(jsonData, inputText) {
   console.log("Generating Report for JSON data in api calls");
   console.log("jsonData: \n", jsonData);
+
+  if (jsonData.demographics?.DOB) {
+    all_sections["date"] = escapeDoubleQuotes(jsonData.demographics.DOB);
+  }
+  if (jsonData.demographics?.attorneyName) {
+    all_sections["attorneyName"] = jsonData.demographics.attorneyName;
+  }
+  if (jsonData.demographics?.attorneyOffice) {
+    all_sections["attorneyOffice"] = jsonData.demographics.attorneyOffice;
+  }
+
+  if (jsonData.demographics?.caseNumber) {
+    all_sections["caseNumber"] = jsonData.demographics.caseNumber;
+  }
+  if (jsonData.demographics?.firstName) {
+    all_sections["firstName"] = jsonData.demographics.firstName;
+  }
+  if (jsonData.demographics?.lastName) {
+    all_sections["lastName"] = jsonData.demographics.lastName;
+  }
+  if (jsonData.demographics?.gender) {
+    all_sections["gender"] = jsonData.demographics.gender;
+  }
+
   try {
     const sections = Object.keys(jsonData).filter((key) => {
       // Assuming sections have certain characteristics (you can adjust this condition)
@@ -118,10 +144,12 @@ export async function generateReport(jsonData, inputText) {
         await callAPI(section, jsonData[section], inputText);
       })
     );
-    all_sections = all_sections.substring(0, all_sections.length - 2);
-    all_sections += "}";
-        console.log("All Sections: ", all_sections);
-    //chatPatches = JSON.parse(all_sections);
+    // all_sections = all_sections.substring(0, all_sections.length - 2);
+    // all_sections += "}";
+    const all_sections_json = JSON.stringify(all_sections);
+
+    console.log("All Sections: ", all_sections);
+    chatPatches = JSON.parse(all_sections_json);
     console.log("Chat Patches:", chatPatches);
     //console.log(all_sections);
   } catch (error) {
@@ -193,7 +221,27 @@ export async function summarizeFile(pdfData) {
 }
 
 function escapeDoubleQuotes(str) {
-  return str.replace(/([^\\])"/g, '$1\\"');
-  //matches any character that is not a backslash followed by a double quote. 
-  //This ensures that the replacement only occurs if the quote is not already escaped.
+  //str = str.replace(/([^\\])"/g, '$1\\"');
+  str = str.replace(/"/g, '\\"');
+
+  // Escape common control characters for JSON.parse
+  str = str.replace(/[\b\f\n\r\t"\\]/g, function (match) {
+    // Replace control characters with their escaped versions
+    switch (match) {
+      case "\b":
+        return "\\b";
+      case "\f":
+        return "\\f";
+      case "\r":
+        return "\\r";
+      case "\t":
+        return "\\t";
+      case "\\":
+        return "\\\\";
+      default:
+        return match; // Return as is if not a control character
+    }
+    // str = str.replace(/\n/g, "\\n");
+  });
+  return str;
 }

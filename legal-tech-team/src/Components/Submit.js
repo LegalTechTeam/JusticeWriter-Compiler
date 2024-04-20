@@ -6,7 +6,8 @@ import {
   Box,
   Paper,
   Button,
-  TextField, FormLabel,
+  TextField,
+  FormLabel,
   Dialog,
   DialogContent,
   DialogActions,
@@ -27,27 +28,35 @@ import { clearJSON } from "../HelperFunctions/formatJSON";
 await import("pdfjs-dist/build/pdf.worker.min.mjs");
 
 const prompts = {
-  "grammar": ["Write in third person.", 
-  "Refer to all persons by Mr. and Ms.", 
-  "Do not write run-on sentences.", 
-  "Avoid using commas unless they are used as a list.",],
+  grammar: [
+    "Write in third person.",
+    "Refer to all persons by Mr. and Ms.",
+    "Do not write run-on sentences.",
+    "Avoid using commas unless they are used as a list.",
+  ],
 
-  "tone": ["Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
-  "You are an expert witness writing a report about a client’s life, trauma, and social disadvantages."],
+  tone: [
+    "Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
+    "You are an expert witness writing a report about a client’s life, trauma, and social disadvantages.",
+  ],
 
-  "quotes": ["Please identify direct quotes and insert direct quotes using quotation marks. Do not edit the direct quotes.",
-  "Do not write curse words or expletives."],
+  quotes: [
+    "Please identify direct quotes and insert direct quotes using quotation marks. Do not edit the direct quotes.",
+    "Do not write curse words or expletives.",
+  ],
 
-  "themes": ["Transform the following notes, bullet points, and data points into complete sentences. Each point should be a complete sentence.",
-  "Do not abbreviate or consolidate the information. Each bullet point and each line should be transformed into a complete sentence.",]
-}
+  themes: [
+    "Transform the following notes, bullet points, and data points into complete sentences. Each point should be a complete sentence.",
+    "Do not abbreviate or consolidate the information. Each bullet point and each line should be transformed into a complete sentence.",
+  ],
+};
 
-//combine prompts 
+//combine prompts
 const combinedQuotes = {
-  "grammar": prompts.grammar.join(" "),
-  "tone": prompts.tone.join(" "),
-  "quotes": prompts.quotes.join(" "),
-  "themes": prompts.themes.join(" "),
+  grammar: prompts.grammar.join(" "),
+  tone: prompts.tone.join(" "),
+  quotes: prompts.quotes.join(" "),
+  themes: prompts.themes.join(" "),
 };
 
 function Submit() {
@@ -64,8 +73,6 @@ function Submit() {
     quotes: combinedQuotes.quotes,
     themes: combinedQuotes.themes,
   });
-
-  
 
   var called = 1;
   useEffect(() => {
@@ -92,6 +99,7 @@ function Submit() {
   };
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0]; // Get the first file from the array
+    setCallSuccess(true);
 
     // Create a new FileReader instance
     const reader = new FileReader();
@@ -299,7 +307,7 @@ function Submit() {
                       onChange={(e) =>
                         setInputText({ ...inputText, tone: e.target.value })
                       }
-                      style = {{marginBottom: "20px", marginTop: "30px"}}
+                      style={{ marginBottom: "20px", marginTop: "30px" }}
                     />
                     <TextField
                       label="Grammar"
@@ -310,7 +318,7 @@ function Submit() {
                       onChange={(e) =>
                         setInputText({ ...inputText, grammar: e.target.value })
                       }
-                      style = {{marginBottom: "20px"}}
+                      style={{ marginBottom: "20px" }}
                     />
                     <TextField
                       label="Quotes"
@@ -321,7 +329,7 @@ function Submit() {
                       onChange={(e) =>
                         setInputText({ ...inputText, quotes: e.target.value })
                       }
-                      style = {{marginBottom: "20px"}}
+                      style={{ marginBottom: "20px" }}
                     />
                     <TextField
                       label="Themes"
@@ -332,7 +340,7 @@ function Submit() {
                       onChange={(e) =>
                         setInputText({ ...inputText, themes: e.target.value })
                       }
-                      style = {{marginBottom: "20px", marginTop: "10px"}}
+                      style={{ marginBottom: "20px", marginTop: "10px" }}
                     />
                   </DialogContent>
                   <DialogActions>
@@ -347,9 +355,11 @@ function Submit() {
               </>
             )}
 
-            {wifiConnected && !submitSuccess && callSuccess && (
+            {wifiConnected && submitSuccess && callSuccess && (
               <Box sx={{ marginTop: "20px" }}>
-                <FormLabel sx={{ marginRight: "20px" }}>Insert Template Doc</FormLabel>
+                <FormLabel sx={{ marginRight: "20px" }}>
+                  Insert Template Doc
+                </FormLabel>
                 <input type="file" onChange={handleTemplateInput} />
               </Box>
             )}
