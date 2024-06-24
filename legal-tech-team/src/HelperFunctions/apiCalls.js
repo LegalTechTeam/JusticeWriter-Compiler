@@ -214,6 +214,9 @@ export async function generateReport(jsonData, inputText) {
   if (jsonData.demographics?.gender) {
     all_sections["gender"] = jsonData.demographics.gender;
   }
+  if (jsonData.demographics?.background) {
+    all_sections["background"] = jsonData.demographics.background;
+  }
 
   try {
     const sections = Object.keys(jsonData).filter((key) => {
