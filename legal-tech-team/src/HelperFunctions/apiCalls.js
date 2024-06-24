@@ -2,7 +2,7 @@
 import { useState } from "react";
 import OpenAI from "openai";
 import { json } from "react-router-dom";
-
+// import * as pdfjs from "pdfjs-dist/build/pdf.min.mjs";
 const apiKeyOpenAI = ""; // Add your API key here
 
 const openai = new OpenAI({
@@ -10,12 +10,9 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-//condensed prompts 
+//condensed prompts
 const prompts = {
-  grammar: [
-    "Write in third person.",
-    "Do not write run-on sentences.",
-  ],
+  grammar: ["Write in third person.", "Do not write run-on sentences."],
 
   tone: [
     "Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
@@ -58,21 +55,19 @@ async function test_call() {
   }
 }
 
-function add_from_json (inputText, key, prompt) {
+function add_from_json(inputText, key, prompt) {
   //check length of input text at key
   var instructions = "";
   if (inputText[key] !== null && inputText[key].length > 0) {
     instructions += inputText[key];
   } else {
-    //add from prompts 
+    //add from prompts
     for (let key2 in prompts[key]) {
       instructions += prompts[key][key2];
     }
-   
   }
   //cast to string
   return instructions.toString();
-
 }
 
 // Function that calls the API with each prompt
@@ -81,20 +76,46 @@ async function callAPI(section_name, json_values, inputText, jsonData) {
   if (inputText === null) {
     inputText =
       "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.";
-  } 
+  }
   var adjustedPrompts = sectionDescriptions;
 
   if (json_values !== null && jsonData !== null) {
     //adjust the prompts based on the section
     adjustedPrompts = {
-      demographics: "This section is about " + sectionDescriptions[section_name] + " The interviewee is " + jsonData.demographics.firstName + " " + jsonData.demographics.lastName + ". ",
-      familyDynamics: "This section discusses the " + sectionDescriptions[section_name] + " of " + jsonData.demographics.firstName + " " + jsonData.demographics.lastName + ". ",
-      community: "This section is about " + sectionDescriptions[section_name] + ". ",
-      schooling: "This section is about " + sectionDescriptions[section_name] + ". ",
-      adverseChildhoodExpriences: "This section is about " + sectionDescriptions[section_name] + ". ",
-      peersAndRoleModels: "This section is about " + sectionDescriptions[section_name] + ". ",
-      mentalHealth: "This section is about " + jsonData.demographics.firstName + " " + jsonData.demographics.lastName + "'s " + sectionDescriptions[section_name] + ". ",
-      evidenceOfCharacter: "This section is about " + sectionDescriptions[section_name],
+      demographics:
+        "This section is about " +
+        sectionDescriptions[section_name] +
+        " The interviewee is " +
+        jsonData.demographics.firstName +
+        " " +
+        jsonData.demographics.lastName +
+        ". ",
+      familyDynamics:
+        "This section discusses the " +
+        sectionDescriptions[section_name] +
+        " of " +
+        jsonData.demographics.firstName +
+        " " +
+        jsonData.demographics.lastName +
+        ". ",
+      community:
+        "This section is about " + sectionDescriptions[section_name] + ". ",
+      schooling:
+        "This section is about " + sectionDescriptions[section_name] + ". ",
+      adverseChildhoodExpriences:
+        "This section is about " + sectionDescriptions[section_name] + ". ",
+      peersAndRoleModels:
+        "This section is about " + sectionDescriptions[section_name] + ". ",
+      mentalHealth:
+        "This section is about " +
+        jsonData.demographics.firstName +
+        " " +
+        jsonData.demographics.lastName +
+        "'s " +
+        sectionDescriptions[section_name] +
+        ". ",
+      evidenceOfCharacter:
+        "This section is about " + sectionDescriptions[section_name],
     };
   }
   console.log("current section name: ", section_name);
@@ -104,7 +125,7 @@ async function callAPI(section_name, json_values, inputText, jsonData) {
   //add the prompt for the section
   //first checking input text
   if (section_name === "demographics") {
-    //add grammar 
+    //add grammar
     prompt += add_from_json(inputText, "tone", prompt);
     prompt += add_from_json(inputText, "grammar", prompt);
   } else if (section_name === "familyDynamics") {
@@ -112,47 +133,42 @@ async function callAPI(section_name, json_values, inputText, jsonData) {
     prompt += add_from_json(inputText, "quotes", prompt);
     prompt += add_from_json(inputText, "themes", prompt);
     prompt += add_from_json(inputText, "grammar", prompt);
-
   } else if (section_name === "community") {
     //add grammar, tone, themes
     prompt += add_from_json(inputText, "grammar", prompt);
     prompt += add_from_json(inputText, "tone", prompt);
     prompt += add_from_json(inputText, "themes", prompt);
-
   } else if (section_name === "schooling") {
-    //add grammar 
+    //add grammar
     prompt += add_from_json(inputText, "grammar", prompt);
-
   } else if (section_name === "adverseChildhoodExpriences") {
-    //add tone 
+    //add tone
     prompt += add_from_json(inputText, "tone", prompt);
-
   } else if (section_name === "peersAndRoleModels") {
-    //add grammar, themes 
+    //add grammar, themes
     prompt += add_from_json(inputText, "grammar", prompt);
     prompt += add_from_json(inputText, "themes", prompt);
-
   } else if (section_name === "mentalHealth") {
-    //add tone, quotes 
+    //add tone, quotes
     prompt += add_from_json(inputText, "tone", prompt);
     prompt += add_from_json(inputText, "quotes", prompt);
-
   } else if (section_name === "evidenceOfCharacter") {
-    //add quotes, themes 
+    //add quotes, themes
     prompt += add_from_json(inputText, "quotes", prompt);
     prompt += add_from_json(inputText, "themes", prompt);
-
   } else {
     //throw error
-    console.warn("Section name not found, report sections may not be accurate.");
+    console.warn(
+      "Section name not found, report sections may not be accurate."
+    );
   }
 
   //console.log ("prompt on line 141: ", prompt);
-  prompt += "Below is the information provided by the interviewee: \n\n"
+  prompt += "Below is the information provided by the interviewee: \n\n";
   for (let key in json_values) {
-    //check if json at key is a list 
-    if (typeof(json_values[key]) !== "string") {
-     // console.log("json_values[key] is a list");
+    //check if json at key is a list
+    if (typeof json_values[key] !== "string") {
+      // console.log("json_values[key] is a list");
       prompt += key + ": ";
       for (let key2 in json_values[key]) {
         prompt += JSON.stringify(json_values[key][key2]);
@@ -338,12 +354,12 @@ function escapeDoubleQuotes(str) {
         return "\\r";
       case "\t":
         return "\\t";
-      case "\\":
-        return "\\\\";
       default:
         return match; // Return as is if not a control character
     }
+
     // str = str.replace(/\n/g, "\\n");
   });
+  str = str.replace(/\\/g, "");
   return str;
 }

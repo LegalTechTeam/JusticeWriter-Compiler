@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import {
     HashRouter,
     Route,
@@ -17,11 +18,21 @@ import Schooling from "./Components/Schooling";
 import Submit from "./Components/Submit";
 import MentalHealth from "./Components/MentalHealth";
 import Evidence from "./Components/Evidence";
-
+import { initializeFromStore } from "./HelperFunctions/formatJSON";
 function App() {
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    // Load data from store when component mounts
+    const fetchData = async () => {
+     initializeFromStore();
+    };
+    fetchData();
+  }, []);
   return (
     <div className="App">
-  
+   
+
   <HashRouter>
     <Routes>
     <Route path="/" exact     element={<Submit/>} />
@@ -34,7 +45,6 @@ function App() {
           <Route path="/peers-role-models" element={<PeersRoleModels/>} />
           <Route path="/mental-health" element={<MentalHealth/>}/>
           <Route path="/evidence"element={<Evidence/>}/>
-          <Route path="/submit" element={<Submit/>} />
     </Routes>
 
 </HashRouter>    

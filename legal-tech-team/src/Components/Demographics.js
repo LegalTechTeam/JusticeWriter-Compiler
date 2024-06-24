@@ -46,7 +46,11 @@ function Demographics() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
   };
 
   const handleDropdownChange = (e) => {

@@ -1,6 +1,22 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("node:path");
+// src/main/main.ts
 
+import { ipcMain } from "electron";
+import Store from "electron-store";
+
+const store = new Store();
+// IPC listener for getting data from store
+// IPC listener for getting data from store
+ipcMain.handle("get-store-data", (event, key) => {
+  return store.get(key);
+});
+
+// IPC listener for setting data in store
+// Handle IPC messages from renderer process to set data in store
+ipcMain.handle("set-store-data", (event, key, value) => {
+  store.set(key, value);
+});
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -15,6 +31,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1000,
     height: 1000,
+    icon: __dirname + "./Assets/image.png",
 
     resizable: true,
     webPreferences: {

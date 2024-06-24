@@ -333,7 +333,7 @@ function FamilyDynamics() {
                 id={"fatherBday"}
                 label={"MM-DD-YYYY"}
                 value={formData.fatherBday}
-                onChange={handleChange}
+                onChange={handleDateChange}
               />
 
               {/*Question 4 text*/}
@@ -426,7 +426,7 @@ function FamilyDynamics() {
           variant="contained"
           onClick={() => {
             SaveJSON(formData, "familyDynamics");
-            navigate("/");
+            navigate("/demographics");
           }}
         >
           Previous

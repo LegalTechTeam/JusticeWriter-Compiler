@@ -1,5 +1,5 @@
 import * as React from "react";
-import { saveAs } from 'file-saver';
+import { saveAs } from "file-saver";
 import * as docx from "docx";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -183,7 +183,7 @@ function Evidence() {
           variant="contained"
           onClick={() => {
             SaveJSON(formDataEvidence, "evidenceOfCharacter");
-            navigate("/submit");
+            navigate("/");
           }}
         >
           Save

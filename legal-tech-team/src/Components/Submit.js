@@ -30,7 +30,6 @@ await import("pdfjs-dist/build/pdf.worker.min.mjs");
 const prompts = {
   grammar: [
     "Write in third person.",
-    "Refer to all persons by Mr. and Ms.",
     "Do not write run-on sentences.",
     "Avoid using commas unless they are used as a list.",
   ],
@@ -231,7 +230,7 @@ function Submit() {
                 navigate("/submit");
               }}
             >
-              Open Raw Notes
+              Save Raw Notes
             </Button>
 
             {!wifiConnected && (
@@ -244,15 +243,6 @@ function Submit() {
               </Button>
             )}
 
-            {!wifiConnected && (
-              <Button
-                variant="contained"
-                style={{ marginLeft: "10px" }}
-                onClick={handleSummarizeFiles}
-              >
-                Summarize Files
-              </Button>
-            )}
             <Box sx={{ marginTop: "20px" }}>
               <Button
                 variant="contained"
@@ -263,6 +253,18 @@ function Submit() {
               >
                 {" "}
                 Start new Report
+              </Button>
+            </Box>
+            <Box sx={{ marginTop: "20px" }}>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  //clearJSON();
+                  navigate("/demographics");
+                }}
+              >
+                {" "}
+                Continue previous report
               </Button>
             </Box>
 
