@@ -24,7 +24,8 @@ function App() {
   
   <HashRouter>
     <Routes>
-    <Route path="/" exact     element={<Demographics/>} />
+    <Route path="/" exact     element={<Submit/>} />
+    <Route path="/demographics" element={<Demographics/>} />
     <Route path="/familyDynamics" element={<FamilyDynamics/>} />
           <Route path="/community" element={<Community/>} />
           <Route path="/schooling" element={<Schooling/>} />

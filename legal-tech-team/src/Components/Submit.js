@@ -210,7 +210,7 @@ function Submit() {
       >
         <Box sx={{ padding: 3, textAlign: "center" }}>
           <Typography variant="h6" gutterBottom sx={{ paddingBottom: 5 }}>
-            Successfully Saved
+            Home
           </Typography>
 
           <Box
@@ -253,24 +253,12 @@ function Submit() {
                 Summarize Files
               </Button>
             )}
-
-            <Box sx={{ marginTop: "20px" }}>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  navigate("/evidence");
-                }}
-              >
-                {" "}
-                Previous
-              </Button>
-            </Box>
             <Box sx={{ marginTop: "20px" }}>
               <Button
                 variant="contained"
                 onClick={() => {
                   clearJSON();
-                  navigate("/");
+                  navigate("/demographics");
                 }}
               >
                 {" "}

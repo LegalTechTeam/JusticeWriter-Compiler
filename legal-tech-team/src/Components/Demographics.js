@@ -234,6 +234,16 @@ function Demographics() {
           variant="contained"
           onClick={() => {
             SaveJSON(formData, "demographics");
+            navigate("/");
+          }}
+        >
+          Back to Home
+        </Button>
+        <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "demographics");
             navigate("/familyDynamics");
           }}
         >
