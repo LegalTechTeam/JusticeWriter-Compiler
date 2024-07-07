@@ -31,7 +31,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1000,
     height: 1000,
-    icon: __dirname + "./Assets/image.png",
+    icon: __dirname + "Assets/image.png",
 
     resizable: true,
     webPreferences: {

@@ -20,7 +20,7 @@ const prompts = {
   ],
 
   quotes: [
-    "Do not edit the direct quotes.",
+    // "Do not edit the direct quotes.",
     "Do not write curse words or expletives.",
   ],
 
@@ -32,6 +32,7 @@ const prompts = {
 
 // Descriptions for each section
 const sectionDescriptions = {
+  background: "Backgrouund",
   demographics: "Demographics",
   familyDynamics: "Family Dynamics",
   community: "Community",
@@ -71,139 +72,215 @@ function add_from_json(inputText, key, prompt) {
 }
 
 // Function that calls the API with each prompt
-async function callAPI(section_name, json_values, inputText, jsonData) {
-  //console.log("given input text is ", inputText);
-  if (inputText === null) {
-    inputText =
-      "Write a detailed long-form expert witness paragraph on below for a professional legal proceeding. The language should be written as a sociologist, expert in forensic psychology, and professional writer.";
-  }
-  var adjustedPrompts = sectionDescriptions;
-
-  if (json_values !== null && jsonData !== null) {
-    //adjust the prompts based on the section
-    adjustedPrompts = {
-      demographics:
-        "This section is about " +
-        sectionDescriptions[section_name] +
-        " The interviewee is " +
-        jsonData.demographics.firstName +
-        " " +
-        jsonData.demographics.lastName +
-        ". ",
-      familyDynamics:
-        "This section discusses the " +
-        sectionDescriptions[section_name] +
-        " of " +
-        jsonData.demographics.firstName +
-        " " +
-        jsonData.demographics.lastName +
-        ". ",
-      community:
-        "This section is about " + sectionDescriptions[section_name] + ". ",
-      schooling:
-        "This section is about " + sectionDescriptions[section_name] + ". ",
-      adverseChildhoodExpriences:
-        "This section is about " + sectionDescriptions[section_name] + ". ",
-      peersAndRoleModels:
-        "This section is about " + sectionDescriptions[section_name] + ". ",
-      mentalHealth:
-        "This section is about " +
-        jsonData.demographics.firstName +
-        " " +
-        jsonData.demographics.lastName +
-        "'s " +
-        sectionDescriptions[section_name] +
-        ". ",
-      evidenceOfCharacter:
-        "This section is about " + sectionDescriptions[section_name],
-    };
-  }
-  console.log("current section name: ", section_name);
-
-  var prompt = adjustedPrompts[section_name];
-
-  //add the prompt for the section
-  //first checking input text
-  if (section_name === "demographics") {
-    //add grammar
-    prompt += add_from_json(inputText, "tone", prompt);
-    prompt += add_from_json(inputText, "grammar", prompt);
-  } else if (section_name === "familyDynamics") {
-    //add grammar, quotes, themes
-    prompt += add_from_json(inputText, "quotes", prompt);
-    prompt += add_from_json(inputText, "themes", prompt);
-    prompt += add_from_json(inputText, "grammar", prompt);
-  } else if (section_name === "community") {
-    //add grammar, tone, themes
-    prompt += add_from_json(inputText, "grammar", prompt);
-    prompt += add_from_json(inputText, "tone", prompt);
-    prompt += add_from_json(inputText, "themes", prompt);
-  } else if (section_name === "schooling") {
-    //add grammar
-    prompt += add_from_json(inputText, "grammar", prompt);
-  } else if (section_name === "adverseChildhoodExpriences") {
-    //add tone
-    prompt += add_from_json(inputText, "tone", prompt);
-  } else if (section_name === "peersAndRoleModels") {
-    //add grammar, themes
-    prompt += add_from_json(inputText, "grammar", prompt);
-    prompt += add_from_json(inputText, "themes", prompt);
-  } else if (section_name === "mentalHealth") {
-    //add tone, quotes
-    prompt += add_from_json(inputText, "tone", prompt);
-    prompt += add_from_json(inputText, "quotes", prompt);
-  } else if (section_name === "evidenceOfCharacter") {
-    //add quotes, themes
-    prompt += add_from_json(inputText, "quotes", prompt);
-    prompt += add_from_json(inputText, "themes", prompt);
-  } else {
-    //throw error
-    console.warn(
-      "Section name not found, report sections may not be accurate."
-    );
-  }
-
-  //console.log ("prompt on line 141: ", prompt);
-  prompt += "Below is the information provided by the interviewee: \n\n";
-  for (let key in json_values) {
-    //check if json at key is a list
-    if (typeof json_values[key] !== "string") {
-      // console.log("json_values[key] is a list");
-      prompt += key + ": ";
-      for (let key2 in json_values[key]) {
-        prompt += JSON.stringify(json_values[key][key2]);
-        prompt += "\n";
-      }
-    } else {
-      prompt += key + ": ";
-      prompt += JSON.stringify(json_values[key]);
-      prompt += "\n";
-    }
-    prompt += "\n";
-  }
-
-  console.log("Prompt for", section_name, ":", prompt);
+// section, subsections of section, prompt and full jsonData in CallApi
+async function summarizeJsonData(jsonData) {
+  const summaryPrompt = "Please summarize the following data for context: \n\n";
+  const prompt = appendToPrompt(jsonData, summaryPrompt);
 
   const stream = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
+    temperature: 0.3, // Controls randomness in text generation (lower is more deterministic)
+    top_p: 0.5,
     messages: [{ role: "user", content: prompt }],
     stream: true,
   });
 
-  //print the response
-  console.log("Response for", section_name, ":");
-  let curr_section = "";
+  let summary = "";
   for await (const chunk of stream) {
-    curr_section += chunk.choices[0]?.delta?.content || "";
+    summary += chunk.choices[0]?.delta?.content || "";
   }
 
-  console.log(curr_section);
+  return summary;
+}
+let contextSummary = "";
 
-  all_sections[section_name] = escapeDoubleQuotes(curr_section);
+function countWords(str) {
+  return str.split(/\s+/).filter((word) => word.length > 0).length;
+}
+
+function trimToWordLimit(str, wordLimit) {
+  const words = str.split(/\s+/).filter((word) => word.length > 0);
+  if (words.length > wordLimit) {
+    return words.slice(words.length - wordLimit).join(" ");
+  }
+  return str;
+}
+
+function updateContextSummary(newInfo) {
+  // Append new information to the summary
+  contextSummary += newInfo + " ";
+  // Ensure the summary does not exceed the word limit
+  if (countWords(contextSummary) > 1000) {
+    contextSummary = trimToWordLimit(contextSummary, 1000);
+  }
+}
+
+async function callAPI(
+  section_name,
+  section_values,
+  inputText,
+  jsonData,
+  contextSummary
+) {
+  var adjustedPrompts = sectionDescriptions;
+
+  if (section_values !== null && jsonData !== null) {
+    adjustedPrompts = {
+      background: `This section is about ${sectionDescriptions[section_name]}. The interviewee is ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}. `,
+      demographics: `This section is about ${sectionDescriptions[section_name]}. The interviewee is ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}. `,
+      familyDynamics: `This section discusses the ${sectionDescriptions[section_name]} of ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}. `,
+      community: `This section is about ${sectionDescriptions[section_name]}. `,
+      schooling: `This section is about ${sectionDescriptions[section_name]}. `,
+      adverseChildhoodExpriences: `This section is about ${sectionDescriptions[section_name]}. `,
+      peersAndRoleModels: `This section is about ${sectionDescriptions[section_name]}. `,
+      mentalHealth: `This section is about ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}'s ${sectionDescriptions[section_name]}. `,
+      evidenceOfCharacter: `This section is about ${sectionDescriptions[section_name]}.`,
+    };
+  }
+
+  const sectionActions = {
+    demographics: ["tone", "quotes", "themes", "grammar"],
+    familyDynamics: ["tone", "quotes", "themes", "grammar"],
+    background: ["tone", "quotes", "themes", "grammar"],
+    community: ["tone", "quotes", "themes", "grammar"],
+    schooling: ["tone", "quotes", "themes", "grammar"],
+    adverseChildhoodExpriences: ["tone", "quotes", "themes", "grammar"],
+    peersAndRoleModels: ["tone", "quotes", "themes", "grammar"],
+    mentalHealth: ["tone", "quotes", "themes", "grammar"],
+    evidenceOfCharacter: ["tone", "quotes", "themes", "grammar"],
+  };
+
+  // Merge relevant fields for family dynamics
+  if (section_name === "familyDynamics") {
+    section_values = {
+      Parent: `
+        Mother's Name: ${section_values.motherName}
+        Mother's Birthday: ${section_values.motherBday}
+        Mother's Arrested: ${section_values.motherArrested}
+        Number of Children (Mother): ${section_values.motherNumChildren}
+        Mother's Education: ${section_values.motherEducation}
+        Mother's Marital Status: ${section_values.motherMaritalStatus}
+        Father's Arrested: ${section_values.fatherArrested}
+      `,
+      Other: `
+        Siblings: ${section_values.siblings}
+        Family Conflict: ${section_values.familyConflict}
+        Family Relocation: ${section_values.familyRelocation}
+        Housing Assistance: ${section_values.housingAssistance}
+      `,
+    };
+  }
+  if (section_name === "demographics" && section_values.background) {
+    section_values = {
+      background: section_values.background,
+    };
+  }
+
+  // Merge relevant fields for adverse childhood experiences
+  if (section_name === "adverseChildhoodExpriences") {
+    section_values = {
+      mentalHealthAndDrugUse: `
+        Alcohol Abuse: ${section_values.alcoholAbuse}
+        Mental Illness: ${section_values.mentalIllness}
+        Drug Use: ${section_values.drugUse}
+        Diagnosed SUD: ${section_values.diagnosedSUD}
+        Treated SUD: ${section_values.treatedSUD}
+      `,
+      separation: section_values.separation,
+      familyMembersInPrison: section_values.familyMembersInPrison,
+      lossesAndDeaths: section_values.lossesAndDeaths,
+
+      emotionalAbuse: section_values.emotionalAbuse,
+      physicalAbuse: section_values.physicalAbuse,
+      sexualAbuse: section_values.sexualAbuse,
+      emotionalNeglect: section_values.emotionalNeglect,
+      physicalNeglect: section_values.physicalNeglect,
+      familyMemberAbusedOrThreatened:
+        section_values.familyMemberAbusedOrThreatened,
+    };
+  }
+
+  // Merge relevant fields for peers and role models
+  if (section_name === "peersAndRoleModels") {
+    section_values = {
+      neighborhood: `
+        Number of Neighborhood College Students: ${section_values.numberNeighborhoodCollege}
+        Number of Neighborhood Prison Inmates: ${section_values.numberNeighborhoodPrison}
+        Number of Relatives Arrested: ${section_values.numberRelativesArrested}
+        Neighborhood Arrests: ${section_values.neighborhoodArrests}
+        Neighborhood Degrees: ${section_values.neighborhoodDegrees}
+      `,
+      mentalHealthIssues: section_values.mentalHealthIssues,
+      affectedByMentalHealth: section_values.affectedByMentalHealth,
+      associationWithPeers: section_values.associationWithPeers,
+    };
+  }
+
+  if (section_name === "schooling") {
+    section_values = {
+      educationHistory: `
+        schoolsAttended: ${section_values.schoolsAttended}
+        schoolChanges: ${section_values.schoolChanges}
+        schoolQuality: ${section_values.schoolQuality}
+      
+      `,
+      noDisciplinaryAction: section_values.noDisciplinaryAction,
+      emotionalAbuse: section_values.emotionalAbuse,
+    };
+  }
+
+  for (let subsection in section_values) {
+    let prompt = contextSummary + "\n\n";
+    prompt += adjustedPrompts[section_name];
+    if (sectionActions[section_name]) {
+      sectionActions[section_name].forEach((action) => {
+        prompt += add_from_json(inputText, action, prompt);
+      });
+    } else {
+      console.warn(
+        "Section name not found, report sections may not be accurate."
+      );
+    }
+
+    prompt += "Below is the information provided by the interviewee: \n\n";
+    prompt = appendToPrompt(
+      { [subsection]: section_values[subsection] },
+      prompt
+    );
+
+    console.log(`Prompt for ${section_name} - ${subsection}:`, prompt);
+
+    const stream = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      temperature: 0.3, // Controls randomness in text generation (lower is more deterministic)
+      top_p: 0.5,
+      messages: [{ role: "user", content: prompt }],
+      stream: true,
+    });
+
+    console.log(`Response for ${section_name} - ${subsection}:`);
+    let curr_section = "";
+    for await (const chunk of stream) {
+      curr_section += chunk.choices[0]?.delta?.content || "";
+    }
+
+    console.log(curr_section);
+
+    if (!all_sections[section_name]) {
+      all_sections[section_name] = {};
+    }
+    all_sections[section_name][subsection] = escapeDoubleQuotes(curr_section);
+
+    // Update the context summary with new information
+    //updateContextSummary(curr_section);
+    if (section_name === "demographics") {
+      all_sections["summary"] = curr_section;
+    }
+  }
 }
 
 export var chatPatches = null;
-// Function to generate a report from JSON data
+
 export async function generateReport(jsonData, inputText) {
   console.log("Generating Report for JSON data in api calls");
   console.log("jsonData: \n", jsonData);
@@ -217,7 +294,6 @@ export async function generateReport(jsonData, inputText) {
   if (jsonData.demographics?.attorneyOffice) {
     all_sections["attorneyOffice"] = jsonData.demographics.attorneyOffice;
   }
-
   if (jsonData.demographics?.caseNumber) {
     all_sections["caseNumber"] = jsonData.demographics.caseNumber;
   }
@@ -236,44 +312,46 @@ export async function generateReport(jsonData, inputText) {
 
   try {
     const sections = Object.keys(jsonData).filter((key) => {
-      // Assuming sections have certain characteristics (you can adjust this condition)
       return typeof jsonData[key] === "object" && !Array.isArray(jsonData[key]);
     });
-    sections.forEach(async (section) => {
-      await callAPI(section, jsonData[section], inputText, jsonData);
-    });
-    console.log("All sections:", all_sections);
-  } catch (error) {
-    console.log("error caused by this section of json " + section);
-    console.error("Error parsing JSON:", error);
-  }
-  console.log("Generating Report for JSON data in api calls");
-  console.log("jsonData: \n", jsonData);
-  try {
-    const sections = Object.keys(jsonData).filter((key) => {
-      // Assuming sections have certain characteristics (you can adjust this condition)
-      return typeof jsonData[key] === "object" && !Array.isArray(jsonData[key]);
-    });
-    /*await Promise.all(sections.forEach(async (section) => {
-          await callAPI(section, jsonData[section]);
-        }));*/
+
+    const initialContextSummary = await summarizeJsonData(jsonData);
+    updateContextSummary(initialContextSummary);
+
     await Promise.all(
       sections.map(async (section) => {
-        await callAPI(section, jsonData[section], inputText, jsonData);
+        await callAPI(
+          section,
+          jsonData[section],
+          inputText,
+          jsonData,
+          contextSummary
+        );
       })
     );
-    // all_sections = all_sections.substring(0, all_sections.length - 2);
-    // all_sections += "}";
-    const all_sections_json = JSON.stringify(all_sections);
 
+    const all_sections_json = JSON.stringify(all_sections);
     console.log("All Sections: ", all_sections);
     chatPatches = JSON.parse(all_sections_json);
     console.log("Chat Patches:", chatPatches);
-    //console.log(all_sections);
   } catch (error) {
     console.error("Error parsing JSON:", error);
   }
 }
+
+function appendToPrompt(jsonObject, prompt, indent = "") {
+  for (let key in jsonObject) {
+    if (typeof jsonObject[key] === "object" && jsonObject[key] !== null) {
+      prompt += `${indent}${key}: \n`;
+      prompt = appendToPrompt(jsonObject[key], prompt, indent + "  ");
+    } else {
+      prompt += `${indent}${key}: ${JSON.stringify(jsonObject[key])}\n`;
+    }
+  }
+  return prompt;
+}
+
+// PDF STUFF
 
 const extractTextFromPDF = async (pdfFile) => {
   // Load the PDF file using PDF.js
@@ -325,6 +403,8 @@ export async function summarizeFile(pdfData) {
   const stream = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: prompt }],
+    temperature: 0.3, // Controls randomness in text generation (lower is more deterministic)
+    top_p: 0.5,
     stream: true,
   });
 
@@ -363,3 +443,50 @@ function escapeDoubleQuotes(str) {
   str = str.replace(/\\/g, "");
   return str;
 }
+
+// for (let key in json_values) {
+//   //check if json at key is a list
+//   if (typeof json_values[key] !== "string") {
+//     // console.log("json_values[key] is a list");
+//     prompt += key + ": ";
+//     for (let key2 in json_values[key]) {
+//       prompt += JSON.stringify(json_values[key][key2]);
+//       prompt += "\n";
+//     }
+//   } else {
+//     prompt += key + ": ";
+//     prompt += JSON.stringify(json_values[key]);
+//     prompt += "\n";
+//   }
+//   prompt += "\n";
+// }
+
+// // call api for sections
+// try {
+//   const sections = Object.keys(jsonData).filter((key) => {
+//     // Assuming sections have certain characteristics (you can adjust this condition)
+//     return typeof jsonData[key] === "object";
+//   });
+
+//   // section, subsections of section, prompt and full jsonData in CallApi
+//   await Promise.all(
+//     sections.map(async (section) => {
+//       await callAPI(section, jsonData[section], inputText, jsonData);
+//     })
+//   );
+
+//   console.log("All sections:", all_sections);
+//   console.log("Generating Report for JSON data in api calls");
+//   console.log("jsonData: \n", jsonData);
+
+//   // all_sections = all_sections.substring(0, all_sections.length - 2);
+//   // all_sections += "}";
+//   const all_sections_json = JSON.stringify(all_sections);
+
+//   console.log("All Sections: ", all_sections);
+//   const chatPatches = JSON.parse(all_sections_json);
+//   console.log("Chat Patches:", chatPatches);
+//   //console.log(all_sections);
+// } catch (error) {
+//   console.error("Error parsing JSON:", error);
+// }

@@ -28,25 +28,20 @@ import { clearJSON } from "../HelperFunctions/formatJSON";
 await import("pdfjs-dist/build/pdf.worker.min.mjs");
 
 const prompts = {
-  grammar: [
-    "Write in third person.",
-    "Do not write run-on sentences.",
-    "Avoid using commas unless they are used as a list.",
-  ],
+  grammar: ["Write in third person.", "Do not write run-on sentences."],
 
   tone: [
-    "Write in the tone of a sociologist, expert in forensic psychology, and professional writer.",
-    "You are an expert witness writing a report about a client's life, trauma, and social disadvantages.",
+    "Write professionally and in full sentences. Do NOT omit any information and do NOT write in bullet points.Using only the provided data, generate a paragraph that accurately reflects interviewee's experiences. Do not infer or add any new information beyond what is given.",
+    //"Write in the tone of a professional writer. make full sectences. Do not omit ANY information nor combine sentences.",
   ],
 
   quotes: [
-    "Please identify direct quotes and insert direct quotes using quotation marks. Do not edit the direct quotes.",
+    "The notes section of the data should be treated as direct quotes. Insert direct quotes using quotation marks. Do not edit the direct quotes.",
     "Do not write curse words or expletives.",
   ],
 
   themes: [
-    "Transform the following notes, bullet points, and data points into complete sentences. Each point should be a complete sentence.",
-    "Do not abbreviate or consolidate the information. Each bullet point and each line should be transformed into a complete sentence.",
+    "Transform the followings into complete sentences. Each point should be a complete sentence.",
   ],
 };
 
