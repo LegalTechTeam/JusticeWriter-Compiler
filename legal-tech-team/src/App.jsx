@@ -18,6 +18,7 @@ import Schooling from "./Components/Schooling";
 import Submit from "./Components/Submit";
 import MentalHealth from "./Components/MentalHealth";
 import Evidence from "./Components/Evidence";
+import CrimeStats from "./Components/crimeStats";
 import { initializeFromStore } from "./HelperFunctions/formatJSON";
 function App() {
   const [data, setData] = useState('');
@@ -45,6 +46,7 @@ function App() {
           <Route path="/peers-role-models" element={<PeersRoleModels/>} />
           <Route path="/mental-health" element={<MentalHealth/>}/>
           <Route path="/evidence"element={<Evidence/>}/>
+          <Route path="/crime-stats"element={<CrimeStats/>}/> 
     </Routes>
 
 </HashRouter>    

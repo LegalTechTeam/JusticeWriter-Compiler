@@ -238,6 +238,18 @@ function Submit() {
               </Button>
             )}
 
+            {!wifiConnected && (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  navigate("/crime-stats")
+                }}
+                style={{ marginLeft: "10px" }}
+              >
+                Crime Statistics
+              </Button>
+            )}
+
             <Box sx={{ marginTop: "20px" }}>
               <Button
                 variant="contained"
