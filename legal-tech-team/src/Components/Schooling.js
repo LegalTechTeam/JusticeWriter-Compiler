@@ -132,6 +132,30 @@ function Schooling() {
       sexualAbuse: "",
       notes: [],
     },
+    emotionalNeglect: {
+      emotionalNeglect: "",
+      notes: [],
+    },
+    physicalNeglect: {
+      physicalNeglect: "",
+      notes: [],
+    },
+    familyMemberAbusedOrThreatened: {
+      familyMemberAbusedOrThreatened: "",
+      notes: [],
+    },
+    alcoholAbuse: {
+      alcoholAbuse: "",
+      notes: [],
+    },
+    mentalIllness: {
+      mentalIllness: "",
+      notes: [],
+    },
+    separation: {
+      separation: "",
+      notes: [],
+    },
   });
 
   const handleChange = (e) => {

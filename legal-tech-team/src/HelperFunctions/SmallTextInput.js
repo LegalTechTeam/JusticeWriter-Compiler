@@ -1,5 +1,5 @@
 import { Grid, InputLabel, TextField } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import AddQuotes from "./AddQuotes";
 function SmallTextInput(props) {
   const { id, handleQuotesChange, section, field } = props;

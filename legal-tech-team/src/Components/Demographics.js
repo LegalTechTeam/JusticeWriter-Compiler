@@ -46,7 +46,11 @@ function Demographics() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
   };
 
   const handleDropdownChange = (e) => {
@@ -230,6 +234,16 @@ function Demographics() {
             </Grid>
           </Box>
         </Box>
+        <Button
+          variant="contained"
+          onClick={() => {
+            SaveJSON(formData, "demographics");
+            navigate("/");
+          }}
+        >
+          Back to Home
+        </Button>
+        <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
         <Button
           variant="contained"
           onClick={() => {
