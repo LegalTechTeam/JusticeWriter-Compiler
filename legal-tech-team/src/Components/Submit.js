@@ -79,7 +79,7 @@ function Submit() {
       setFile(null);
       setSubmitSuccess(false);
       setWifiConnected(false);
-      chatPatches = null;
+      if (chatPatches) chatPatches = null;
       setIsLoading(false);
     };
   }, []);
