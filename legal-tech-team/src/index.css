@@ -37,6 +37,11 @@ code {
   color: white;
 }
 
+.App{
+  
+  background-color: #e9eaec;
+}
+
 .App-link {
   color: #61dafb;
 }

@@ -14,8 +14,10 @@ import {
   RadioGroup,
   FormControlLabel,
   FormGroup,
+  ThemeProvider,
 } from "@mui/material";
 import "react-dropdown/style.css";
+import themeWrapper from "../Layouts/ThemeWrapper";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
@@ -178,262 +180,267 @@ function MentalHealth() {
   };
 
   return (
-    <div>
-      <Header />
-      <Paper
-        elevation={3}
-        sx={{
-          marginRight: "15%",
-          marginLeft: "15%",
-          paddingBottom: "5%",
-          fontFamily: "Noto Sans",
-        }}
-      >
-        <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-          Mental Health Treatment
-        </Typography>
+    <ThemeProvider theme={themeWrapper}>
+      <div>
+        <Header />
+        <Paper
+          elevation={3}
+          sx={{
+            marginRight: "15%",
+            marginLeft: "15%",
+            paddingBottom: "5%",
+            fontFamily: "Noto Sans",
+          }}
+        >
+          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+            Mental Health Treatment
+          </Typography>
 
-        {/* First Yes or No Question */}
-        <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <Grid container spacing={3}>
-              <RadioYesNo
-                id={"participatedMentalHealthOrDrugProgram"}
-                section={"mentalHealth"}
-                question={
-                  "Have you ever received behavioral or mental health treatment?"
-                }
+          {/* First Yes or No Question */}
+          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <Grid container spacing={3}>
+                <RadioYesNo
+                  id={"participatedMentalHealthOrDrugProgram"}
+                  section={"mentalHealth"}
+                  question={
+                    "Have you ever received behavioral or mental health treatment?"
+                  }
+                  value={
+                    formData.participatedMentalHealthOrDrugProgram
+                      ?.participatedMentalHealthOrDrugProgram
+                  }
+                  onChange={handleRadioChange}
+                  checkedValue={
+                    formData.participatedMentalHealthOrDrugProgram
+                      ?.participatedMentalHealthOrDrugProgram
+                  }
+                  handleQuotesChange={(newQuotes) =>
+                    handleQuotesChange(
+                      "participatedMentalHealthOrDrugProgram",
+                      newQuotes
+                    )
+                  }
+                />
+                <RadioYesNo
+                  id={"receivedMentalHealthTreatment"}
+                  section={"mentalHealth"}
+                  question={
+                    "Have you ever participated in a mental health or drug program?"
+                  }
+                  value={
+                    formData.receivedMentalHealthTreatment
+                      ?.receivedMentalHealthTreatment
+                  }
+                  onChange={handleRadioChange}
+                  checkedValue={
+                    formData.receivedMentalHealthTreatment
+                      ?.receivedMentalHealthTreatment
+                  }
+                  handleQuotesChange={(newQuotes) =>
+                    handleQuotesChange(
+                      "receivedMentalHealthTreatment",
+                      newQuotes
+                    )
+                  }
+                />
+
+                <Grid item xs={12} sm={8}>
+                  <InputLabel
+                    sx={{
+                      display: "flex",
+                      justifyContent: "left",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Have you ever completed therapy, coaching, or counseling to{" "}
+                    <br></br>
+                    address mental health, trauma, or grief?{" "}
+                  </InputLabel>
+                </Grid>
+                <FormGroup
+                //onChange={handleChange}
+                >
+                  {mentalHealthList.map((disadvantage, index) => (
+                    <React.Fragment key={index}>
+                      <CheckboxWithAdd
+                        label={disadvantage.label}
+                        id={disadvantage.id}
+                        checked={formData.addressedMentalHealthIssues?.addressedMentalHealthIssues.includes(
+                          disadvantage.id
+                        )}
+                        onChange={handlePerformanceChange}
+                        subs={disadvantage.subs}
+                        handleQuotesChange={(newQuotes) =>
+                          handleQuotesChange(disadvantage.id, newQuotes)
+                        }
+                        section={"mentalHealth"}
+                      />
+                    </React.Fragment>
+                  ))}
+                </FormGroup>
+              </Grid>
+            </Box>
+
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={"Treatments/Counseling (if any)"}
+                id={"treatment Or Counseling"}
+                label={"treatmentOrCounseling"}
+                onChange={handleChange}
                 value={
-                  formData.participatedMentalHealthOrDrugProgram
-                    ?.participatedMentalHealthOrDrugProgram
-                }
-                onChange={handleRadioChange}
-                checkedValue={
-                  formData.participatedMentalHealthOrDrugProgram
-                    ?.participatedMentalHealthOrDrugProgram
+                  formData.treatmentOrCounseling &&
+                  formData.treatmentOrCounseling.treatmentOrCounseling
                 }
                 handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange(
-                    "participatedMentalHealthOrDrugProgram",
+                  handleQuotesChange("treatmentOrCounseling", newQuotes)
+                }
+                section={"mentalHealth"}
+              />
+            </Box>
+
+            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+              Evidence of Character and Potential To Change
+            </Typography>
+
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={"Provide an example of your character"}
+                id={"exampleOfCharacter"}
+                label={"example Of Character"}
+                onChange={handleChangeEvidence}
+                value={
+                  formDataEvidence.exampleOfCharacter &&
+                  formDataEvidence.exampleOfCharacter.exampleOfCharacter
+                }
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChangeEvidence("exampleOfCharacter", newQuotes)
+                }
+                section={"evidenceOfCharacter"}
+              />
+            </Box>
+
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={
+                  "Give examples of good deeds and contributions that you’ve made"
+                }
+                id={"exampleOfGoodDeed"}
+                label={"example Of Good Deed"}
+                onChange={handleChangeEvidence}
+                value={
+                  formDataEvidence.exampleOfGoodDeed &&
+                  formDataEvidence.exampleOfGoodDeed.exampleOfGoodDeed
+                }
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChangeEvidence("exampleOfGoodDeed", newQuotes)
+                }
+                section={"evidenceOfCharacter"}
+              />
+            </Box>
+
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={
+                  "List any volunteering, employment, mentoring, community engagement that you’ve done"
+                }
+                id={"volunteeringAndCommunityEngagement"}
+                label={"volunteering And Community Engagement"}
+                onChange={handleChangeEvidence}
+                value={
+                  formDataEvidence.volunteeringAndCommunityEngagement &&
+                  formDataEvidence.volunteeringAndCommunityEngagement
+                    .volunteeringAndCommunityEngagement
+                }
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChangeEvidence(
+                    "volunteeringAndCommunityEngagement",
                     newQuotes
                   )
                 }
-              />
-              <RadioYesNo
-                id={"receivedMentalHealthTreatment"}
-                section={"mentalHealth"}
-                question={
-                  "Have you ever participated in a mental health or drug program?"
-                }
-                value={
-                  formData.receivedMentalHealthTreatment
-                    ?.receivedMentalHealthTreatment
-                }
-                onChange={handleRadioChange}
-                checkedValue={
-                  formData.receivedMentalHealthTreatment
-                    ?.receivedMentalHealthTreatment
-                }
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("receivedMentalHealthTreatment", newQuotes)
-                }
-              />
-
-              <Grid item xs={12} sm={8}>
-                <InputLabel
-                  sx={{
-                    display: "flex",
-                    justifyContent: "left",
-                    fontWeight: 700,
-                  }}
-                >
-                  Have you ever completed therapy, coaching, or counseling to{" "}
-                  <br></br>
-                  address mental health, trauma, or grief?{" "}
-                </InputLabel>
-              </Grid>
-              <FormGroup
-              //onChange={handleChange}
-              >
-                {mentalHealthList.map((disadvantage, index) => (
-                  <React.Fragment key={index}>
-                    <CheckboxWithAdd
-                      label={disadvantage.label}
-                      id={disadvantage.id}
-                      checked={formData.addressedMentalHealthIssues?.addressedMentalHealthIssues.includes(
-                        disadvantage.id
-                      )}
-                      onChange={handlePerformanceChange}
-                      subs={disadvantage.subs}
-                      handleQuotesChange={(newQuotes) =>
-                        handleQuotesChange(disadvantage.id, newQuotes)
-                      }
-                      section={"mentalHealth"}
-                    />
-                  </React.Fragment>
-                ))}
-              </FormGroup>
-            </Grid>
-          </Box>
-
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <BigText
-              question={"Treatments/Counseling (if any)"}
-              id={"treatment Or Counseling"}
-              label={"treatmentOrCounseling"}
-              onChange={handleChange}
-              value={
-                formData.treatmentOrCounseling &&
-                formData.treatmentOrCounseling.treatmentOrCounseling
-              }
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("treatmentOrCounseling", newQuotes)
-              }
-              section={"mentalHealth"}
-            />
-          </Box>
-
-          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-            Evidence of Character and Potential To Change
-          </Typography>
-
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <BigText
-              question={"Provide an example of your character"}
-              id={"exampleOfCharacter"}
-              label={"example Of Character"}
-              onChange={handleChangeEvidence}
-              value={
-                formDataEvidence.exampleOfCharacter &&
-                formDataEvidence.exampleOfCharacter.exampleOfCharacter
-              }
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChangeEvidence("exampleOfCharacter", newQuotes)
-              }
-              section={"evidenceOfCharacter"}
-            />
-          </Box>
-
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <BigText
-              question={
-                "Give examples of good deeds and contributions that you’ve made"
-              }
-              id={"exampleOfGoodDeed"}
-              label={"example Of Good Deed"}
-              onChange={handleChangeEvidence}
-              value={
-                formDataEvidence.exampleOfGoodDeed &&
-                formDataEvidence.exampleOfGoodDeed.exampleOfGoodDeed
-              }
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChangeEvidence("exampleOfGoodDeed", newQuotes)
-              }
-              section={"evidenceOfCharacter"}
-            />
-          </Box>
-
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <BigText
-              question={
-                "List any volunteering, employment, mentoring, community engagement that you’ve done"
-              }
-              id={"volunteeringAndCommunityEngagement"}
-              label={"volunteering And Community Engagement"}
-              onChange={handleChangeEvidence}
-              value={
-                formDataEvidence.volunteeringAndCommunityEngagement &&
-                formDataEvidence.volunteeringAndCommunityEngagement
-                  .volunteeringAndCommunityEngagement
-              }
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChangeEvidence(
-                  "volunteeringAndCommunityEngagement",
-                  newQuotes
-                )
-              }
-              section={"evidenceOfCharacter"}
-            />
-          </Box>
-
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <Grid container spacing={3}>
-              <RadioYesNo
-                id={"areParent"}
                 section={"evidenceOfCharacter"}
-                question={"Are you a parent?"}
-                value={formDataEvidence.areParent?.areParent}
-                onChange={handleRadioChangeEvidence}
-                checkedValue={formDataEvidence.areParent?.areParent}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChangeEvidence("areParent", newQuotes)
-                }
               />
-            </Grid>
+            </Box>
+
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <Grid container spacing={3}>
+                <RadioYesNo
+                  id={"areParent"}
+                  section={"evidenceOfCharacter"}
+                  question={"Are you a parent?"}
+                  value={formDataEvidence.areParent?.areParent}
+                  onChange={handleRadioChangeEvidence}
+                  checkedValue={formDataEvidence.areParent?.areParent}
+                  handleQuotesChange={(newQuotes) =>
+                    handleQuotesChangeEvidence("areParent", newQuotes)
+                  }
+                />
+              </Grid>
+            </Box>
           </Box>
-        </Box>
 
-        <Button
-          variant="contained"
-          onClick={() => {
-            SaveJSON(formData, "mentalHealth");
-            SaveJSON(formDataEvidence, "evidenceOfCharacter");
-            navigate("/peers-role-models");
-          }}
-        >
-          Previous
-        </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              SaveJSON(formData, "mentalHealth");
+              SaveJSON(formDataEvidence, "evidenceOfCharacter");
+              navigate("/peers-role-models");
+            }}
+          >
+            Previous
+          </Button>
 
-        <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
+          <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button
-          variant="contained"
-          onClick={() => {
-            SaveJSON(formData, "mentalHealth");
-            SaveJSON(formDataEvidence, "evidenceOfCharacter");
-            navigate("/evidence");
-          }}
-        >
-          Next
-        </Button>
-      </Paper>
-    </div>
+          <Button
+            variant="contained"
+            onClick={() => {
+              SaveJSON(formData, "mentalHealth");
+              SaveJSON(formDataEvidence, "evidenceOfCharacter");
+              navigate("/evidence");
+            }}
+          >
+            Next
+          </Button>
+        </Paper>
+      </div>
+    </ThemeProvider>
   );
 }
 export default MentalHealth;

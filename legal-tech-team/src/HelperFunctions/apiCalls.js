@@ -154,25 +154,58 @@ async function callAPI(
   if (section_name === "familyDynamics") {
     section_values = {
       Parent: `
-        Mother's Name: ${section_values.motherName}
-        Mother's Birthday: ${section_values.motherBday}
-        Mother's Arrested: ${section_values.motherArrested}
-        Number of Children (Mother): ${section_values.motherNumChildren}
-        Mother's Education: ${section_values.motherEducation}
-        Mother's Marital Status: ${section_values.motherMaritalStatus}
-        Father's Arrested: ${section_values.fatherArrested}
+        Mother's Name: ${JSON.stringify(section_values.motherName, null, 2)}
+        Mother's Birthday: ${JSON.stringify(section_values.motherBday, null, 2)}
+        Mother's Arrested: ${JSON.stringify(
+          section_values.motherArrested,
+          null,
+          2
+        )}
+        Number of Children (Mother): ${JSON.stringify(
+          section_values.motherNumChildren,
+          null,
+          2
+        )}
+        Mother's Education: ${JSON.stringify(
+          section_values.motherEducation,
+          null,
+          2
+        )}
+        Mother's Marital Status: ${JSON.stringify(
+          section_values.motherMaritalStatus,
+          null,
+          2
+        )}
+        Father's Arrested: ${JSON.stringify(
+          section_values.fatherArrested,
+          null,
+          2
+        )}
       `,
       Other: `
-        Siblings: ${section_values.siblings}
-        Family Conflict: ${section_values.familyConflict}
-        Family Relocation: ${section_values.familyRelocation}
-        Housing Assistance: ${section_values.housingAssistance}
+        Siblings: ${JSON.stringify(section_values.siblings, null, 2)}
+        Family Conflict: ${JSON.stringify(
+          section_values.familyConflict,
+          null,
+          2
+        )}
+        Family Relocation: ${JSON.stringify(
+          section_values.familyRelocation,
+          null,
+          2
+        )}
+        Housing Assistance: ${JSON.stringify(
+          section_values.housingAssistance,
+          null,
+          2
+        )}
       `,
     };
   }
+
   if (section_name === "demographics" && section_values.background) {
     section_values = {
-      background: section_values.background,
+      background: JSON.stringify(section_values.background, null, 2),
     };
   }
 
@@ -180,23 +213,34 @@ async function callAPI(
   if (section_name === "adverseChildhoodExpriences") {
     section_values = {
       mentalHealthAndDrugUse: `
-        Alcohol Abuse: ${section_values.alcoholAbuse}
-        Mental Illness: ${section_values.mentalIllness}
-        Drug Use: ${section_values.drugUse}
-        Diagnosed SUD: ${section_values.diagnosedSUD}
-        Treated SUD: ${section_values.treatedSUD}
+        Alcohol Abuse: ${JSON.stringify(section_values.alcoholAbuse, null, 2)}
+        Mental Illness: ${JSON.stringify(section_values.mentalIllness, null, 2)}
+        Drug Use: ${JSON.stringify(section_values.drugUse, null, 2)}
+        Diagnosed SUD: ${JSON.stringify(section_values.diagnosedSUD, null, 2)}
+        Treated SUD: ${JSON.stringify(section_values.treatedSUD, null, 2)}
       `,
-      separation: section_values.separation,
-      familyMembersInPrison: section_values.familyMembersInPrison,
-      lossesAndDeaths: section_values.lossesAndDeaths,
+      separation: JSON.stringify(section_values.separation, null, 2),
+      familyMembersInPrison: JSON.stringify(
+        section_values.familyMembersInPrison,
+        null,
+        2
+      ),
+      lossesAndDeaths: JSON.stringify(section_values.lossesAndDeaths, null, 2),
 
-      emotionalAbuse: section_values.emotionalAbuse,
-      physicalAbuse: section_values.physicalAbuse,
-      sexualAbuse: section_values.sexualAbuse,
-      emotionalNeglect: section_values.emotionalNeglect,
-      physicalNeglect: section_values.physicalNeglect,
-      familyMemberAbusedOrThreatened:
+      emotionalAbuse: JSON.stringify(section_values.emotionalAbuse, null, 2),
+      physicalAbuse: JSON.stringify(section_values.physicalAbuse, null, 2),
+      sexualAbuse: JSON.stringify(section_values.sexualAbuse, null, 2),
+      emotionalNeglect: JSON.stringify(
+        section_values.emotionalNeglect,
+        null,
+        2
+      ),
+      physicalNeglect: JSON.stringify(section_values.physicalNeglect, null, 2),
+      familyMemberAbusedOrThreatened: JSON.stringify(
         section_values.familyMemberAbusedOrThreatened,
+        null,
+        2
+      ),
     };
   }
 
@@ -204,31 +248,71 @@ async function callAPI(
   if (section_name === "peersAndRoleModels") {
     section_values = {
       neighborhood: `
-        Number of Neighborhood College Students: ${section_values.numberNeighborhoodCollege}
-        Number of Neighborhood Prison Inmates: ${section_values.numberNeighborhoodPrison}
-        Number of Relatives Arrested: ${section_values.numberRelativesArrested}
-        Neighborhood Arrests: ${section_values.neighborhoodArrests}
-        Neighborhood Degrees: ${section_values.neighborhoodDegrees}
+        Number of Neighborhood College Students: ${JSON.stringify(
+          section_values.numberNeighborhoodCollege,
+          null,
+          2
+        )}
+        Number of Neighborhood Prison Inmates: ${JSON.stringify(
+          section_values.numberNeighborhoodPrison,
+          null,
+          2
+        )}
+        Number of Relatives Arrested: ${JSON.stringify(
+          section_values.numberRelativesArrested,
+          null,
+          2
+        )}
+        Neighborhood Arrests: ${JSON.stringify(
+          section_values.neighborhoodArrests,
+          null,
+          2
+        )}
+        Neighborhood Degrees: ${JSON.stringify(
+          section_values.neighborhoodDegrees,
+          null,
+          2
+        )}
       `,
-      mentalHealthIssues: section_values.mentalHealthIssues,
-      affectedByMentalHealth: section_values.affectedByMentalHealth,
-      associationWithPeers: section_values.associationWithPeers,
+      mentalHealthIssues: JSON.stringify(
+        section_values.mentalHealthIssues,
+        null,
+        2
+      ),
+      affectedByMentalHealth: JSON.stringify(
+        section_values.affectedByMentalHealth,
+        null,
+        2
+      ),
+      associationWithPeers: JSON.stringify(
+        section_values.associationWithPeers,
+        null,
+        2
+      ),
     };
   }
 
   if (section_name === "schooling") {
     section_values = {
       educationHistory: `
-        schoolsAttended: ${section_values.schoolsAttended}
-        schoolChanges: ${section_values.schoolChanges}
-        schoolQuality: ${section_values.schoolQuality}
-      
+        schoolsAttended: ${JSON.stringify(
+          section_values.schoolsAttended,
+          null,
+          2
+        )}
+        schoolChanges: ${JSON.stringify(section_values.schoolChanges, null, 2)}
+        schoolQuality: ${JSON.stringify(section_values.schoolQuality, null, 2)}
       `,
-      noDisciplinaryAction: section_values.noDisciplinaryAction,
-      emotionalAbuse: section_values.emotionalAbuse,
+      noDisciplinaryAction: JSON.stringify(
+        section_values.noDisciplinaryAction,
+        null,
+        2
+      ),
+      emotionalAbuse: JSON.stringify(section_values.emotionalAbuse, null, 2),
     };
   }
 
+  // Function to append section values to prompt
   for (let subsection in section_values) {
     let prompt = contextSummary + "\n\n";
     prompt += adjustedPrompts[section_name];
@@ -341,7 +425,19 @@ export async function generateReport(jsonData, inputText) {
 
 function appendToPrompt(jsonObject, prompt, indent = "") {
   for (let key in jsonObject) {
-    if (typeof jsonObject[key] === "object" && jsonObject[key] !== null) {
+    if (Array.isArray(jsonObject[key])) {
+      prompt += `${indent}${key}: \n`;
+      jsonObject[key].forEach((item) => {
+        if (typeof item === "object" && item !== null) {
+          prompt = appendToPrompt(item, prompt, indent + "  ");
+        } else {
+          prompt += `${indent}  ${JSON.stringify(item)}\n`;
+        }
+      });
+    } else if (
+      typeof jsonObject[key] === "object" &&
+      jsonObject[key] !== null
+    ) {
       prompt += `${indent}${key}: \n`;
       prompt = appendToPrompt(jsonObject[key], prompt, indent + "  ");
     } else {

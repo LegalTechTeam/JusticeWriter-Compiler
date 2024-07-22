@@ -8,12 +8,14 @@ import {
   Button,
   FormGroup,
   Typography,
+  ThemeProvider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import OtherNotes from "../HelperFunctions/OtherNotes";
+import themeWrapper from "../Layouts/ThemeWrapper";
 import BigText from "../HelperFunctions/BigText";
 import { useState } from "react";
 import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
@@ -249,147 +251,149 @@ function Community() {
   }, []);
 
   return (
-    <>
-      <Header />
+    <ThemeProvider theme={themeWrapper}>
+      <>
+        <Header />
 
-      <Paper
-        elevation={3}
-        sx={{
-          marginRight: "15%",
-          marginLeft: "15%",
-          paddingBottom: "5%",
-          fontFamily: "Noto Sans",
-        }}
-      >
-        <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-            Community
-          </Typography>
-          {/*Question*/}
-          <Box
-            sx={{
-              marginRight: "10%",
-              marginLeft: "10%",
-              paddingBottom: "40px",
-              justifyContent: "left",
-            }}
-          >
-            <BigText
-              question={
-                "What are the names of the neighborhoods and cities you grew up in or primarily live in?"
-              }
-              id={"NeighborhoodsLivedIn"}
-              label={"Neighborhoods"}
-              onChange={handleChange}
-              value={formData.NeighborhoodsLivedIn?.NeighborhoodsLivedIn}
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("NeighborhoodsLivedIn", newQuotes)
-              }
-              section={"community"}
-            />
+        <Paper
+          elevation={3}
+          sx={{
+            marginRight: "15%",
+            marginLeft: "15%",
+            paddingBottom: "5%",
+            fontFamily: "Noto Sans",
+          }}
+        >
+          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
+            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+              Community
+            </Typography>
+            {/*Question*/}
+            <Box
+              sx={{
+                marginRight: "10%",
+                marginLeft: "10%",
+                paddingBottom: "40px",
+                justifyContent: "left",
+              }}
+            >
+              <BigText
+                question={
+                  "What are the names of the neighborhoods and cities you grew up in or primarily live in?"
+                }
+                id={"NeighborhoodsLivedIn"}
+                label={"Neighborhoods"}
+                onChange={handleChange}
+                value={formData.NeighborhoodsLivedIn?.NeighborhoodsLivedIn}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("NeighborhoodsLivedIn", newQuotes)
+                }
+                section={"community"}
+              />
 
-            {/*Social Disadvantages*/}
-            <Grid item xs={12} sm={2}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                  paddingTop: "5%",
-                }}
-              >
-                Select all the COMMUNITY social disadvantages experienced in
-                your community: s{" "}
-              </InputLabel>
-            </Grid>
+              {/*Social Disadvantages*/}
+              <Grid item xs={12} sm={2}>
+                <InputLabel
+                  sx={{
+                    display: "flex",
+                    justifyContent: "left",
+                    fontWeight: 700,
+                    paddingTop: "5%",
+                  }}
+                >
+                  Select all the COMMUNITY social disadvantages experienced in
+                  your community: s{" "}
+                </InputLabel>
+              </Grid>
 
-            <FormGroup>
-              {disadvantagesList.map((disadvantage, index) => (
-                <React.Fragment key={index}>
-                  <CheckboxWithAdd
-                    label={disadvantage.label}
-                    id={disadvantage.id}
-                    checked={
-                      formData.selectedDisadvantages &&
+              <FormGroup>
+                {disadvantagesList.map((disadvantage, index) => (
+                  <React.Fragment key={index}>
+                    <CheckboxWithAdd
+                      label={disadvantage.label}
+                      id={disadvantage.id}
+                      checked={
+                        formData.selectedDisadvantages &&
+                        formData.selectedDisadvantages.Disadvantages.includes(
+                          disadvantage.id
+                        )
+                      }
+                      onChange={handleDisadvantageChange}
+                      subs={disadvantage.subs}
+                      handleQuotesChange={(newQuotes) =>
+                        handleQuotesChange(disadvantage.id, newQuotes)
+                      }
+                      section={"community"}
+                    />
+                    {formData.selectedDisadvantages &&
                       formData.selectedDisadvantages.Disadvantages.includes(
                         disadvantage.id
-                      )
-                    }
-                    onChange={handleDisadvantageChange}
-                    subs={disadvantage.subs}
-                    handleQuotesChange={(newQuotes) =>
-                      handleQuotesChange(disadvantage.id, newQuotes)
-                    }
-                    section={"community"}
-                  />
-                  {formData.selectedDisadvantages &&
-                    formData.selectedDisadvantages.Disadvantages.includes(
-                      disadvantage.id
-                    ) && (
-                      <React.Fragment>
-                        <div style={{ paddingLeft: 30 }}>
-                          {disadvantage.subs &&
-                            disadvantage.subs.map((sub, subIndex) => (
-                              <>
-                                <CheckboxWithAdd
-                                  key={subIndex}
-                                  label={sub.label}
-                                  id={sub.id}
-                                  checked={formData.selectedDisadvantages.Disadvantages.includes(
-                                    sub.id
-                                  )}
-                                  onChange={handleDisadvantageChange}
-                                  handleQuotesChange={(newQuotes) =>
-                                    handleQuotesChange(sub.id, newQuotes)
-                                  }
-                                  section={"community"}
-                                />
-                              </>
-                            ))}
-                        </div>
-                      </React.Fragment>
-                    )}
-                </React.Fragment>
-              ))}
-            </FormGroup>
+                      ) && (
+                        <React.Fragment>
+                          <div style={{ paddingLeft: 30 }}>
+                            {disadvantage.subs &&
+                              disadvantage.subs.map((sub, subIndex) => (
+                                <>
+                                  <CheckboxWithAdd
+                                    key={subIndex}
+                                    label={sub.label}
+                                    id={sub.id}
+                                    checked={formData.selectedDisadvantages.Disadvantages.includes(
+                                      sub.id
+                                    )}
+                                    onChange={handleDisadvantageChange}
+                                    handleQuotesChange={(newQuotes) =>
+                                      handleQuotesChange(sub.id, newQuotes)
+                                    }
+                                    section={"community"}
+                                  />
+                                </>
+                              ))}
+                          </div>
+                        </React.Fragment>
+                      )}
+                  </React.Fragment>
+                ))}
+              </FormGroup>
 
-            {/*other notes */}
-            <OtherNotes
-              onChange={handleChange}
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("otherNotes", newQuotes)
-              }
-              value={formData.otherNotes?.otherNotes}
-              section={"community"}
-              id={"otherNotes"}
-            />
+              {/*other notes */}
+              <OtherNotes
+                onChange={handleChange}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("otherNotes", newQuotes)
+                }
+                value={formData.otherNotes?.otherNotes}
+                section={"community"}
+                id={"otherNotes"}
+              />
+            </Box>
           </Box>
-        </Box>
-        <Button
-          variant="contained"
-          onClick={() => {
-            SaveJSON(formData, "community");
+          <Button
+            variant="contained"
+            onClick={() => {
+              SaveJSON(formData, "community");
 
-            navigate("/familyDynamics");
-          }}
-        >
-          {" "}
-          Previous
-        </Button>
-        <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
+              navigate("/familyDynamics");
+            }}
+          >
+            {" "}
+            Previous
+          </Button>
+          <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
 
-        <Button
-          variant="contained"
-          onClick={() => {
-            SaveJSON(formData, "community");
+          <Button
+            variant="contained"
+            onClick={() => {
+              SaveJSON(formData, "community");
 
-            navigate("/schooling");
-          }}
-        >
-          Next
-        </Button>
-      </Paper>
-    </>
+              navigate("/schooling");
+            }}
+          >
+            Next
+          </Button>
+        </Paper>
+      </>
+    </ThemeProvider>
   );
 }
 

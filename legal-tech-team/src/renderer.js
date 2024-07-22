@@ -36,6 +36,7 @@ import "./Components/PeersRoleModels.js";
 import "./Components/FamilyDynamics.js";
 import "./Components/Community.js";
 import "./Components/Schooling.js";
+import "./Components/crimeStats.js";
 
 import "./Components/Submit.js";
 import "./Components/MentalHealth.js";

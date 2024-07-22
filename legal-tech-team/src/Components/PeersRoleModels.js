@@ -15,8 +15,10 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
+  ThemeProvider,
 } from "@mui/material";
 import dayjs from "dayjs";
+import themeWrapper from "../Layouts/ThemeWrapper";
 
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
@@ -158,300 +160,309 @@ function PeersRoleModels() {
   const options = ["None", "1", "< 5", "More than 5"];
 
   return (
-    <div>
-      <Header />
+    <ThemeProvider theme={themeWrapper}>
+      <div>
+        <Header />
 
-      <Paper
-        elevation={3}
-        sx={{
-          marginRight: "15%",
-          marginLeft: "15%",
-          paddingBottom: "5%",
-          fontFamily: "Noto Sans",
-        }}
-      >
-        <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-            Peers and Role Models
-          </Typography>
+        <Paper
+          elevation={3}
+          sx={{
+            marginRight: "15%",
+            marginLeft: "15%",
+            paddingBottom: "5%",
+            fontFamily: "Noto Sans",
+          }}
+        >
+          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
+            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+              Peers and Role Models
+            </Typography>
 
-          {/*Check boxes*/}
-          <Box
-            sx={{ marginLeft: "10%", marginRight: "5%", paddingBottom: "30px" }}
-          >
-            <Grid container>
-              <Grid item xs={6}>
+            {/*Check boxes*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "5%",
+                paddingBottom: "30px",
+              }}
+            >
+              <Grid container>
+                <Grid item xs={6}>
+                  <InputLabel
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                      fontWeight: 700,
+                      marginBottom: 1, // Adjust spacing as needed
+                    }}
+                  >
+                    Which of these statements are true?
+                  </InputLabel>
+                </Grid>
+                <Grid
+                  container
+                  spacing={4}
+                  justifyContent="flex-end"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <FormGroup>
+                      {peerList.map((disadvantage, index) => (
+                        <React.Fragment key={index}>
+                          <CheckboxWithAdd
+                            label={disadvantage.label}
+                            id={disadvantage.id}
+                            checked={
+                              formData.associationWithPeers &&
+                              formData.associationWithPeers.associationWithPeers.includes(
+                                disadvantage.id
+                              )
+                            }
+                            onChange={handleDisadvantageChange}
+                            subs={disadvantage.subs}
+                            handleQuotesChange={(newQuotes) =>
+                              handleQuotesChange(disadvantage.id, newQuotes)
+                            }
+                            section={"peersAndRoleModels"}
+                          />
+                        </React.Fragment>
+                      ))}
+                    </FormGroup>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
+
+            {/*Dropdown*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <Grid container>
+                <Grid container spacing={3}>
+                  <DropDown
+                    options={options}
+                    id={"numberNeighborhoodCollege"}
+                    section={"peersAndRoleModels"}
+                    question={
+                      "How many peers in your neighborhood went to college?"
+                    }
+                    placeholder="Select an option"
+                    value={
+                      formData.numberNeighborhoodCollege
+                        ?.numberNeighborhoodCollege
+                    }
+                    onChange={handleDropdownChange}
+                    handleQuotesChange={(newQuotes) =>
+                      handleQuotesChange("numberNeighborhoodCollege", newQuotes)
+                    }
+                  />
+                  <DropDown
+                    options={options}
+                    id={"numberNeighborhoodPrison"}
+                    section={"peersAndRoleModels"}
+                    question={"How many of them went to prison?"}
+                    placeholder="Select an option"
+                    value={
+                      formData.numberNeighborhoodPrison
+                        ?.numberNeighborhoodPrison
+                    }
+                    onChange={handleDropdownChange}
+                    handleQuotesChange={(newQuotes) =>
+                      handleQuotesChange("numberNeighborhoodPrison", newQuotes)
+                    }
+                  />
+                  <DropDown
+                    options={options}
+                    id={"numberRelativesArrested"}
+                    section={"peersAndRoleModels"}
+                    question={"How many relatives have been arrested?"}
+                    placeholder="Select an option"
+                    value={
+                      formData.numberRelativesArrested?.numberRelativesArrested
+                    }
+                    onChange={handleDropdownChange}
+                    handleQuotesChange={(newQuotes) =>
+                      handleQuotesChange("numberRelativesArrested", newQuotes)
+                    }
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+            {/*input one*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={
+                  "In your neighborhood, do most youths and adults get arrested? "
+                }
+                id={"neighborhoodArrests"}
+                label={"neighborhood Arrests"}
+                onChange={handleChange}
+                value={formData.neighborhoodArrests?.neighborhoodArrests}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("neighborhoodArrests", newQuotes)
+                }
+                section={"peersAndRoleModels"}
+              />
+            </Box>
+
+            {/*input two*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={
+                  " In your neighborhood, do most youths and adults have degrees? "
+                }
+                id={"neighborhoodDegrees"}
+                label={"neighborhood Degrees"}
+                onChange={handleChange}
+                value={formData.neighborhoodDegrees?.neighborhoodDegrees}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("neighborhoodDegrees", newQuotes)
+                }
+                section={"peersAndRoleModels"}
+              />
+              <Grid item xs={12} sm={8}>
                 <InputLabel
                   sx={{
                     display: "flex",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
+                    justifyContent: "left",
                     fontWeight: 700,
-                    marginBottom: 1, // Adjust spacing as needed
                   }}
                 >
-                  Which of these statements are true?
+                  Are the people you hang out with and look up to law-abiding
+                  citizens, or do they engage in illicit behavior?{" "}
                 </InputLabel>
               </Grid>
-              <Grid
-                container
-                spacing={4}
-                justifyContent="flex-end"
-                alignItems="center"
-              >
-                <Grid item>
-                  <FormGroup>
-                    {peerList.map((disadvantage, index) => (
-                      <React.Fragment key={index}>
-                        <CheckboxWithAdd
-                          label={disadvantage.label}
-                          id={disadvantage.id}
-                          checked={
-                            formData.associationWithPeers &&
-                            formData.associationWithPeers.associationWithPeers.includes(
-                              disadvantage.id
-                            )
-                          }
-                          onChange={handleDisadvantageChange}
-                          subs={disadvantage.subs}
-                          handleQuotesChange={(newQuotes) =>
-                            handleQuotesChange(disadvantage.id, newQuotes)
-                          }
-                          section={"peersAndRoleModels"}
-                        />
-                      </React.Fragment>
-                    ))}
-                  </FormGroup>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Box>
+              <Grid item xs={12} sm={3}>
+                <RadioGroup
+                  row
+                  aria-label="answer"
+                  name="answer"
+                  value={
+                    formData.arePeopleHungOutWithLawful
+                      ?.arePeopleHungOutWithLawful
+                  }
+                  onChange={handleRadioChange}
+                  checkedValue={
+                    formData.arePeopleHungOutWithLawful
+                      ?.arePeopleHungOutWithLawful
+                  }
+                >
+                  <FormControlLabel
+                    value="Law-Abiding"
+                    control={<Radio id={"arePeopleHungOutWithLawful"} />}
+                    label="Law-Abiding"
+                  />
 
-          {/*Dropdown*/}
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <Grid container>
+                  <FormControlLabel
+                    value="Illicit Behaviort"
+                    control={<Radio id={"arePeopleHungOutWithLawful"} />}
+                    label="Illicit Behavior"
+                  />
+                  <AddQuotes
+                    quotes={quotes}
+                    section={"peersAndRoleModels"}
+                    id={"arePeopleHungOutWithLawful"}
+                    onQuotesChange={quotesAdded}
+                  />
+                </RadioGroup>
+              </Grid>
+              <Divider orientation="horizontal" flexItem />
+
+              <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
+                Any Other Risk Factors
+              </Typography>
+
               <Grid container spacing={3}>
-                <DropDown
-                  options={options}
-                  id={"numberNeighborhoodCollege"}
+                <RadioYesNo
+                  id={"mentalHealthIssues"}
                   section={"peersAndRoleModels"}
-                  question={
-                    "How many peers in your neighborhood went to college?"
-                  }
-                  placeholder="Select an option"
-                  value={
-                    formData.numberNeighborhoodCollege
-                      ?.numberNeighborhoodCollege
-                  }
-                  onChange={handleDropdownChange}
+                  question={"Ever experienced mental health issues?"}
+                  value={formData.mentalHealthIssues?.mentalHealthIssues}
+                  onChange={handleRadioChange}
+                  checkedValue={formData.mentalHealthIssues?.mentalHealthIssues}
                   handleQuotesChange={(newQuotes) =>
-                    handleQuotesChange("numberNeighborhoodCollege", newQuotes)
+                    handleQuotesChange("mentalHealthIssues", newQuotes)
                   }
                 />
-                <DropDown
-                  options={options}
-                  id={"numberNeighborhoodPrison"}
+                <RadioYesNo
+                  id={"affectedByMentalHealth"}
                   section={"peersAndRoleModels"}
-                  question={"How many of them went to prison?"}
-                  placeholder="Select an option"
+                  question={"Ever been affected by mental health issues?"}
                   value={
-                    formData.numberNeighborhoodPrison?.numberNeighborhoodPrison
+                    formData.affectedByMentalHealth?.affectedByMentalHealth
                   }
-                  onChange={handleDropdownChange}
+                  onChange={handleRadioChange}
+                  checkedValue={
+                    formData.affectedByMentalHealth?.affectedByMentalHealth
+                  }
                   handleQuotesChange={(newQuotes) =>
-                    handleQuotesChange("numberNeighborhoodPrison", newQuotes)
-                  }
-                />
-                <DropDown
-                  options={options}
-                  id={"numberRelativesArrested"}
-                  section={"peersAndRoleModels"}
-                  question={"How many relatives have been arrested?"}
-                  placeholder="Select an option"
-                  value={
-                    formData.numberRelativesArrested?.numberRelativesArrested
-                  }
-                  onChange={handleDropdownChange}
-                  handleQuotesChange={(newQuotes) =>
-                    handleQuotesChange("numberRelativesArrested", newQuotes)
+                    handleQuotesChange("affectedByMentalHealth", newQuotes)
                   }
                 />
               </Grid>
-            </Grid>
-          </Box>
+            </Box>
 
-          {/*input one*/}
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <BigText
-              question={
-                "In your neighborhood, do most youths and adults get arrested? "
-              }
-              id={"neighborhoodArrests"}
-              label={"neighborhood Arrests"}
-              onChange={handleChange}
-              value={formData.neighborhoodArrests?.neighborhoodArrests}
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("neighborhoodArrests", newQuotes)
-              }
-              section={"peersAndRoleModels"}
-            />
-          </Box>
-
-          {/*input two*/}
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
-            }}
-          >
-            <BigText
-              question={
-                " In your neighborhood, do most youths and adults have degrees? "
-              }
-              id={"neighborhoodDegrees"}
-              label={"neighborhood Degrees"}
-              onChange={handleChange}
-              value={formData.neighborhoodDegrees?.neighborhoodDegrees}
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("neighborhoodDegrees", newQuotes)
-              }
-              section={"peersAndRoleModels"}
-            />
-            <Grid item xs={12} sm={8}>
-              <InputLabel
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  fontWeight: 700,
-                }}
-              >
-                Are the people you hang out with and look up to law-abiding
-                citizens, or do they engage in illicit behavior?{" "}
-              </InputLabel>
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <RadioGroup
-                row
-                aria-label="answer"
-                name="answer"
-                value={
-                  formData.arePeopleHungOutWithLawful
-                    ?.arePeopleHungOutWithLawful
-                }
-                onChange={handleRadioChange}
-                checkedValue={
-                  formData.arePeopleHungOutWithLawful
-                    ?.arePeopleHungOutWithLawful
-                }
-              >
-                <FormControlLabel
-                  value="Law-Abiding"
-                  control={<Radio id={"arePeopleHungOutWithLawful"} />}
-                  label="Law-Abiding"
-                />
-
-                <FormControlLabel
-                  value="Illicit Behaviort"
-                  control={<Radio id={"arePeopleHungOutWithLawful"} />}
-                  label="Illicit Behavior"
-                />
-                <AddQuotes
-                  quotes={quotes}
-                  section={"peersAndRoleModels"}
-                  id={"arePeopleHungOutWithLawful"}
-                  onQuotesChange={quotesAdded}
-                />
-              </RadioGroup>
-            </Grid>
-            <Divider orientation="horizontal" flexItem />
-
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Any Other Risk Factors
-            </Typography>
-
-            <Grid container spacing={3}>
-              <RadioYesNo
-                id={"mentalHealthIssues"}
-                section={"peersAndRoleModels"}
-                question={"Ever experienced mental health issues?"}
-                value={formData.mentalHealthIssues?.mentalHealthIssues}
-                onChange={handleRadioChange}
-                checkedValue={formData.mentalHealthIssues?.mentalHealthIssues}
+            {/*last input*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={"Potential other risk factors experienced"}
+                id={"otherRiskFactors"}
+                label={"other Risk Factors"}
+                onChange={handleChange}
+                value={formData.otherRiskFactors?.otherRiskFactors}
                 handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("mentalHealthIssues", newQuotes)
+                  handleQuotesChange("otherRiskFactors", newQuotes)
                 }
-              />
-              <RadioYesNo
-                id={"affectedByMentalHealth"}
                 section={"peersAndRoleModels"}
-                question={"Ever been affected by mental health issues?"}
-                value={formData.affectedByMentalHealth?.affectedByMentalHealth}
-                onChange={handleRadioChange}
-                checkedValue={
-                  formData.affectedByMentalHealth?.affectedByMentalHealth
-                }
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("affectedByMentalHealth", newQuotes)
-                }
               />
-            </Grid>
+            </Box>
           </Box>
-
-          {/*last input*/}
-          <Box
-            sx={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              paddingBottom: "30px",
+          <Button
+            variant="contained"
+            onClick={() => {
+              SaveJSON(formData, "peersAndRoleModels");
+              navigate("/aceTwo");
             }}
           >
-            <BigText
-              question={"Potential other risk factors experienced"}
-              id={"otherRiskFactors"}
-              label={"other Risk Factors"}
-              onChange={handleChange}
-              value={formData.otherRiskFactors?.otherRiskFactors}
-              handleQuotesChange={(newQuotes) =>
-                handleQuotesChange("otherRiskFactors", newQuotes)
-              }
-              section={"peersAndRoleModels"}
-            />
-          </Box>
-        </Box>
-        <Button
-          variant="contained"
-          onClick={() => {
-            SaveJSON(formData, "peersAndRoleModels");
-            navigate("/aceTwo");
-          }}
-        >
-          Previous
-        </Button>
-        <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
-        <Button
-          variant="contained"
-          onClick={() => {
-            SaveJSON(formData, "peersAndRoleModels");
-            navigate("/mental-health");
-          }}
-        >
-          Next
-        </Button>
-      </Paper>
-    </div>
+            Previous
+          </Button>
+          <span style={{ marginLeft: "10px", marginRight: "10px" }}></span>
+          <Button
+            variant="contained"
+            onClick={() => {
+              SaveJSON(formData, "peersAndRoleModels");
+              navigate("/mental-health");
+            }}
+          >
+            Next
+          </Button>
+        </Paper>
+      </div>
+    </ThemeProvider>
   );
 }
 export default PeersRoleModels;

@@ -1,4 +1,5 @@
-// for font or other overall styling
+// src/theme.js
+
 const themeSubHeading = () => ({
   paddingTop: 3,
   paddingBottom: 5,
