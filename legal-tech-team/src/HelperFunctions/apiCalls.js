@@ -33,7 +33,7 @@ const prompts = {
 // Descriptions for each section
 const sectionDescriptions = {
   background: "Backgrouund",
-  demographics: "Demographics",
+  caseInformation: "CaseInformation",
   familyDynamics: "Family Dynamics",
   community: "Community",
   schooling: "Schooling",
@@ -126,20 +126,20 @@ async function callAPI(
 
   if (section_values !== null && jsonData !== null) {
     adjustedPrompts = {
-      background: `This section is about ${sectionDescriptions[section_name]}. The interviewee is ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}. `,
-      demographics: `This section is about ${sectionDescriptions[section_name]}. The interviewee is ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}. `,
-      familyDynamics: `This section discusses the ${sectionDescriptions[section_name]} of ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}. `,
+      background: `This section is about ${sectionDescriptions[section_name]}. The interviewee is ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}. `,
+      caseInformation: `This section is about ${sectionDescriptions[section_name]}. The interviewee is ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}. `,
+      familyDynamics: `This section discusses the ${sectionDescriptions[section_name]} of ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}. `,
       community: `This section is about ${sectionDescriptions[section_name]}. `,
       schooling: `This section is about ${sectionDescriptions[section_name]}. `,
       adverseChildhoodExpriences: `This section is about ${sectionDescriptions[section_name]}. `,
       peersAndRoleModels: `This section is about ${sectionDescriptions[section_name]}. `,
-      mentalHealth: `This section is about ${jsonData.demographics.firstName} ${jsonData.demographics.lastName}'s ${sectionDescriptions[section_name]}. `,
+      mentalHealth: `This section is about ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}'s ${sectionDescriptions[section_name]}. `,
       evidenceOfCharacter: `This section is about ${sectionDescriptions[section_name]}.`,
     };
   }
 
   const sectionActions = {
-    demographics: ["tone", "quotes", "themes", "grammar"],
+    caseInformation: ["tone", "quotes", "themes", "grammar"],
     familyDynamics: ["tone", "quotes", "themes", "grammar"],
     background: ["tone", "quotes", "themes", "grammar"],
     community: ["tone", "quotes", "themes", "grammar"],
@@ -181,6 +181,11 @@ async function callAPI(
           null,
           2
         )}
+         Father's name: ${JSON.stringify(
+          section_values.fatherName,
+          null,
+          2
+        )}
       `,
       Other: `
         Siblings: ${JSON.stringify(section_values.siblings, null, 2)}
@@ -203,9 +208,24 @@ async function callAPI(
     };
   }
 
-  if (section_name === "demographics" && section_values.background) {
+  if (section_name === "caseInformation" && section_values.background) {
     section_values = {
       background: JSON.stringify(section_values.background, null, 2),
+    };
+  }
+  if (section_name === "mentalHealth") {
+    section_values = {
+     
+      participatedMentalHealthOrDrugProgram: JSON.stringify(section_values.participatedMentalHealthOrDrugProgram, null, 2),
+      receivedMentalHealthTreatment: JSON.stringify(
+        section_values.receivedMentalHealthTreatment,
+        null,
+        2
+      ),
+      addressedMentalHealthIssues: JSON.stringify(section_values.addressedMentalHealthIssues, null, 2),
+
+      treatmentOrCounseling: JSON.stringify(section_values.treatmentOrCounseling, null, 2),
+    
     };
   }
 
@@ -357,7 +377,7 @@ async function callAPI(
 
     // Update the context summary with new information
     //updateContextSummary(curr_section);
-    if (section_name === "demographics") {
+    if (section_name === "caseInformation") {
       all_sections["summary"] = curr_section;
     }
   }
@@ -369,29 +389,29 @@ export async function generateReport(jsonData, inputText) {
   console.log("Generating Report for JSON data in api calls");
   console.log("jsonData: \n", jsonData);
 
-  if (jsonData.demographics?.DOB) {
-    all_sections["date"] = escapeDoubleQuotes(jsonData.demographics.DOB);
+  if (jsonData.caseInformation?.DOB) {
+    all_sections["date"] = escapeDoubleQuotes(jsonData.caseInformation.DOB);
   }
-  if (jsonData.demographics?.attorneyName) {
-    all_sections["attorneyName"] = jsonData.demographics.attorneyName;
+  if (jsonData.caseInformation?.attorneyName) {
+    all_sections["attorneyName"] = jsonData.caseInformation.attorneyName;
   }
-  if (jsonData.demographics?.attorneyOffice) {
-    all_sections["attorneyOffice"] = jsonData.demographics.attorneyOffice;
+  if (jsonData.caseInformation?.attorneyOffice) {
+    all_sections["attorneyOffice"] = jsonData.caseInformation.attorneyOffice;
   }
-  if (jsonData.demographics?.caseNumber) {
-    all_sections["caseNumber"] = jsonData.demographics.caseNumber;
+  if (jsonData.caseInformation?.caseNumber) {
+    all_sections["caseNumber"] = jsonData.caseInformation.caseNumber;
   }
-  if (jsonData.demographics?.firstName) {
-    all_sections["firstName"] = jsonData.demographics.firstName;
+  if (jsonData.caseInformation?.firstName) {
+    all_sections["firstName"] = jsonData.caseInformation.firstName;
   }
-  if (jsonData.demographics?.lastName) {
-    all_sections["lastName"] = jsonData.demographics.lastName;
+  if (jsonData.caseInformation?.lastName) {
+    all_sections["lastName"] = jsonData.caseInformation.lastName;
   }
-  if (jsonData.demographics?.gender) {
-    all_sections["gender"] = jsonData.demographics.gender;
+  if (jsonData.caseInformation?.gender) {
+    all_sections["gender"] = jsonData.caseInformation.gender;
   }
-  if (jsonData.demographics?.background) {
-    all_sections["background"] = jsonData.demographics.background;
+  if (jsonData.caseInformation?.background) {
+    all_sections["background"] = jsonData.caseInformation.background;
   }
 
   try {

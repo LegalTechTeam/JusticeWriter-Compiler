@@ -1,6 +1,6 @@
 // Original globalJsonData object
 let globalJsonData = {
-  demographics: {},
+  caseInformation: {},
   familyDynamics: {},
   community: {},
   schooling: {},
@@ -49,7 +49,7 @@ export function ReturnExistingInput(section) {
 export function clearJSON() {
   // Clear globalJsonData
   globalJsonData = {
-    demographics: {},
+    caseInformation: {},
     familyDynamics: {},
     community: {},
     schooling: {},

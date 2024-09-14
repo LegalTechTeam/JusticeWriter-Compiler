@@ -28,7 +28,8 @@
 
 import "./index.css";
 import "./index.js";
-import "./Components/Demographics.js";
+import "./Components/CaseInformation.js";
+import "./Components/ClientInformation.js";
 import "./Components/ACEp1.js";
 import "./Components/ACEp2.js";
 import "./Components/PeersRoleModels.js";

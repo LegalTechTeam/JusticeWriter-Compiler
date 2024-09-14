@@ -281,7 +281,7 @@ function Submit() {
                   variant="contained"
                   onClick={() => {
                     clearJSON();
-                    navigate("/demographics");
+                    navigate("/caseInformation");
                   }}
                   sx={{
                     marginTop: "20px",
@@ -295,7 +295,7 @@ function Submit() {
                 </Button>
                 <Button
                   variant="contained"
-                  onClick={() => navigate("/demographics")}
+                  onClick={() => navigate("/caseInformation")}
                   sx={{
                     marginTop: "20px",
                     width: "80%",

@@ -52,6 +52,7 @@
     "node-loader": "^2.0.0",
     "openai": "^4.32.0",
     "pdfjs-dist": "^4.0.379",
+    "prettier": "3.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",

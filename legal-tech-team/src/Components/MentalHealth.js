@@ -297,7 +297,7 @@ function MentalHealth() {
             >
               <BigText
                 question={"Treatments/Counseling (if any)"}
-                id={"treatment Or Counseling"}
+                id={"treatmentOrCounseling"}
                 label={"treatmentOrCounseling"}
                 onChange={handleChange}
                 value={

@@ -4,7 +4,7 @@
  
 import React from 'react'; 
 import { render, fireEvent, screen, configure } from '@testing-library/react';
-import Demographics from './Components/Demographics';
+import CaseInformation from './Components/CaseInformation';
 import ACEp1 from './Components/ACEp1';
 import ACEp2 from './Components/ACEp2';
 import Community from './Components/Community';
@@ -19,11 +19,11 @@ import PeersRoleModels from './Components/PeersRoleModels';
     useNavigate: jest.fn(),
   }));
 
-  describe('Demographics', () => {
+  describe('CaseInformation', () => {
     test('should navigate when button is clicked', () => {
     const mockNavigate = jest.fn();
     require('react-router-dom').useNavigate.mockReturnValue(mockNavigate);
-    render(<Demographics />);
+    render(<CaseInformation />);
     fireEvent.click(screen.getByText('Next'));
     expect(mockNavigate).toHaveBeenCalledWith('/familyDynamics');
     });

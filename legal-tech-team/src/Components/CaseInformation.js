@@ -20,17 +20,12 @@ import SmallTextInput from "../HelperFunctions/SmallTextInput";
 import DropDown from "../HelperFunctions/DropDown";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 
-function Demographics() {
+// Moving the formData and handlers inside the components
+export default function CaseInformation() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  useEffect(() => {
-    const existingData = ReturnExistingInput("demographics");
-    if (existingData) {
-      setFormData(existingData);
-    }
-  }, []);
-
+  // useState must be inside a functional component
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -69,6 +64,13 @@ function Demographics() {
     });
   };
 
+  useEffect(() => {
+    const existingData = ReturnExistingInput("caseInformation");
+    if (existingData) {
+      setFormData(existingData);
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={themeWrapper}>
       <div>
@@ -91,9 +93,9 @@ function Demographics() {
                 paddingBottom: "30px",
               }}
             >
-              {/*Title of section: Demographics*/}
+              {/*Title of section: CaseInformation*/}
               <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-                Demographics
+                Case Information
               </Typography>
               <Grid container spacing={3}>
                 {/*Case Number*/}
@@ -103,7 +105,7 @@ function Demographics() {
                   label={"Case Number"}
                   value={formData.caseNumber}
                   onChange={handleChange}
-                  section={"demographics"}
+                  section={"caseInformation"}
                 />
                 {/*Attorney Name*/}
                 <SmallTextInput
@@ -112,17 +114,16 @@ function Demographics() {
                   label={"Attorney name"}
                   value={formData.attorneyName}
                   onChange={handleChange}
-                  section={"demographics"}
+                  section={"caseInformation"}
                 />
                 {/*Investigator Name*/}
-
                 <SmallTextInput
                   field={"Investigator Name"}
                   id={"investigatorName"}
                   label={"Investigator name"}
                   value={formData.investigatorName}
                   onChange={handleChange}
-                  section={"demographics"}
+                  section={"caseInformation"}
                 />
                 {/*Attorney Office*/}
                 <SmallTextInput
@@ -131,116 +132,17 @@ function Demographics() {
                   label={"Attorney office"}
                   value={formData.attorneyOffice}
                   onChange={handleChange}
-                  section={"demographics"}
+                  section={"caseInformation"}
                 />
-                {/* </Grid> */}
-
-                {/*First Name text*/}
-                {/* <Box
-            sx={{
-              marginRight: "10%",
-              marginLeft: "10%",
-              paddingBottom: "40px",
-              justifyContent: "left",
-            }}
-          > */}
-                {/* <Grid container spacing={3}> */}
-                <SmallTextInput
-                  field={"First Name"}
-                  id={"firstName"}
-                  label={"First name"}
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  section={"demographics"}
-                />
-                <SmallTextInput
-                  field={"Middle Name"}
-                  id={"middleName"}
-                  label={"Middle name"}
-                  value={formData.middleName}
-                  onChange={handleChange}
-                  section={"demographics"}
-                />
-
-                {/*Last Name text*/}
-
-                <SmallTextInput
-                  field={"Last Name"}
-                  id={"lastName"}
-                  label={"Last name"}
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  section={"demographics"}
-                />
-
                 {/*Date of Birth*/}
-
-                <DateOfBirth
-                  field={"Date of Birth"}
-                  id={"DOB"}
-                  label={"MM-DD-YYYY"}
-                  value={formData.DOB}
-                  onChange={handleChange}
-                />
-
-                {/*Gender Drop Down*/}
-
-                <DropDown
-                  question={"What is your gender?"}
-                  id={"gender"}
-                  section={"demographics"}
-                  value={formData.gender?.gender}
-                  options={[
-                    "Male",
-                    "Female",
-                    "Non-binary",
-                    "Prefer not to answer",
-                  ]}
-                  onChange={handleDropdownChange}
-                  handleQuotesChange={(newQuotes) =>
-                    handleQuotesChange("gender", newQuotes)
-                  }
-                />
               </Grid>
             </Box>
-
-            {/*Divider*/}
-
             <Divider orientation="horizontal" flexItem />
-
-            {/*Section title: Background*/}
-
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Background
-            </Typography>
-
-            {/*Background Text Field*/}
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "40px",
-              }}
-            >
-              <Grid item xs={12} sm={10}>
-                <TextField
-                  required
-                  multiline={true}
-                  rows={15}
-                  id="background"
-                  label="Background"
-                  fullWidth
-                  variant="outlined"
-                  value={formData.background}
-                  onChange={handleChange}
-                />
-              </Grid>
-            </Box>
           </Box>
           <Button
             variant="contained"
             onClick={() => {
-              SaveJSON(formData, "demographics");
+              SaveJSON(formData, "caseInformation");
               navigate("/");
             }}
           >
@@ -250,8 +152,8 @@ function Demographics() {
           <Button
             variant="contained"
             onClick={() => {
-              SaveJSON(formData, "demographics");
-              navigate("/familyDynamics");
+              SaveJSON(formData, "caseInformation");
+              navigate("/clientInfo");
             }}
           >
             Next
@@ -261,5 +163,3 @@ function Demographics() {
     </ThemeProvider>
   );
 }
-
-export default Demographics;

@@ -23,7 +23,7 @@ function SmallTextInput(props) {
         >
           {field}
 
-          {section !== "demographics" && (
+          {section !== "caseInformation" && (
             <AddQuotes
               quotes={quotes}
               section={section}

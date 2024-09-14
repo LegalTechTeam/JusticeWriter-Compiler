@@ -23,6 +23,8 @@ import themeWrapper from "../Layouts/ThemeWrapper";
 
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 import BigText from "../HelperFunctions/BigText";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 function FamilyDynamics() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -75,7 +77,10 @@ function FamilyDynamics() {
       motherNumChildren: "",
       notes: [],
     },
-    fatherName: "",
+    fatherName: {
+      fatherName: "",
+      notes: [],
+    },
     fatherBday: "",
     fatherArrested: {
       fatherArrested: "",
@@ -93,10 +98,11 @@ function FamilyDynamics() {
       familyRelocation: "",
       notes: [],
     },
-    zipCodesLivedIn: {
-      zipCodesLivedIn: "",
+    otherInformationAboutFamily: {
+      otherInformationAboutFamily: "",
       notes: [],
     },
+   
   });
   const handleDateChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -126,21 +132,10 @@ function FamilyDynamics() {
   return (
     <ThemeProvider theme={themeWrapper}>
       <>
-        <Header />
-
-        <Paper
-          elevation={3}
-          sx={{
-            marginRight: "15%",
-            marginLeft: "15%",
-            paddingBottom: "5%",
-          }}
-        >
+        
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             {/*Title of section: Family Dynamics*/}
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Family Dynamics
-            </Typography>
+           
             <Box
               sx={{
                 marginLeft: "10%",
@@ -148,6 +143,8 @@ function FamilyDynamics() {
                 paddingBottom: "40px",
               }}
             >
+                         <SubSectionHeader name="Mother"/>
+
               {/*Mother Name text*/}
               <Grid container spacing={3}>
                 <SmallTextInput
@@ -325,11 +322,9 @@ function FamilyDynamics() {
               />
               <Grid item xs={12} sm={2}></Grid>
 
-              {/*Other Information Header*/}
+              {/*Father Information Header*/}
+              <SubSectionHeader name="Father"/>
 
-              <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-                Other Information
-              </Typography>
 
               {/*Father Name text*/}
               <Grid container spacing={3}>
@@ -337,7 +332,7 @@ function FamilyDynamics() {
                   field={"Father Name"}
                   id={"fatherName"}
                   label={"Father name"}
-                  value={formData.fatherName}
+                  value={formData.fatherName?.fatherName}
                   onChange={handleDropdownChange}
                 />
 
@@ -423,25 +418,28 @@ function FamilyDynamics() {
                 />
               </Grid>
 
-              <BigText
-                question={"What were the zip codes where you primarily lived?"}
-                onChange={handleChange}
-                id={"zipCodesLivedIn"}
-                label={"zipCodesLivedIn"}
-                rows={1}
-                value={formData.zipCodesLivedIn?.zipCodesLivedIn}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("zipCodesLivedIn", newQuotes)
-                }
-                section={"familyDynamics"}
-              />
+                {/* Background Field - Full Width Below */}
+           <Grid item xs={12}>
+                    <TextField
+                      required
+                      multiline={true}
+                      rows={10}
+                      id="background"
+                      label="Other Information about family"
+                      fullWidth
+                      variant="outlined"
+                      value={formData.otherInformationAboutFamily?.otherInformationAboutFamily}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+
             </Box>
           </Box>
           <Button
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "familyDynamics");
-              navigate("/demographics");
+              navigate("/clientInfo");
             }}
           >
             Previous
@@ -452,12 +450,12 @@ function FamilyDynamics() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "familyDynamics");
-              navigate("/community");
+              navigate("/careTaker");
             }}
           >
             Next
           </Button>
-        </Paper>
+       
       </>
     </ThemeProvider>
   );

@@ -20,12 +20,18 @@ import BigText from "../HelperFunctions/BigText";
 import { useState } from "react";
 import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
 import AddQuotes from "../HelperFunctions/AddQuotes";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 
 function Community() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
   const [formData, setFormData] = useState({
+    zipCodesLivedIn: {
+      zipCodesLivedIn: "",
+      notes: [],
+    },
     selectedDisadvantages: {
       Disadvantages: [],
       notes: [],
@@ -264,10 +270,10 @@ function Community() {
             fontFamily: "Noto Sans",
           }}
         >
+          <SectionHeader name="Community, Schooling and Syndemics"/>
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Community
-            </Typography>
+            <SubSectionHeader name="Community"/>
+           
             {/*Question*/}
             <Box
               sx={{
@@ -287,6 +293,19 @@ function Community() {
                 value={formData.NeighborhoodsLivedIn?.NeighborhoodsLivedIn}
                 handleQuotesChange={(newQuotes) =>
                   handleQuotesChange("NeighborhoodsLivedIn", newQuotes)
+                }
+                section={"community"}
+              />
+              
+              <BigText
+                question={"What were the zip codes where you primarily lived?"}
+                onChange={handleChange}
+                id={"zipCodesLivedIn"}
+                label={"zipCodesLivedIn"}
+                rows={1}
+                value={formData.zipCodesLivedIn?.zipCodesLivedIn}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("zipCodesLivedIn", newQuotes)
                 }
                 section={"community"}
               />
@@ -373,7 +392,7 @@ function Community() {
             onClick={() => {
               SaveJSON(formData, "community");
 
-              navigate("/familyDynamics");
+              navigate("/careTaker");
             }}
           >
             {" "}
