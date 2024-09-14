@@ -439,7 +439,7 @@ function FamilyDynamics() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "familyDynamics");
-              navigate("/clientInfo");
+              navigate("/caseInformation");
             }}
           >
             Previous

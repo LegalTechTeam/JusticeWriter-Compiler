@@ -240,8 +240,8 @@ async function callAPI(
         Treated SUD: ${JSON.stringify(section_values.treatedSUD, null, 2)}
       `,
       separation: JSON.stringify(section_values.separation, null, 2),
-      familyMembersInPrison: JSON.stringify(
-        section_values.familyMembersInPrison,
+      familyMembersInPrision: JSON.stringify(
+        section_values.familyMembersInPrision,
         null,
         2
       ),

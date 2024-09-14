@@ -19,6 +19,8 @@ import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
 import DropDown from "../HelperFunctions/DropDown";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 
 // Moving the formData and handlers inside the components
 export default function CaseInformation() {
@@ -85,6 +87,8 @@ export default function CaseInformation() {
             fontFamily: "Noto Sans",
           }}
         >
+          <SectionHeader name="Background" />
+
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <Box
               sx={{
@@ -94,9 +98,7 @@ export default function CaseInformation() {
               }}
             >
               {/*Title of section: CaseInformation*/}
-              <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-                Case Information
-              </Typography>
+              <SubSectionHeader name="Case Information" />
               <Grid container spacing={3}>
                 {/*Case Number*/}
                 <SmallTextInput

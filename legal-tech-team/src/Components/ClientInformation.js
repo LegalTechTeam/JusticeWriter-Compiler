@@ -19,7 +19,7 @@ import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
 import DropDown from "../HelperFunctions/DropDown";
 import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import SectionHeader from "../HelperFunctions/SectionHeader"
+import SectionHeader from "../HelperFunctions/SectionHeader";
 import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 import FamilyDynamics from "./FamilyDynamics";
 export default function ClientInformation() {
@@ -72,9 +72,9 @@ export default function ClientInformation() {
   return (
     <ThemeProvider theme={themeWrapper}>
       <div>
-      <Header />
+        <Header />
 
-      <Paper
+        <Paper
           elevation={3}
           sx={{
             marginRight: "15%",
@@ -83,18 +83,16 @@ export default function ClientInformation() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Background"/>
-          <SubSectionHeader name ="Client Information"/>
- 
-  <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 0 }}>
-    {/* Client Information Section */}
-    <Box
-      sx={{
-        marginTop: "20px",
-        marginBottom: "30px",
-      }}
-    >
-    
+          <SectionHeader name="Background" />
+
+          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 0 }}>
+            {/* Client Information Section */}
+            <Box
+              sx={{
+                marginTop: "20px",
+                marginBottom: "30px",
+              }}
+            >
               <Box
                 sx={{
                   marginLeft: "10%",
@@ -102,7 +100,9 @@ export default function ClientInformation() {
                   paddingBottom: "30px",
                 }}
               >
-                <Grid container spacing={3} sx={{marginTop:"10px"}}>
+                <SubSectionHeader name="Client Information" />
+
+                <Grid container spacing={3} sx={{ marginTop: "10px" }}>
                   {/* Date of Birth and Gender - Side by Side */}
                   <SmallTextInput
                     field={"First Name"}
@@ -153,14 +153,11 @@ export default function ClientInformation() {
                       handleQuotesChange("gender", newQuotes)
                     }
                   />
-                 
                 </Grid>
               </Box>
             </Box>
           </Box>
-          <FamilyDynamics/>
-         
-        
+          <FamilyDynamics />
         </Paper>
       </div>
     </ThemeProvider>
