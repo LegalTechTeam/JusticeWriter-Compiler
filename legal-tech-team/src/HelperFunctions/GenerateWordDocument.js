@@ -18,17 +18,24 @@ const flattenObject = (obj, parent, res = {}) => {
 
 const getPatches = (fields) => {
   const flattenedFields = flattenObject(fields);
-  const patches = {};
+  console.log("Flattened Fields:", flattenedFields);
+    const patches = {};
 
   for (const field in flattenedFields) {
+    const textContent = flattenedFields[field];
+    
+    // Log text content to verify it is not empty
+    console.log(`Field: ${field}, Text Content: ${textContent}`);
+    
     patches[field] = {
       type: PatchType.PARAGRAPH,
-      children: [new TextRun({ text: flattenedFields[field], font })],
+      children: [new TextRun({ text: textContent, font })],
     };
   }
 
   return patches;
 };
+
 
 function patchDocumentWithBlob(blob, patches) {
   return patchDocument(blob, {

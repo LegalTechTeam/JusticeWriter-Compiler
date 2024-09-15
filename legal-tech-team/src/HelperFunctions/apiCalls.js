@@ -185,11 +185,7 @@ async function callAPI(
           null,
           2
         )}
-         Father's name: ${JSON.stringify(
-          section_values.fatherName,
-          null,
-          2
-        )}
+         Father's name: ${JSON.stringify(section_values.fatherName, null, 2)}
       `,
       Other: `
         Siblings: ${JSON.stringify(section_values.siblings, null, 2)}
@@ -217,10 +213,10 @@ async function callAPI(
       background: JSON.stringify(section_values.background, null, 2),
     };
   }
-  
+
   if (section_name === "cageAID") {
     section_values = {
-      Other: `
+      Info: `
       feltTheNeedToCutDownOnDrinkingOrDrugUse: ${JSON.stringify(section_values.feltTheNeedToCutDownOnDrinkingOrDrugUse, null, 2)}
       peopleCritizedYouForDrinkingOrDrugUse: ${JSON.stringify(
         section_values.peopleCritizedYouForDrinkingOrDrugUse,
@@ -242,26 +238,49 @@ async function callAPI(
         null,
         2
       )}
-      score: ${JSON.stringify(
-        section_values.score,
-        null,
-        2
-      )}
-    `,    };
+      score: ${JSON.stringify(section_values.score, null, 2)}
+    `,
+    };
   }
   if (section_name === "mentalHealth") {
     section_values = {
-     
-      participatedMentalHealthOrDrugProgram: JSON.stringify(section_values.participatedMentalHealthOrDrugProgram, null, 2),
+      participatedMentalHealthOrDrugProgram: JSON.stringify(
+        section_values.participatedMentalHealthOrDrugProgram,
+        null,
+        2
+      ),
       receivedMentalHealthTreatment: JSON.stringify(
         section_values.receivedMentalHealthTreatment,
         null,
         2
       ),
-      addressedMentalHealthIssues: JSON.stringify(section_values.addressedMentalHealthIssues, null, 2),
+      addressedMentalHealthIssues: JSON.stringify(
+        section_values.addressedMentalHealthIssues,
+        null,
+        2
+      ),
 
-      treatmentOrCounseling: JSON.stringify(section_values.treatmentOrCounseling, null, 2),
+      treatmentOrCounseling: JSON.stringify(
+        section_values.treatmentOrCounseling,
+        null,
+        2
+      ),
+    };
+  }
+
+  if (section_name === "community") {
+    section_values = {
+      Info: `
+      NeighborhoodsLivedIn: ${JSON.stringify(section_values.NeighborhoodsLivedIn, null, 2)}
+      zipCodesLivedIn: ${JSON.stringify(section_values.zipCodesLivedIn, null, 2)}
+      otherNotes: ${JSON.stringify(section_values.otherNotes, null, 2)}
     
+    `,
+      selectedDisadvantages: JSON.stringify(
+        section_values.selectedDisadvantages,
+        null,
+        2
+      ),
     };
   }
 
@@ -369,12 +388,14 @@ async function callAPI(
   }
   if (section_name === "syndemics") {
     section_values = {
-     
-      negativelyImpactedBy: JSON.stringify(section_values.negativelyImpactedBy, null, 2),
-      otherNotes: JSON.stringify(section_values.otherNotes, null, 2)
+      negativelyImpactedBy: JSON.stringify(
+        section_values.negativelyImpactedBy,
+        null,
+        2
+      ),
+      otherNotes: JSON.stringify(section_values.otherNotes, null, 2),
     };
   }
-
 
   // Function to append section values to prompt
   for (let subsection in section_values) {
@@ -456,6 +477,10 @@ export async function generateReport(jsonData, inputText) {
   }
   if (jsonData.caseInformation?.background) {
     all_sections["background"] = jsonData.caseInformation.background;
+  }
+  if (jsonData.caseInformation?.investigatorName) {
+    all_sections["investigatorName"] =
+      jsonData.caseInformation.investigatorName;
   }
 
   try {

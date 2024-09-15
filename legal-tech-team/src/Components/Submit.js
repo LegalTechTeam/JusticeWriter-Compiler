@@ -76,7 +76,9 @@ function Submit() {
       setFile(null);
       setSubmitSuccess(false);
       setWifiConnected(false);
-      if (chatPatches) chatPatches = null;
+      if (chatPatches !== undefined && chatPatches !== null) {
+        chatPatches = null;
+      }
       setIsLoading(false);
     };
   }, []);
