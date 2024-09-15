@@ -1,18 +1,14 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
 import {
-  TextField,
-  IconButton,
-  Dialog,
-  Grid,
-  DialogTitle,
   Button,
-  DialogContent,
+  Dialog,
   DialogActions,
+  DialogContent,
+  IconButton,
+  TextField
 } from "@mui/material";
+import * as React from "react";
+import { useEffect, useState } from "react";
 
-import AddIcon from "@mui/icons-material/Add";
-import LibraryAddTwoToneIcon from "@mui/icons-material/LibraryAddTwoTone";
 import PostAddTwoToneIcon from "@mui/icons-material/PostAddTwoTone";
 import { ReturnExistingSubSection } from "./formatJSON";
 

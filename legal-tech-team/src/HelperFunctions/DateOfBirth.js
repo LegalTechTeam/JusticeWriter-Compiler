@@ -1,5 +1,5 @@
+import { Grid, InputLabel, TextField } from "@mui/material";
 import * as React from "react";
-import { Grid, TextField, InputLabel } from "@mui/material";
 
 function DateOfBirth(props) {
   const { field, id, label, value, onChange } = props;

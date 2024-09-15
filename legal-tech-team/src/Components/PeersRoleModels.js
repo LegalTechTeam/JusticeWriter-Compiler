@@ -1,33 +1,31 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
-  Paper,
-  InputLabel,
-  Divider,
-  FormGroup,
-  Checkbox,
   Button,
+  Divider,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  InputLabel,
+  Paper,
   Radio,
   RadioGroup,
-  FormControlLabel,
-  ThemeProvider,
+  ThemeProvider
 } from "@mui/material";
-import dayjs from "dayjs";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import themeWrapper from "../Layouts/ThemeWrapper";
 
+import AddQuotes from "../HelperFunctions/AddQuotes";
+import BigText from "../HelperFunctions/BigText";
+import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
+import DropDown from "../HelperFunctions/DropDown";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
-import DropDown from "../HelperFunctions/DropDown";
-import RadioYesNo from "../HelperFunctions/RadioYesNo";
-import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import BigText from "../HelperFunctions/BigText";
-import AddQuotes from "../HelperFunctions/AddQuotes";
 function PeersRoleModels() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -173,10 +171,10 @@ function PeersRoleModels() {
             fontFamily: "Noto Sans",
           }}
         >
+          <SectionHeader name="Peers and Role Models"/>
+
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Peers and Role Models
-            </Typography>
+           
 
             {/*Check boxes*/}
             <Box
@@ -194,7 +192,7 @@ function PeersRoleModels() {
                       justifyContent: "flex-start",
                       alignItems: "center",
                       fontWeight: 700,
-                      marginBottom: 1, // Adjust spacing as needed
+                      marginTop: 6, // Adjust spacing as needed
                     }}
                   >
                     Which of these statements are true?
@@ -205,6 +203,8 @@ function PeersRoleModels() {
                   spacing={4}
                   justifyContent="flex-end"
                   alignItems="center"
+                  marginTop="-70px"
+
                 >
                   <Grid item>
                     <FormGroup>
@@ -386,9 +386,8 @@ function PeersRoleModels() {
               </Grid>
               <Divider orientation="horizontal" flexItem />
 
-              <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-                Any Other Risk Factors
-              </Typography>
+              <SubSectionHeader name="Other Risk Factors"/>
+
 
               <Grid container spacing={3}>
                 <RadioYesNo
@@ -445,7 +444,7 @@ function PeersRoleModels() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "peersAndRoleModels");
-              navigate("/aceTwo");
+              navigate("/cageAid");
             }}
           >
             Previous

@@ -1,27 +1,23 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
-  Paper,
-  InputLabel,
-  Divider,
   Button,
-  Radio,
-  ThemeProvider,
-  RadioGroup,
-  FormControlLabel,
+  Divider,
+  Grid,
+  Paper,
+  ThemeProvider
 } from "@mui/material";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import BigText from "../HelperFunctions/BigText";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
-import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import themeWrapper from "../Layouts/ThemeWrapper";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import BigText from "../HelperFunctions/BigText";
 function ACEp2() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -140,10 +136,10 @@ function ACEp2() {
             fontFamily: "Noto Sans",
           }}
         >
+          <SectionHeader name="Adverse Childhood Experiences" />
+          <SubSectionHeader name="ACEs" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Adverse Childhood Experience (cont.)
-            </Typography>
+         
 
             {/*input one*/}
             <Box
@@ -216,9 +212,8 @@ function ACEp2() {
 
             <Divider orientation="horizontal" flexItem />
 
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Drug Use
-            </Typography>
+            <SubSectionHeader name="Drug Use" />
+
 
             {/*drug input*/}
             <Box
@@ -297,7 +292,7 @@ function ACEp2() {
             variant="contained"
             onClick={() => {
               SaveJSON(formDataACE, "adverseChildhoodExpriences");
-              navigate("/peers-role-models");
+              navigate("/cageAid");
             }}
           >
             Next

@@ -1,26 +1,22 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
-  Paper,
-  Divider,
   Button,
-  ThemeProvider,
+  Divider,
+  Grid,
+  Paper,
+  ThemeProvider
 } from "@mui/material";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SmallTextInput from "../HelperFunctions/SmallTextInput";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import themeWrapper from "../Layouts/ThemeWrapper";
-import DateOfBirth from "../HelperFunctions/DateOfBirth";
-import SmallTextInput from "../HelperFunctions/SmallTextInput";
-import DropDown from "../HelperFunctions/DropDown";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import SectionHeader from "../HelperFunctions/SectionHeader";
-import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 
 // Moving the formData and handlers inside the components
 export default function CaseInformation() {

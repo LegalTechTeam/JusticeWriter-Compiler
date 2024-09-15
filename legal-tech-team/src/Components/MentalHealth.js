@@ -1,30 +1,25 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "./useLocalStorage";
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
-  Paper,
-  InputLabel,
   Button,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
   FormGroup,
-  ThemeProvider,
+  Grid,
+  InputLabel,
+  Paper,
+  ThemeProvider
 } from "@mui/material";
+import * as React from "react";
+import { useEffect, useState } from "react";
 import "react-dropdown/style.css";
+import { useNavigate } from "react-router-dom";
 import themeWrapper from "../Layouts/ThemeWrapper";
 
-import Header from "../Layouts/Header";
-import themeSubHeading from "../Layouts/Theme";
-import RadioYesNo from "../HelperFunctions/RadioYesNo";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 import BigText from "../HelperFunctions/BigText";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
+import Header from "../Layouts/Header";
+import themeSubHeading from "../Layouts/Theme";
 function MentalHealth() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -192,9 +187,7 @@ function MentalHealth() {
             fontFamily: "Noto Sans",
           }}
         >
-          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-            Mental Health Treatment
-          </Typography>
+          <SectionHeader name="Mental Health Treatment" />
 
           {/* First Yes or No Question */}
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
@@ -310,11 +303,11 @@ function MentalHealth() {
                 section={"mentalHealth"}
               />
             </Box>
+          </Box>
 
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Evidence of Character and Potential To Change
-            </Typography>
+          <SectionHeader name="Evidence of Character" />
 
+          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <Box
               sx={{
                 marginLeft: "10%",

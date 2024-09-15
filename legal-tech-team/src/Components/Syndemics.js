@@ -1,27 +1,23 @@
-import * as React from "react";
-import { useEffect } from "react";
 import {
-  Grid,
-  Box,
-  Paper,
-  InputLabel,
-  Button,
-  FormGroup,
-  Typography,
-  ThemeProvider,
+    Box,
+    Button,
+    FormGroup,
+    Grid,
+    InputLabel,
+    Paper,
+    ThemeProvider
 } from "@mui/material";
+import * as React from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../Layouts/Header";
-import themeSubHeading from "../Layouts/Theme";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
-import OtherNotes from "../HelperFunctions/OtherNotes";
-import themeWrapper from "../Layouts/ThemeWrapper";
-import BigText from "../HelperFunctions/BigText";
-import { useState } from "react";
 import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
-import AddQuotes from "../HelperFunctions/AddQuotes";
+import OtherNotes from "../HelperFunctions/OtherNotes";
 import SectionHeader from "../HelperFunctions/SectionHeader";
 import SubSectionHeader from "../HelperFunctions/subSectionHeader";
+import Header from "../Layouts/Header";
+import themeSubHeading from "../Layouts/Theme";
+import themeWrapper from "../Layouts/ThemeWrapper";
 
 function Syndemics() {
   const navigate = useNavigate();
@@ -410,8 +406,7 @@ function Syndemics() {
                     paddingTop: "5%",
                   }}
                 >
-                  Select all the COMMUNITY social disadvantages experienced in
-                  your community: s{" "}
+                  Have you or your immediate family been impacted by any of the following?{" "}
                 </InputLabel>
               </Grid>
 

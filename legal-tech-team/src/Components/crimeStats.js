@@ -1,24 +1,23 @@
 import * as React from "react";
 import { useState } from "react";
-import Header from "../Layouts/Header";
 import { useNavigate } from "react-router-dom";
+import Header from "../Layouts/Header";
 import themeWrapper from "../Layouts/ThemeWrapper";
 
-import {
-  Grid,
-  Paper,
-  Typography,
-  InputLabel,
-  Button,
-  Select,
-  MenuItem,
-  TextField,
-  Box,
-  ThemeProvider,
-  IconButton,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
+import SearchIcon from "@mui/icons-material/Search";
+import {
+  Box,
+  Button,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  ThemeProvider,
+  Typography
+} from "@mui/material";
 
 const CrimeStats = () => {
   const navigate = useNavigate();

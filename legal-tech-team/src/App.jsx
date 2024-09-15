@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import CaseInformation from "./Components/CaseInformation";
 import ClientInformation from "./Components/ClientInformation.js";
@@ -9,17 +8,18 @@ import ACEp2 from "./Components/ACEp2";
 import PeersRoleModels from "./Components/PeersRoleModels";
 import "./index.css";
 
-import FamilyDynamics from "./Components/FamilyDynamics";
 import Community from "./Components/Community";
+import FamilyDynamics from "./Components/FamilyDynamics";
 import Schooling from "./Components/Schooling";
 
-import Submit from "./Components/Submit";
-import MentalHealth from "./Components/MentalHealth";
+import CageAid from "./Components/CageAid.js";
 import Evidence from "./Components/Evidence";
+import MentalHealth from "./Components/MentalHealth";
+import OtherCaretaker from "./Components/OtherCaretaker.js";
+import Submit from "./Components/Submit";
+import Syndemics from "./Components/Syndemics.js";
 import CrimeStats from "./Components/crimeStats";
 import { initializeFromStore } from "./HelperFunctions/formatJSON";
-import OtherCaretaker from "./Components/OtherCaretaker.js";
-import Syndemics from "./Components/Syndemics.js";
 function App() {
   const [data, setData] = useState("");
 
@@ -48,6 +48,8 @@ function App() {
           <Route path="/clientInfo" element={<ClientInformation />} />
           <Route path="/careTaker" element={<OtherCaretaker />} />
           <Route path="/syndemics" element={<Syndemics />} />
+          <Route path="/cageAid" element={<CageAid />} />
+
 
 
         </Routes>

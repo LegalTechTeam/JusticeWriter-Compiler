@@ -1,7 +1,6 @@
 import { Grid, InputLabel, TextField } from "@mui/material";
+import React, { useState } from "react";
 import AddQuotes from "./AddQuotes";
-import { useState } from "react";
-import React from "react";
 function BigText(props) {
   const { id, handleQuotesChange, section } = props;
 

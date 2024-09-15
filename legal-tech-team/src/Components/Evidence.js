@@ -1,25 +1,20 @@
-import * as React from "react";
-import { saveAs } from "file-saver";
-import * as docx from "docx";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
-  Paper,
-  InputLabel,
   Button,
-  ThemeProvider,
+  Paper,
+  ThemeProvider
 } from "@mui/material";
+import * as React from "react";
+import { useEffect, useState } from "react";
 import "react-dropdown/style.css";
+import { useNavigate } from "react-router-dom";
 import themeWrapper from "../Layouts/ThemeWrapper";
 
+import BigText from "../HelperFunctions/BigText";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
+import SectionHeader from "../HelperFunctions/SectionHeader";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import BigText from "../HelperFunctions/BigText";
 
 function Evidence() {
   const navigate = useNavigate();
@@ -92,10 +87,8 @@ function Evidence() {
             fontFamily: "Noto Sans",
           }}
         >
-          <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-            Evidence of Character and Potential To Change
-          </Typography>
-
+          <SectionHeader name="Evidence of Character"/>
+          
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <Box
               sx={{

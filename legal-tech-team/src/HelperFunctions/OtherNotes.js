@@ -1,6 +1,6 @@
+import { Grid, InputLabel, TextField } from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
-import { Grid, TextField, InputLabel } from "@mui/material";
 import AddQuotes from "./AddQuotes";
 function OtherNotes(props) {
   const { id, handleQuotesChange, section } = props;

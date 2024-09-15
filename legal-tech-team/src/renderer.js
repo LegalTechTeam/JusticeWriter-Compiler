@@ -33,6 +33,8 @@ import "./Components/ClientInformation.js";
 import "./Components/ACEp1.js";
 import "./Components/ACEp2.js";
 import "./Components/PeersRoleModels.js";
+import "./Components/Syndemics.js"
+import "./Components/CageAid.js"
 
 import "./Components/FamilyDynamics.js";
 import "./Components/Community.js";

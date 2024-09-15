@@ -1,7 +1,5 @@
 //functions for turning api calls from JSON
-import { useState } from "react";
 import OpenAI from "openai";
-import { json } from "react-router-dom";
 // import * as pdfjs from "pdfjs-dist/build/pdf.min.mjs";
 const apiKeyOpenAI = ""; // Add your API key here
 
@@ -36,8 +34,10 @@ const sectionDescriptions = {
   caseInformation: "CaseInformation",
   familyDynamics: "Family Dynamics",
   community: "Community",
+  syndemics: "Syndemics",
   schooling: "Schooling",
   adverseChildhoodExpriences: "Adverse Childhood Experiences",
+  cageAID: "CAGE-AID",
   peersAndRoleModels: "Peers and Role Models",
   mentalHealth: "Mental Health",
   evidenceOfCharacter: "Evidence of Character",
@@ -130,6 +130,8 @@ async function callAPI(
       caseInformation: `This section is about ${sectionDescriptions[section_name]}. The interviewee is ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}. `,
       familyDynamics: `This section discusses the ${sectionDescriptions[section_name]} of ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}. `,
       community: `This section is about ${sectionDescriptions[section_name]}. `,
+      syndemics: `This section is about ${sectionDescriptions[section_name]}. `,
+      cageAID: `This section is about ${sectionDescriptions[section_name]}. `,
       schooling: `This section is about ${sectionDescriptions[section_name]}. `,
       adverseChildhoodExpriences: `This section is about ${sectionDescriptions[section_name]}. `,
       peersAndRoleModels: `This section is about ${sectionDescriptions[section_name]}. `,
@@ -143,8 +145,10 @@ async function callAPI(
     familyDynamics: ["tone", "quotes", "themes", "grammar"],
     background: ["tone", "quotes", "themes", "grammar"],
     community: ["tone", "quotes", "themes", "grammar"],
+    syndemics: ["tone", "quotes", "themes", "grammar"],
     schooling: ["tone", "quotes", "themes", "grammar"],
     adverseChildhoodExpriences: ["tone", "quotes", "themes", "grammar"],
+    cageAID: ["tone", "quotes", "themes", "grammar"],
     peersAndRoleModels: ["tone", "quotes", "themes", "grammar"],
     mentalHealth: ["tone", "quotes", "themes", "grammar"],
     evidenceOfCharacter: ["tone", "quotes", "themes", "grammar"],
@@ -212,6 +216,38 @@ async function callAPI(
     section_values = {
       background: JSON.stringify(section_values.background, null, 2),
     };
+  }
+  
+  if (section_name === "cageAID") {
+    section_values = {
+      Other: `
+      feltTheNeedToCutDownOnDrinkingOrDrugUse: ${JSON.stringify(section_values.feltTheNeedToCutDownOnDrinkingOrDrugUse, null, 2)}
+      peopleCritizedYouForDrinkingOrDrugUse: ${JSON.stringify(
+        section_values.peopleCritizedYouForDrinkingOrDrugUse,
+        null,
+        2
+      )}
+      feltBadOrGuiltyAboutYourDrinkingOrDrugUse: ${JSON.stringify(
+        section_values.feltBadOrGuiltyAboutYourDrinkingOrDrugUse,
+        null,
+        2
+      )}
+      hadADrinkOrUsedDrugsFirstThingInTheMorning: ${JSON.stringify(
+        section_values.hadADrinkOrUsedDrugsFirstThingInTheMorning,
+        null,
+        2
+      )}
+      otherInformation: ${JSON.stringify(
+        section_values.otherInformation,
+        null,
+        2
+      )}
+      score: ${JSON.stringify(
+        section_values.score,
+        null,
+        2
+      )}
+    `,    };
   }
   if (section_name === "mentalHealth") {
     section_values = {

@@ -1,32 +1,29 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
-  Paper,
-  InputLabel,
-  Divider,
   Button,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  InputLabel,
+  Paper,
   Radio,
   RadioGroup,
-  FormControlLabel,
-  Checkbox,
-  FormGroup,
-  ThemeProvider,
+  ThemeProvider
 } from "@mui/material";
-import dayjs from "dayjs";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import themeWrapper from "../Layouts/ThemeWrapper";
 
+import AddQuotes from "../HelperFunctions/AddQuotes";
+import BigText from "../HelperFunctions/BigText";
+import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SmallTextInput from "../HelperFunctions/SmallTextInput";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
-import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
-import AddQuotes from "../HelperFunctions/AddQuotes";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import BigText from "../HelperFunctions/BigText";
-import SmallTextInput from "../HelperFunctions/SmallTextInput";
 function Schooling() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
@@ -88,9 +85,7 @@ function Schooling() {
     if (existingData) {
       setFormData(existingData);
     }
-    if (existingDataACE) {
-      setFormDataACE(existingDataACE);
-    }
+    
   }, []);
 
   const [formData, setFormData] = useState({
@@ -121,56 +116,8 @@ function Schooling() {
     },
   });
 
-  const [formDataACE, setFormDataACE] = useState({
-    emotionalAbuse: {
-      emotionalAbuse: "",
-      notes: [],
-    },
-    physicalAbuse: {
-      physicalAbuse: "",
-      notes: [],
-    },
-    sexualAbuse: {
-      sexualAbuse: "",
-      notes: [],
-    },
-    emotionalNeglect: {
-      emotionalNeglect: "",
-      notes: [],
-    },
-    physicalNeglect: {
-      physicalNeglect: "",
-      notes: [],
-    },
-    familyMemberAbusedOrThreatened: {
-      familyMemberAbusedOrThreatened: "",
-      notes: [],
-    },
-    alcoholAbuse: {
-      alcoholAbuse: "",
-      notes: [],
-    },
-    mentalIllness: {
-      mentalIllness: "",
-      notes: [],
-    },
-    separation: {
-      separation: "",
-      notes: [],
-    },
-  });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
-
-  const handleACEChange = (e) => {
-    const { id, value } = e.target;
-    setFormDataACE({
-      ...formDataACE,
-      [id]: { ...formDataACE[id], [id]: value },
-    });
-  };
+  
+  
 
   const handleRadioChange = (e) => {
     const { id, value } = e.target;
@@ -247,10 +194,10 @@ function Schooling() {
             fontFamily: "Noto Sans",
           }}
         >
+          <SectionHeader name="Community, Schooling and Syndemics" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <Typography variant="h6" sx={{ ...themeTitle }}>
-              Schooling
-            </Typography>
+            <SubSectionHeader name="Schooling" />
+
             {/*input one*/}
             <Box
               sx={{
@@ -463,87 +410,12 @@ function Schooling() {
               </FormGroup>
             </Box>
 
-            <Divider orientation="horizontal" flexItem />
-
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Adverse Childhood Experience
-            </Typography>
-
-            {/*emotional abuse input*/}
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-              }}
-            >
-              <BigText
-                question={
-                  "Emotional Abuse - Before the age of 18, did a parent or other adult in the household often or very often \n swear at you, insult you, put you down, humiliate you, or act in a way that made you \n afraid that you might be physically hurt? Provide three examples, if possible."
-                }
-                id={"emotionalAbuse"}
-                label={"Emotional Abuse"}
-                onChange={handleACEChange}
-                value={formDataACE.emotionalAbuse?.emotionalAbuse}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("emotionalAbuse", newQuotes)
-                }
-                section={"adverseChildhoodExpriences"}
-              />
-            </Box>
-
-            {/*Physical abuse input*/}
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-              }}
-            >
-              <BigText
-                question={
-                  "Physical Abuse - Before the age of 18, did a parent, guardian, or other adult in the household often or very often \n push, grab, slap, or throw something at you, or ever hit you so hard that you had marks or were injured?\n Provide three examples, if possible."
-                }
-                id={"physicalAbuse"}
-                label={"Physical Abuse"}
-                onChange={handleACEChange}
-                value={formDataACE.physicalAbuse?.physicalAbuse}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("physicalAbuse", newQuotes)
-                }
-                section={"adverseChildhoodExpriences"}
-              />
-            </Box>
-
-            {/*Sexual Abuse*/}
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "40px",
-              }}
-            >
-              <BigText
-                question={
-                  "Sexual Abuse - Before the age of 18, did an adult or person at least five years older than you ever touch \n or fondle you in a sexual way, or have you touch their body in a sexual way, or attempt or actually have oral, \n anal, or vaginal intercourse with you? Provide details, if possible."
-                }
-                id={"sexualAbuse"}
-                label={"Sexual Abuse"}
-                onChange={handleACEChange}
-                value={formDataACE.sexualAbuse?.sexualAbuse}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("sexualAbuse", newQuotes)
-                }
-                section={"adverseChildhoodExpriences"}
-              />
-            </Box>
           </Box>
 
           <Button
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "schooling");
-              SaveJSON(formDataACE, "adverseChildhoodExpriences");
               navigate("/syndemics");
             }}
           >
@@ -556,7 +428,6 @@ function Schooling() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "schooling");
-              SaveJSON(formDataACE, "adverseChildhoodExpriences");
               navigate("/aceOne");
             }}
           >

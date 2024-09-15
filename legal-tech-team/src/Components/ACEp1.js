@@ -1,21 +1,19 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
-  Paper,
-  InputLabel,
   Button,
-  ThemeProvider,
+  Paper,
+  ThemeProvider
 } from "@mui/material";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import BigText from "../HelperFunctions/BigText";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
+import SectionHeader from "../HelperFunctions/SectionHeader";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import BigText from "../HelperFunctions/BigText";
 import themeWrapper from "../Layouts/ThemeWrapper";
 function ACEp1() {
   const navigate = useNavigate();
@@ -97,12 +95,86 @@ function ACEp1() {
             fontFamily: "Noto Sans",
           }}
         >
-          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <Typography variant="h6" gutterBottom sx={{ ...themeTitle }}>
-              Adverse Childhood Experience (cont.)
-            </Typography>
+          <SectionHeader name="Adverse Childhood Experiences" />
+          <SubSectionHeader name="ACEs" />
 
-            {/*input emotional neglect*/}
+          {/*input emotional neglect*/}
+          <Box
+            sx={{
+              marginLeft: "10%",
+              marginRight: "10%",
+              paddingBottom: "30px",
+            }}
+          >
+            {/*emotional abuse input*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={
+                  "Emotional Abuse - Before the age of 18, did a parent or other adult in the household often or very often \n swear at you, insult you, put you down, humiliate you, or act in a way that made you \n afraid that you might be physically hurt? Provide three examples, if possible."
+                }
+                id={"emotionalAbuse"}
+                label={"Emotional Abuse"}
+                onChange={handleACEChange}
+                value={formDataACE.emotionalAbuse?.emotionalAbuse}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("emotionalAbuse", newQuotes)
+                }
+                section={"adverseChildhoodExpriences"}
+              />
+            </Box>
+
+            {/*Physical abuse input*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={
+                  "Physical Abuse - Before the age of 18, did a parent, guardian, or other adult in the household often or very often \n push, grab, slap, or throw something at you, or ever hit you so hard that you had marks or were injured?\n Provide three examples, if possible."
+                }
+                id={"physicalAbuse"}
+                label={"Physical Abuse"}
+                onChange={handleACEChange}
+                value={formDataACE.physicalAbuse?.physicalAbuse}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("physicalAbuse", newQuotes)
+                }
+                section={"adverseChildhoodExpriences"}
+              />
+            </Box>
+
+            {/*Sexual Abuse*/}
+            <Box
+              sx={{
+                marginLeft: "10%",
+                marginRight: "10%",
+                paddingBottom: "30px",
+              }}
+            >
+              <BigText
+                question={
+                  "Sexual Abuse - Before the age of 18, did an adult or person at least five years older than you ever touch \n or fondle you in a sexual way, or have you touch their body in a sexual way, or attempt or actually have oral, \n anal, or vaginal intercourse with you? Provide details, if possible."
+                }
+                id={"sexualAbuse"}
+                label={"Sexual Abuse"}
+                onChange={handleACEChange}
+                value={formDataACE.sexualAbuse?.sexualAbuse}
+                handleQuotesChange={(newQuotes) =>
+                  handleQuotesChange("sexualAbuse", newQuotes)
+                }
+                section={"adverseChildhoodExpriences"}
+              />
+            </Box>
+
             <Box
               sx={{
                 marginLeft: "10%",

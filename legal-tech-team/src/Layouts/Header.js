@@ -1,6 +1,6 @@
+import { Home as HomeIcon } from "@mui/icons-material";
+import { AppBar, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import React from "react";
-import { AppBar, Toolbar, Typography, IconButton, Paper } from "@mui/material";
-import { Home as HomeIcon, Menu as MenuIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 function Header() {

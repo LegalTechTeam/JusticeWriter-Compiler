@@ -1,16 +1,16 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import Header from "../Layouts/Header";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../Layouts/Header";
 
-import { Grid, Box, Button, ThemeProvider, Paper } from "@mui/material";
-import themeSubHeading from "../Layouts/Theme";
-import SmallTextInput from "../HelperFunctions/SmallTextInput";
-import themeWrapper from "../Layouts/ThemeWrapper";
+import { Box, Button, Grid, Paper, ThemeProvider } from "@mui/material";
 import BigText from "../HelperFunctions/BigText";
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
-import SubSectionHeader from "../HelperFunctions/subSectionHeader";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
 import SectionHeader from "../HelperFunctions/SectionHeader";
+import SmallTextInput from "../HelperFunctions/SmallTextInput";
+import SubSectionHeader from "../HelperFunctions/subSectionHeader";
+import themeSubHeading from "../Layouts/Theme";
+import themeWrapper from "../Layouts/ThemeWrapper";
 function OtherCaretaker() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();

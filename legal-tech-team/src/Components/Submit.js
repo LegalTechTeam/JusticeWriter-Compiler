@@ -1,34 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {
-  Typography,
-  Box,
-  Paper,
-  Button,
-  TextField,
-  FormLabel,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-  ThemeProvider,
-  Zoom,
-} from "@mui/material";
-import { DownloadJsonData, clearJSON } from "../HelperFunctions/formatJSON";
-import { generateReport, summarizeFile } from "../HelperFunctions/apiCalls";
-import JSZip from "jszip";
-import Header from "../Layouts/Header";
-import HomeIcon from "@mui/icons-material/Home";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import SaveIcon from "@mui/icons-material/Save";
-import { chatPatches } from "../HelperFunctions/apiCalls";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import HomeIcon from "@mui/icons-material/Home";
+import SaveIcon from "@mui/icons-material/Save";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormLabel,
+  Paper,
+  TextField,
+  ThemeProvider,
+  Typography
+} from "@mui/material";
+import JSZip from "jszip";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { chatPatches, generateReport, summarizeFile } from "../HelperFunctions/apiCalls";
+import { DownloadJsonData, clearJSON } from "../HelperFunctions/formatJSON";
 import { handleTemplateInput } from "../HelperFunctions/GenerateWordDocument";
+import Header from "../Layouts/Header";
 
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import "./styles.css"; // Import the CSS file for custom styles
 import themeWrapper from "../Layouts/ThemeWrapper.js";
+import "./styles.css"; // Import the CSS file for custom styles
 
 const prompts = {
   grammar: ["Write in third person.", "Do not write run-on sentences."],

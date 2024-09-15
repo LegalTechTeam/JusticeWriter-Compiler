@@ -1,29 +1,24 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-import Header from "../Layouts/Header";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Grid,
-  Typography,
-  TextField,
   Box,
   Button,
-  Paper,
-  InputLabel,
   Divider,
-  ThemeProvider,
+  Grid,
+  TextField,
+  ThemeProvider
 } from "@mui/material";
-import themeSubHeading from "../Layouts/Theme";
-import RadioYesNo from "../HelperFunctions/RadioYesNo";
-import DropDown from "../HelperFunctions/DropDown";
 import DateOfBirth from "../HelperFunctions/DateOfBirth";
+import DropDown from "../HelperFunctions/DropDown";
+import RadioYesNo from "../HelperFunctions/RadioYesNo";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
+import themeSubHeading from "../Layouts/Theme";
 import themeWrapper from "../Layouts/ThemeWrapper";
 
-import { SaveJSON, ReturnExistingInput } from "../HelperFunctions/formatJSON";
 import BigText from "../HelperFunctions/BigText";
-import SectionHeader from "../HelperFunctions/SectionHeader";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
 import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 function FamilyDynamics() {
   const navigate = useNavigate();
