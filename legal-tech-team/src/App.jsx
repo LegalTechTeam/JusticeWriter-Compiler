@@ -20,6 +20,8 @@ import Submit from "./Components/Submit";
 import Syndemics from "./Components/Syndemics.js";
 import CrimeStats from "./Components/crimeStats";
 import { initializeFromStore } from "./HelperFunctions/formatJSON";
+import Mobility from "./Components/Mobility.js";
+import JusticeInvolvement from "./Components/JusticeInvolvement.js";
 function App() {
   const [data, setData] = useState("");
 
@@ -49,6 +51,10 @@ function App() {
           <Route path="/careTaker" element={<OtherCaretaker />} />
           <Route path="/syndemics" element={<Syndemics />} />
           <Route path="/cageAid" element={<CageAid />} />
+          <Route path="/mobility" element={<Mobility />} />
+          <Route path="/justiceInvolvement" element={<JusticeInvolvement />} />
+
+
 
 
 

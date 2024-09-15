@@ -40,6 +40,9 @@ import "./Components/FamilyDynamics.js";
 import "./Components/Community.js";
 import "./Components/Schooling.js";
 import "./Components/crimeStats.js";
+import "./Components/Mobility.js";
+import "./Components/JusticeInvolvement.js";
+
 
 import "./Components/Submit.js";
 import "./Components/MentalHealth.js";

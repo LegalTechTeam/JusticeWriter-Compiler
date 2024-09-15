@@ -382,7 +382,7 @@ function Syndemics() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Community, Schooling and Syndemics" />
+          <SectionHeader number = "Section 3" name="Community, Schooling and Syndemics" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <SubSectionHeader name="Syndemics" />
 
@@ -477,7 +477,7 @@ function Syndemics() {
             onClick={() => {
               SaveJSON(formData, "syndemics");
 
-              navigate("/community");
+              navigate("/schooling");
             }}
           >
             {" "}
@@ -490,7 +490,7 @@ function Syndemics() {
             onClick={() => {
               SaveJSON(formData, "syndemics");
 
-              navigate("/schooling");
+              navigate("/mobility");
             }}
           >
             Next

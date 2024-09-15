@@ -194,7 +194,7 @@ function Schooling() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Community, Schooling and Syndemics" />
+          <SectionHeader number = "Section 3" name="Community, Schooling and Syndemics" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <SubSectionHeader name="Schooling" />
 
@@ -416,7 +416,7 @@ function Schooling() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "schooling");
-              navigate("/syndemics");
+              navigate("/community");
             }}
           >
             {" "}
@@ -428,7 +428,7 @@ function Schooling() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "schooling");
-              navigate("/aceOne");
+              navigate("/syndemics");
             }}
           >
             Next

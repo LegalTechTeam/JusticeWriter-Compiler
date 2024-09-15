@@ -10,10 +10,10 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
 import SectionHeader from "../HelperFunctions/SectionHeader";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
-import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 import Header from "../Layouts/Header";
 import themeSubHeading from "../Layouts/Theme";
 import themeWrapper from "../Layouts/ThemeWrapper";
@@ -36,7 +36,7 @@ export default function CaseInformation() {
       gender: "",
       notes: [],
     },
-    DOB: "",
+    date: "",
     background: "",
   });
 
@@ -83,9 +83,9 @@ export default function CaseInformation() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Background" />
+          <SectionHeader number = "Section 1" name="Case Information" />
 
-          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
+          <Box sx={{ marginTop: "30px", paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <Box
               sx={{
                 marginLeft: "10%",
@@ -94,7 +94,6 @@ export default function CaseInformation() {
               }}
             >
               {/*Title of section: CaseInformation*/}
-              <SubSectionHeader name="Case Information" />
               <Grid container spacing={3}>
                 {/*Case Number*/}
                 <SmallTextInput
@@ -132,7 +131,14 @@ export default function CaseInformation() {
                   onChange={handleChange}
                   section={"caseInformation"}
                 />
-                {/*Date of Birth*/}
+                {/*Current Date*/}
+                <DateOfBirth
+                    field={"Current Date"}
+                    id={"date"}
+                    label={"MM-DD-YYYY"}
+                    value={formData.date}
+                    onChange={handleChange}
+                  />
               </Grid>
             </Box>
             <Divider orientation="horizontal" flexItem />

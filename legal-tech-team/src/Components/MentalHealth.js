@@ -413,7 +413,7 @@ function MentalHealth() {
             onClick={() => {
               SaveJSON(formData, "mentalHealth");
               SaveJSON(formDataEvidence, "evidenceOfCharacter");
-              navigate("/peers-role-models");
+              navigate("/justiceInvolvement");
             }}
           >
             Previous

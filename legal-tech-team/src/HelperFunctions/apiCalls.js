@@ -30,13 +30,14 @@ const prompts = {
 
 // Descriptions for each section
 const sectionDescriptions = {
-  background: "Backgrouund",
+  background: "Background",
   caseInformation: "CaseInformation",
   familyDynamics: "Family Dynamics",
   community: "Community",
   syndemics: "Syndemics",
   schooling: "Schooling",
   adverseChildhoodExpriences: "Adverse Childhood Experiences",
+  mobility : "Residential and School Mobility",
   cageAID: "CAGE-AID",
   peersAndRoleModels: "Peers and Role Models",
   mentalHealth: "Mental Health",
@@ -131,6 +132,7 @@ async function callAPI(
       familyDynamics: `This section discusses the ${sectionDescriptions[section_name]} of ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}. `,
       community: `This section is about ${sectionDescriptions[section_name]}. `,
       syndemics: `This section is about ${sectionDescriptions[section_name]}. `,
+      mobility: `This section is about ${sectionDescriptions[section_name]}. `,
       cageAID: `This section is about ${sectionDescriptions[section_name]}. `,
       schooling: `This section is about ${sectionDescriptions[section_name]}. `,
       adverseChildhoodExpriences: `This section is about ${sectionDescriptions[section_name]}. `,
@@ -149,6 +151,7 @@ async function callAPI(
     schooling: ["tone", "quotes", "themes", "grammar"],
     adverseChildhoodExpriences: ["tone", "quotes", "themes", "grammar"],
     cageAID: ["tone", "quotes", "themes", "grammar"],
+    mobility: ["tone", "quotes", "themes", "grammar"],
     peersAndRoleModels: ["tone", "quotes", "themes", "grammar"],
     mentalHealth: ["tone", "quotes", "themes", "grammar"],
     evidenceOfCharacter: ["tone", "quotes", "themes", "grammar"],

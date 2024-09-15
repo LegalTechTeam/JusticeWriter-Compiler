@@ -136,7 +136,7 @@ function ACEp2() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Adverse Childhood Experiences" />
+          <SectionHeader number="Section 5" name="Childhood Trauma and Stressful Life Events" />
           <SubSectionHeader name="ACEs" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
          

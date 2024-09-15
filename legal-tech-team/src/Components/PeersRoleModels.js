@@ -171,7 +171,7 @@ function PeersRoleModels() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Peers and Role Models"/>
+          <SectionHeader number="Section 7" name="Peers and Role Models"/>
 
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
            
@@ -454,7 +454,7 @@ function PeersRoleModels() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "peersAndRoleModels");
-              navigate("/mental-health");
+              navigate("/justiceInvolvement");
             }}
           >
             Next

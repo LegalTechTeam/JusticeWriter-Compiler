@@ -81,7 +81,7 @@ function OtherCaretaker() {
           fontFamily: "Noto Sans",
         }}
       >
-        <SectionHeader name="Background" />
+          <SectionHeader number = "Section 2" name="Background" />
 
         <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
           {/*Title of section: Family Dynamics*/}

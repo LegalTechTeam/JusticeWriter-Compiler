@@ -95,7 +95,7 @@ function ACEp1() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Adverse Childhood Experiences" />
+          <SectionHeader number="Section 5" name="Childhood Trauma and Stressful Life Events" />
           <SubSectionHeader name="ACEs" />
 
           {/*input emotional neglect*/}
@@ -323,7 +323,7 @@ function ACEp1() {
             variant="contained"
             onClick={() => {
               SaveJSON(formDataACE, "adverseChildhoodExpriences");
-              navigate("/schooling");
+              navigate("/mobility");
             }}
           >
             Previous
