@@ -331,6 +331,14 @@ async function callAPI(
       emotionalAbuse: JSON.stringify(section_values.emotionalAbuse, null, 2),
     };
   }
+  if (section_name === "syndemics") {
+    section_values = {
+     
+      negativelyImpactedBy: JSON.stringify(section_values.negativelyImpactedBy, null, 2),
+      otherNotes: JSON.stringify(section_values.otherNotes, null, 2)
+    };
+  }
+
 
   // Function to append section values to prompt
   for (let subsection in section_values) {

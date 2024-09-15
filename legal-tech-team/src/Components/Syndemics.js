@@ -23,24 +23,16 @@ import AddQuotes from "../HelperFunctions/AddQuotes";
 import SectionHeader from "../HelperFunctions/SectionHeader";
 import SubSectionHeader from "../HelperFunctions/subSectionHeader";
 
-function Community() {
+function Syndemics() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
   const [formData, setFormData] = useState({
-    zipCodesLivedIn: {
-      zipCodesLivedIn: "",
-      notes: [],
-    },
-    selectedDisadvantages: {
+    negativelyImpactedBy: {
       Disadvantages: [],
       notes: [],
     },
 
-    NeighborhoodsLivedIn: {
-      NeighborhoodsLivedIn: "",
-      notes: [],
-    },
     otherNotes: {
       otherNotes: "",
       notes: [],
@@ -53,172 +45,297 @@ function Community() {
   };
   const disadvantagesList = [
     {
-      label: "Poverty",
+      label: "Mental Health Disorders",
+      id: "mentalHealthDisorders",
+      subs: [
+        {
+          label: "Depression",
+          id: "depression",
+          notes: [],
+        },
+        {
+          label: "Anxiety",
+          id: "anxiety",
+          notes: [],
+        },
+        {
+          label: "Bipolar Disorder",
+          id: "bipolarDisorder",
+          notes: [],
+        },
+        {
+          label: "Post-Traumatic Stress Disorder (PTSD)",
+          id: "ptsd",
+          notes: [],
+        },
+        {
+          label: "Schizophrenia",
+          id: "schizophrenia",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "Substance use disorders (e.g, alcohol or drug addiction)",
+      id: "substanceUseDisorder",
+      subs: [
+        {
+          label: "Alcohol Use Disorder",
+          id: "alcoholUseDisorder",
+          notes: [],
+        },
+        {
+          label: "Opioid Use Disorder",
+          id: "opioidUseDisorder",
+          notes: [],
+        },
+        {
+          label: "Prescription Drug Abuse",
+          id: "prescriptionDrugAbuse",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "Fentanyl use or overdose",
+      id: "fentanylUseOrOverdose",
+      subs: [
+        {
+          label: "Illicit Fentanyl Use",
+          id: "illicitFentanylUse",
+          notes: [],
+        },
+        {
+          label: "Fentanyl Overdose Risk",
+          id: "fentanylOverdoseRisk",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "Chronic Illness",
+      id: "chronicIllness",
+      subs: [
+        {
+          label: "Diabetes",
+          id: "diabetes",
+          notes: [],
+        },
+        {
+          label: "Cardiovascular Disease",
+          id: "cardiovascularDisease",
+          notes: [],
+        },
+        {
+          label: "Chronic Pain",
+          id: "chronicPain",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "HIV/AIDS",
+      id: "hivAids",
+      notes: [],
+    },
+    {
+      label: "Poverty or low Income",
       id: "poverty",
-      subs: [],
-      notes: [],
-    },
-    {
-      label: "Lack of HealthCare services",
-      id: "lackOfHealthCareServices",
-      notes: [],
-
       subs: [
         {
-          label: "Limited access to fresh, healthy and affordable food options",
-          id: "limitedAccessToHealthyFoodOptions",
+          label: "Unemployment",
+          id: "unemployment",
           notes: [],
         },
         {
-          label:
-            "Limited accesss to healthcare: Fewer clinics and hospitals, longer travel times for medical care, and less preventive care.",
-          id: "limitedAccesssToHealthcare",
-          notes: [],
-        },
-      ],
-    },
-    {
-      label:
-        "Crime: Higher incidences of petty and serious crimes, including theft, burglary, and violent offenses",
-      id: "crime",
-      subs: [
-        {
-          label: "Fights/Other violent conflicts",
-          id: "fightsViolentConflicts",
-          notes: [],
-        },
-        {
-          label:
-            "Gun Violence: : Increased risk of injury or death related to firearms, affecting community safety and well-being",
-          id: "gunViolence",
-          notes: [],
-        },
-        {
-          label: "Substance Abuse: Prevalence of drug and alcohol addiction",
-          id: "substanceAbuse",
-          notes: [],
-        },
-      ],
-    },
-    {
-      label: "Unsafe and poor quality schools",
-      id: "unsafeSchools",
-      subs: [],
-      notes: [],
-    },
-    {
-      label:
-        "Prostitution: The presence of strippers, sex workers, sex trafficking, and related sex-related criminal activity",
-      id: "prostitution",
-      subs: [],
-      notes: [],
-    },
-    {
-      label:
-        "Poor Infrastructure: Lack of maintenance and investment in buildings and public spaces, such as broken windows, abandoned houses",
-      id: "poorInfrastructure",
-      subs: [],
-      notes: [],
-    },
-    {
-      label: "Inadequate public service",
-      id: "inadequatePublicService",
-      subs: [
-        {
-          label: "Inadequate public transportation",
-          id: "inadequatePublicTransportation",
-          notes: [],
-        },
-        {
-          label: "Inadequate public safety",
-          id: "inadequatePublicSafety",
-          notes: [],
-        },
-        {
-          label: "Inadequate public health",
-          id: "inadequatePublicHealth",
-          notes: [],
-        },
-        {
-          label: "Inadequate public housing",
-          id: "inadequatePublicHousing",
-          notes: [],
-        },
-        {
-          label:
-            "Insufficient garbage collection, policing, and social services",
-          id: "InsufficientGarbageCollectionPolicingAndSocialServices",
+          label: "Underemployment",
+          id: "underemployment",
           notes: [],
         },
       ],
       notes: [],
     },
     {
-      label:
-        "Housing Instability: High rates of eviction, homelessness, and transience within the community.",
+      label: "Housing Instability: High rates of eviction, homelessness, and transience within the community.",
       id: "housingInstability",
-      subs: [],
+      subs: [
+        {
+          label: "Homelessness",
+          id: "homelessness",
+          notes: [],
+        },
+        {
+          label: "Eviction",
+          id: "eviction",
+          notes: [],
+        },
+        {
+          label: "Overcrowded Living Conditions",
+          id: "overcrowdedLiving",
+          notes: [],
+        },
+      ],
       notes: [],
     },
-
     {
-      label:
-        "Social Isolation: Fewer community spaces and programs can lead to a lack of social cohesion and support networks",
-      id: "socialIsolation",
-      subs: [],
+      label: "Stigma or discrimination",
+      id: "stigmaOrDiscrimination",
+      subs: [
+        {
+          label: "Racial Discrimination",
+          id: "racialDiscrimination",
+          notes: [],
+        },
+        {
+          label: "LGBTQ+ Discrimination",
+          id: "lgbtqDiscrimination",
+          notes: [],
+        },
+        {
+          label: "Disability Discrimination",
+          id: "disabilityDiscrimination",
+          notes: [],
+        },
+      ],
       notes: [],
     },
     {
-      label:
-        "Economic Stagnation: High unemployment rates and lack of job opportunities",
+      label: "Exposure to violence or trauma",
+      id: "exposureToViolenceOrTrauma",
+      subs: [
+        {
+          label: "Domestic Violence",
+          id: "domesticViolence",
+          notes: [],
+        },
+        {
+          label: "Community Violence",
+          id: "communityViolence",
+          notes: [],
+        },
+        {
+          label: "Childhood Trauma",
+          id: "childhoodTrauma",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "Limited Access to Healthcare",
+      id: "limitedAccessToHealthcare",
+      subs: [
+        {
+          label: "Lack of Health Insurance",
+          id: "lackOfHealthInsurance",
+          notes: [],
+        },
+        {
+          label: "Geographical Barriers",
+          id: "geographicalBarriers",
+          notes: [],
+        },
+        {
+          label: "Shortage of Healthcare Providers",
+          id: "shortageOfProviders",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "Food Insecurity",
+      id: "foodInsecurity",
+      subs: [
+        {
+          label: "Limited Access to Affordable Food",
+          id: "limitedAffordableFood",
+          notes: [],
+        },
+        {
+          label: "Nutritional Deficiencies",
+          id: "nutritionalDeficiencies",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "Hurricane or natural disaster",
+      id: "hurricaneOrNaturalDisaster",
+      subs: [
+        {
+          label: "Flooding",
+          id: "flooding",
+          notes: [],
+        },
+        {
+          label: "Property Damage",
+          id: "propertyDamage",
+          notes: [],
+        },
+      ],
+      notes: [],
+    },
+    {
+      label: "Economic Stagnation: High unemployment rates and lack of job opportunities",
       id: "economicStagnation",
-      subs: [],
+      subs: [
+        {
+          label: "High Unemployment",
+          id: "highUnemployment",
+          notes: [],
+        },
+        {
+          label: "Lack of Job Opportunities",
+          id: "lackOfOpportunities",
+          notes: [],
+        },
+      ],
       notes: [],
     },
     {
-      label:
-        "Environmental Hazards: Poor air quality, lead contamination, and other harmful conditions",
+      label: "Environmental Hazards: Poor air quality, lead contamination, and other harmful conditions",
       id: "environmentalHazards",
-      subs: [],
-      notes: [],
-    },
-    {
-      label:
-        "Lack of Safe Outdoor Spaces: There is a shortage of safe recreational areas for children, limiting their opportunities for outdoor play",
-      id: "lackOfSafeOutdoorSpaces",
-      subs: [],
-      notes: [],
-    },
-    {
-      label:
-        "Lack of Safe Recreational Areas: Fewer parks and sports facilities, limiting opportunities for physical activity",
-      id: "lackOfSafeRecreationalAreas",
-      subs: [],
-      notes: [],
-    },
-
-    {
-      label:
-        "Residential Segregation:The majority of residents and members of your community belong to a minoritized group.",
-      id: "residentialSegregation",
-      subs: [],
+      subs: [
+        {
+          label: "Air Pollution",
+          id: "airPollution",
+          notes: [],
+        },
+        {
+          label: "Water Contamination",
+          id: "waterContamination",
+          notes: [],
+        },
+        {
+          label: "Lead Exposure",
+          id: "leadExposure",
+          notes: [],
+        },
+      ],
       notes: [],
     },
   ];
+  
 
   const handleDisadvantageChange = (disadvantagesId, isChecked) => {
     setFormData((prevFormData) => {
-      const selectedDisadvantages = prevFormData.selectedDisadvantages || {
+      const negativelyImpactedBy = prevFormData.negativelyImpactedBy || {
         Disadvantages: [],
       };
 
       return {
         ...prevFormData,
-        selectedDisadvantages: {
-          ...selectedDisadvantages,
+        negativelyImpactedBy: {
+          ...negativelyImpactedBy,
           Disadvantages: isChecked
-            ? [...selectedDisadvantages.Disadvantages, disadvantagesId]
-            : selectedDisadvantages.Disadvantages.filter(
+            ? [...negativelyImpactedBy.Disadvantages, disadvantagesId]
+            : negativelyImpactedBy.Disadvantages.filter(
                 (id) => id !== disadvantagesId
               ),
         },
@@ -244,7 +361,8 @@ function Community() {
   };
 
   const loadSavedData = () => {
-    const savedData = ReturnExistingInput("community");
+    const savedData = ReturnExistingInput("syndemics");
+    console.log("Syndemics " + savedData)
     if (savedData) {
       setFormData(savedData);
     }
@@ -268,10 +386,10 @@ function Community() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Community, Schooling and Syndemics"/>
+          <SectionHeader name="Community, Schooling and Syndemics" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <SubSectionHeader name="Community"/>
-           
+            <SubSectionHeader name="Syndemics" />
+
             {/*Question*/}
             <Box
               sx={{
@@ -281,33 +399,7 @@ function Community() {
                 justifyContent: "left",
               }}
             >
-              <BigText
-                question={
-                  "What are the names of the neighborhoods and cities you grew up in or primarily live in?"
-                }
-                id={"NeighborhoodsLivedIn"}
-                label={"Neighborhoods"}
-                onChange={handleChange}
-                value={formData.NeighborhoodsLivedIn?.NeighborhoodsLivedIn}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("NeighborhoodsLivedIn", newQuotes)
-                }
-                section={"community"}
-              />
-              
-              <BigText
-                question={"What were the zip codes where you primarily lived?"}
-                onChange={handleChange}
-                id={"zipCodesLivedIn"}
-                label={"zipCodesLivedIn"}
-                rows={1}
-                value={formData.zipCodesLivedIn?.zipCodesLivedIn}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("zipCodesLivedIn", newQuotes)
-                }
-                section={"community"}
-              />
-
+             
               {/*Social Disadvantages*/}
               <Grid item xs={12} sm={2}>
                 <InputLabel
@@ -330,8 +422,8 @@ function Community() {
                       label={disadvantage.label}
                       id={disadvantage.id}
                       checked={
-                        formData.selectedDisadvantages &&
-                        formData.selectedDisadvantages.Disadvantages.includes(
+                        formData.negativelyImpactedBy &&
+                        formData.negativelyImpactedBy.Disadvantages.includes(
                           disadvantage.id
                         )
                       }
@@ -340,10 +432,10 @@ function Community() {
                       handleQuotesChange={(newQuotes) =>
                         handleQuotesChange(disadvantage.id, newQuotes)
                       }
-                      section={"community"}
+                      section={"syndemics"}
                     />
-                    {formData.selectedDisadvantages &&
-                      formData.selectedDisadvantages.Disadvantages.includes(
+                    {formData.negativelyImpactedBy &&
+                      formData.negativelyImpactedBy.Disadvantages.includes(
                         disadvantage.id
                       ) && (
                         <React.Fragment>
@@ -355,14 +447,14 @@ function Community() {
                                     key={subIndex}
                                     label={sub.label}
                                     id={sub.id}
-                                    checked={formData.selectedDisadvantages.Disadvantages.includes(
+                                    checked={formData.negativelyImpactedBy.Disadvantages.includes(
                                       sub.id
                                     )}
                                     onChange={handleDisadvantageChange}
                                     handleQuotesChange={(newQuotes) =>
                                       handleQuotesChange(sub.id, newQuotes)
                                     }
-                                    section={"community"}
+                                    section={"syndemics"}
                                   />
                                 </>
                               ))}
@@ -380,7 +472,7 @@ function Community() {
                   handleQuotesChange("otherNotes", newQuotes)
                 }
                 value={formData.otherNotes?.otherNotes}
-                section={"community"}
+                section={"syndemics"}
                 id={"otherNotes"}
               />
             </Box>
@@ -388,9 +480,9 @@ function Community() {
           <Button
             variant="contained"
             onClick={() => {
-              SaveJSON(formData, "community");
+              SaveJSON(formData, "syndemics");
 
-              navigate("/careTaker");
+              navigate("/community");
             }}
           >
             {" "}
@@ -401,9 +493,9 @@ function Community() {
           <Button
             variant="contained"
             onClick={() => {
-              SaveJSON(formData, "community");
+              SaveJSON(formData, "syndemics");
 
-              navigate("/syndemics");
+              navigate("/schooling");
             }}
           >
             Next
@@ -414,4 +506,4 @@ function Community() {
   );
 }
 
-export default Community;
+export default Syndemics;

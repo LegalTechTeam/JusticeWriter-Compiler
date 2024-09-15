@@ -19,6 +19,7 @@ import Evidence from "./Components/Evidence";
 import CrimeStats from "./Components/crimeStats";
 import { initializeFromStore } from "./HelperFunctions/formatJSON";
 import OtherCaretaker from "./Components/OtherCaretaker.js";
+import Syndemics from "./Components/Syndemics.js";
 function App() {
   const [data, setData] = useState("");
 
@@ -46,6 +47,8 @@ function App() {
           <Route path="/crime-stats" element={<CrimeStats />} />
           <Route path="/clientInfo" element={<ClientInformation />} />
           <Route path="/careTaker" element={<OtherCaretaker />} />
+          <Route path="/syndemics" element={<Syndemics />} />
+
 
         </Routes>
       </HashRouter>

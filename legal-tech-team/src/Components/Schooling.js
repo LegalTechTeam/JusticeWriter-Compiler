@@ -544,7 +544,7 @@ function Schooling() {
             onClick={() => {
               SaveJSON(formData, "schooling");
               SaveJSON(formDataACE, "adverseChildhoodExpriences");
-              navigate("/community");
+              navigate("/syndemics");
             }}
           >
             {" "}
