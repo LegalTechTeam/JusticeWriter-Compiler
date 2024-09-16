@@ -18,7 +18,7 @@ import {
 import JSZip from "jszip";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { chatPatches, generateReport, summarizeFile } from "../HelperFunctions/apiCalls";
+import { chatPatches, generateReport, summarizeFile, setChatPatches } from "../HelperFunctions/apiCalls";
 import { DownloadJsonData, clearJSON } from "../HelperFunctions/formatJSON";
 import { handleTemplateInput } from "../HelperFunctions/GenerateWordDocument";
 import Header from "../Layouts/Header";
@@ -77,7 +77,7 @@ function Submit() {
       setSubmitSuccess(false);
       setWifiConnected(false);
       if (chatPatches !== undefined && chatPatches !== null) {
-        chatPatches = null;
+        setChatPatches(null);
       }
       setIsLoading(false);
     };

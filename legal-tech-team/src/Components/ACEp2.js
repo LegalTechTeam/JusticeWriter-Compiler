@@ -4,7 +4,7 @@ import {
   Divider,
   Grid,
   Paper,
-  ThemeProvider
+  ThemeProvider,
 } from "@mui/material";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -54,14 +54,7 @@ function ACEp2() {
       familyMembersAbusedOrThreatened: "",
       notes: [],
     },
-    alcoholAbuse: {
-      alcoholAbuse: "",
-      notes: [],
-    },
-    mentalIllness: {
-      mentalIllness: "",
-      notes: [],
-    },
+
     separation: {
       separation: "",
       notes: [],
@@ -76,22 +69,6 @@ function ACEp2() {
     },
     otherTraumaticExperience: {
       otherTraumaticExperience: "",
-      notes: [],
-    },
-    drugUse: {
-      drugUse: "",
-      notes: [],
-    },
-    drugUseFrequencyAndSeverity: {
-      drugUseFrequencyAndSeverity: "",
-      notes: [],
-    },
-    diagnosedSUD: {
-      diagnosedSUD: "",
-      notes: [],
-    },
-    treatedOrTestedSUD: {
-      treatedOrTestedSUD: "",
       notes: [],
     },
   });
@@ -136,11 +113,12 @@ function ACEp2() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader number="Section 5" name="Childhood Trauma and Stressful Life Events" />
+          <SectionHeader
+            number="Section 5"
+            name="Childhood Trauma and Stressful Life Events"
+          />
           <SubSectionHeader name="ACEs" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-         
-
             {/*input one*/}
             <Box
               sx={{
@@ -208,74 +186,6 @@ function ACEp2() {
                 }
                 section={"adverseChildhoodExpriences"}
               />
-            </Box>
-
-            <Divider orientation="horizontal" flexItem />
-
-            <SubSectionHeader name="Drug Use" />
-
-
-            {/*drug input*/}
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-              }}
-            >
-              <BigText
-                question={"What types of drugs have you used?"}
-                id={"drugUse"}
-                label={"Drug Use"}
-                onChange={handleACEChange}
-                value={formDataACE.drugUse?.drugUse}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("drugUse", newQuotes)
-                }
-                section={"adverseChildhoodExpriences"}
-              />
-              <BigText
-                question={
-                  "How would you describe the frequency and severity of your drug use?"
-                }
-                id={"drugUseFrequencyAndSeverity"}
-                label={"Drug Use"}
-                onChange={handleACEChange}
-                value={
-                  formDataACE.drugUseFrequencyAndSeverity
-                    ?.drugUseFrequencyAndSeverity
-                }
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("drugUseFrequencyAndSeverity", newQuotes)
-                }
-                section={"adverseChildhoodExpriences"}
-              />
-              <Grid container spacing={3} marginTop={1}>
-                <RadioYesNo
-                  id={"diagnosedSUD"}
-                  ection={"adverseChildhoodExpriences"}
-                  question={
-                    "Ever been diagnosed with substance use disorder (SUD)?"
-                  }
-                  value={formDataACE.diagnosedSUD?.diagnosedSUD}
-                  onChange={handleRadioChange}
-                  checkedValue={formDataACE.diagnosedSUD?.diagnosedSUD}
-                  handleQuotesChange={(newQuotes) =>
-                    handleQuotesChange("diagnosedSUD", newQuotes)
-                  }
-                />
-                <RadioYesNo
-                  id={"treatedSUD"}
-                  section={"adverseChildhoodExpriences"}
-                  question={"Ever been tested or treated for SUD?"}
-                  value={formDataACE.treatedSUD?.treatedSUD}
-                  onChange={handleRadioChange}
-                  checkedValue={formDataACE.treatedSUD?.treatedSUD}
-                  handleQuotesChange={(newQuotes) =>
-                    handleQuotesChange("treatedSUD", newQuotes)
-                  }
-                />
-              </Grid>
             </Box>
           </Box>
           <Button

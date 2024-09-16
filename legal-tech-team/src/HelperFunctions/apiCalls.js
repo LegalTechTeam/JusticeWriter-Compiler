@@ -37,13 +37,17 @@ const sectionDescriptions = {
   syndemics: "Syndemics",
   schooling: "Schooling",
   adverseChildhoodExpriences: "Adverse Childhood Experiences",
+  justiceInvolvement: "Justice Involvement",
   mobility : "Residential and School Mobility",
   cageAID: "CAGE-AID",
   peersAndRoleModels: "Peers and Role Models",
   mentalHealth: "Mental Health",
   evidenceOfCharacter: "Evidence of Character",
+  otherRiskFactors: "Other Risk Factors"
 };
-
+export const setChatPatches = (value) => {
+  chatPatches = value;
+};
 var all_sections = {};
 
 async function test_call() {
@@ -133,12 +137,15 @@ async function callAPI(
       community: `This section is about ${sectionDescriptions[section_name]}. `,
       syndemics: `This section is about ${sectionDescriptions[section_name]}. `,
       mobility: `This section is about ${sectionDescriptions[section_name]}. `,
+      justiceInvolvement: `This section is about ${sectionDescriptions[section_name]}. `,
       cageAID: `This section is about ${sectionDescriptions[section_name]}. `,
       schooling: `This section is about ${sectionDescriptions[section_name]}. `,
       adverseChildhoodExpriences: `This section is about ${sectionDescriptions[section_name]}. `,
       peersAndRoleModels: `This section is about ${sectionDescriptions[section_name]}. `,
       mentalHealth: `This section is about ${jsonData.caseInformation.firstName} ${jsonData.caseInformation.lastName}'s ${sectionDescriptions[section_name]}. `,
       evidenceOfCharacter: `This section is about ${sectionDescriptions[section_name]}.`,
+      otherRiskFactors: `This section is about ${sectionDescriptions[section_name]}.`,
+
     };
   }
 
@@ -151,7 +158,9 @@ async function callAPI(
     schooling: ["tone", "quotes", "themes", "grammar"],
     adverseChildhoodExpriences: ["tone", "quotes", "themes", "grammar"],
     cageAID: ["tone", "quotes", "themes", "grammar"],
+    otherRiskFactors: ["tone", "quotes", "themes", "grammar"],
     mobility: ["tone", "quotes", "themes", "grammar"],
+    justiceInvolvement: ["tone", "quotes", "themes", "grammar"],
     peersAndRoleModels: ["tone", "quotes", "themes", "grammar"],
     mentalHealth: ["tone", "quotes", "themes", "grammar"],
     evidenceOfCharacter: ["tone", "quotes", "themes", "grammar"],
@@ -160,56 +169,92 @@ async function callAPI(
   // Merge relevant fields for family dynamics
   if (section_name === "familyDynamics") {
     section_values = {
-      Parent: `
-        Mother's Name: ${JSON.stringify(section_values.motherName, null, 2)}
-        Mother's Birthday: ${JSON.stringify(section_values.motherBday, null, 2)}
-        Mother's Arrested: ${JSON.stringify(
-          section_values.motherArrested,
-          null,
-          2
-        )}
-        Number of Children (Mother): ${JSON.stringify(
-          section_values.motherNumChildren,
-          null,
-          2
-        )}
-        Mother's Education: ${JSON.stringify(
-          section_values.motherEducation,
-          null,
-          2
-        )}
-        Mother's Marital Status: ${JSON.stringify(
-          section_values.motherMaritalStatus,
-          null,
-          2
-        )}
-        Father's Arrested: ${JSON.stringify(
-          section_values.fatherArrested,
-          null,
-          2
-        )}
-         Father's name: ${JSON.stringify(section_values.fatherName, null, 2)}
-      `,
-      Other: `
-        Siblings: ${JSON.stringify(section_values.siblings, null, 2)}
-        Family Conflict: ${JSON.stringify(
-          section_values.familyConflict,
-          null,
-          2
-        )}
-        Family Relocation: ${JSON.stringify(
-          section_values.familyRelocation,
-          null,
-          2
-        )}
-        Housing Assistance: ${JSON.stringify(
-          section_values.housingAssistance,
-          null,
-          2
-        )}
-      `,
+      Mother: {
+        "Mother's Name": section_values.motherName,
+        "Mother's Birthday": section_values.motherBday,
+        "Mother's Age When She First Gave Birth": section_values.motherAgeWhenSheFirstGaveBirth,
+        "Mother's Age When She Gave Birth to Client": section_values.motherAgeWhenSheGaveBirthToClient,
+        "Mother Arrested": section_values.motherArrested,
+        "Housing Assistance": section_values.housingAssistance,
+        "Food Stamps": section_values.foodStamps,
+        "Mother's Marital Status": section_values.motherMaritalStatus,
+        "Mother's Education": section_values.motherEducation,
+        "Mother's Number of Children": section_values.motherNumChildren,
+        "Mother's Number of Siblings": section_values.motherNumSiblings,
+      },
+      Father: {
+        "Father's Name": section_values.fatherName,
+        "Father's Birthday": section_values.fatherBday,
+        "Father Arrested": section_values.fatherArrested,
+        "Father's Number of Siblings": section_values.fatherNumSiblings,
+      },
+      Caretaker: {
+        "Caretaker's First Name": section_values.caretakerFirstName,
+        "Caretaker's Last Name": section_values.caretakerLastName,
+        "Caretaker Information": section_values.caretakerInformation,
+      },
+      Other: {
+        "Siblings": section_values.siblings,
+        "Family Conflict": section_values.familyConflict,
+        "Family Relocation": section_values.familyRelocation,
+        "Other Information About Family": section_values.otherInformationAboutFamily,
+      },
+      background: {
+        "otherInformation": section_values.otherInformation
+      }
     };
-  }
+  
+    };
+    if (section_name === "community") {
+      section_values = {
+        Info: `
+        NeighborhoodsLivedIn: ${JSON.stringify(section_values.NeighborhoodsLivedIn, null, 2)}
+        otherNotes: ${JSON.stringify(section_values.otherNotes, null, 2)}
+      
+      `,
+        selectedDisadvantages: JSON.stringify(
+          section_values.selectedDisadvantages,
+          null,
+          2
+        ),
+      };
+    }
+    if (section_name === "syndemics") {
+      section_values = {
+        negativelyImpactedBy: JSON.stringify(
+          section_values.negativelyImpactedBy,
+          null,
+          2
+        ),
+        otherNotes: JSON.stringify(section_values.otherNotes, null, 2),
+      };
+    }
+    if (section_name === "schooling") {
+      section_values = {
+        info: {
+          "School Changes": JSON.stringify(section_values.schoolChanges, null, 2),
+          "School Experiences": JSON.stringify(section_values.schoolExperiences, null, 2),
+          "School Quality": JSON.stringify(section_values.schoolQuality, null, 2),
+          "Academic Performance": JSON.stringify(section_values.academicPerformance, null, 2),
+          "No Disciplinary Action": JSON.stringify(section_values.noDisciplinaryAction, null, 2),
+        },
+      };
+    }
+    
+    if (section_name === "mobility") {
+      section_values = {
+        info: {
+          "Schools Attended": JSON.stringify(section_values.schoolsAttended, null, 2),
+          "Zip Codes Lived In": JSON.stringify(section_values.zipCodesLivedIn, null, 2),
+          "Feelings About Moving to Different Schools": JSON.stringify(section_values.anyFeelingsAboutMoveToDifferentSchoolsIfAny, null, 2),
+          "Feelings About Moving to Different Areas": JSON.stringify(section_values.anyFeelingsAboutMoveToDifferentAreasIfAny, null, 2),
+          "Other Notes": JSON.stringify(section_values.otherNotes, null, 2),
+        },
+      };
+    }
+    
+   
+  
 
   if (section_name === "caseInformation" && section_values.background) {
     section_values = {
@@ -217,94 +262,13 @@ async function callAPI(
     };
   }
 
-  if (section_name === "cageAID") {
-    section_values = {
-      Info: `
-      feltTheNeedToCutDownOnDrinkingOrDrugUse: ${JSON.stringify(section_values.feltTheNeedToCutDownOnDrinkingOrDrugUse, null, 2)}
-      peopleCritizedYouForDrinkingOrDrugUse: ${JSON.stringify(
-        section_values.peopleCritizedYouForDrinkingOrDrugUse,
-        null,
-        2
-      )}
-      feltBadOrGuiltyAboutYourDrinkingOrDrugUse: ${JSON.stringify(
-        section_values.feltBadOrGuiltyAboutYourDrinkingOrDrugUse,
-        null,
-        2
-      )}
-      hadADrinkOrUsedDrugsFirstThingInTheMorning: ${JSON.stringify(
-        section_values.hadADrinkOrUsedDrugsFirstThingInTheMorning,
-        null,
-        2
-      )}
-      otherInformation: ${JSON.stringify(
-        section_values.otherInformation,
-        null,
-        2
-      )}
-      score: ${JSON.stringify(section_values.score, null, 2)}
-    `,
-    };
-  }
-  if (section_name === "mentalHealth") {
-    section_values = {
-      participatedMentalHealthOrDrugProgram: JSON.stringify(
-        section_values.participatedMentalHealthOrDrugProgram,
-        null,
-        2
-      ),
-      receivedMentalHealthTreatment: JSON.stringify(
-        section_values.receivedMentalHealthTreatment,
-        null,
-        2
-      ),
-      addressedMentalHealthIssues: JSON.stringify(
-        section_values.addressedMentalHealthIssues,
-        null,
-        2
-      ),
+ 
 
-      treatmentOrCounseling: JSON.stringify(
-        section_values.treatmentOrCounseling,
-        null,
-        2
-      ),
-    };
-  }
-
-  if (section_name === "community") {
-    section_values = {
-      Info: `
-      NeighborhoodsLivedIn: ${JSON.stringify(section_values.NeighborhoodsLivedIn, null, 2)}
-      zipCodesLivedIn: ${JSON.stringify(section_values.zipCodesLivedIn, null, 2)}
-      otherNotes: ${JSON.stringify(section_values.otherNotes, null, 2)}
-    
-    `,
-      selectedDisadvantages: JSON.stringify(
-        section_values.selectedDisadvantages,
-        null,
-        2
-      ),
-    };
-  }
+  
 
   // Merge relevant fields for adverse childhood experiences
   if (section_name === "adverseChildhoodExpriences") {
     section_values = {
-      mentalHealthAndDrugUse: `
-        Alcohol Abuse: ${JSON.stringify(section_values.alcoholAbuse, null, 2)}
-        Mental Illness: ${JSON.stringify(section_values.mentalIllness, null, 2)}
-        Drug Use: ${JSON.stringify(section_values.drugUse, null, 2)}
-        Diagnosed SUD: ${JSON.stringify(section_values.diagnosedSUD, null, 2)}
-        Treated SUD: ${JSON.stringify(section_values.treatedSUD, null, 2)}
-      `,
-      separation: JSON.stringify(section_values.separation, null, 2),
-      familyMembersInPrision: JSON.stringify(
-        section_values.familyMembersInPrision,
-        null,
-        2
-      ),
-      lossesAndDeaths: JSON.stringify(section_values.lossesAndDeaths, null, 2),
-
       emotionalAbuse: JSON.stringify(section_values.emotionalAbuse, null, 2),
       physicalAbuse: JSON.stringify(section_values.physicalAbuse, null, 2),
       sexualAbuse: JSON.stringify(section_values.sexualAbuse, null, 2),
@@ -319,6 +283,35 @@ async function callAPI(
         null,
         2
       ),
+      separation: JSON.stringify(section_values.separation, null, 2),
+      familyMembersInPrision: JSON.stringify(
+        section_values.familyMembersInPrision,
+        null,
+        2
+      ),
+      lossesAndDeaths: JSON.stringify(section_values.lossesAndDeaths, null, 2),
+      otherTraumaticExperience: JSON.stringify(section_values.lossesAndDeaths, null, 2),
+
+    };
+  }
+  if (section_name === "cageAID") {
+    section_values = {
+      SubstanceUse: {
+        "Drug Use": JSON.stringify(section_values.drugUse, null, 2),
+        "Drug Use Frequency and Severity": JSON.stringify(section_values.drugUseFrequencyAndSeverity, null, 2),
+        "Diagnosed Substance Use Disorder (SUD)": JSON.stringify(section_values.diagnosedSUD, null, 2),
+        "Treated or Tested for SUD": JSON.stringify(section_values.treatedOrTestedSUD, null, 2),
+      },
+      CAGE: {
+        "Felt the Need to Cut Down on Drinking or Drug Use": JSON.stringify(section_values.feltTheNeedToCutDownOnDrinkingOrDrugUse, null, 2),
+        "People Criticized You for Drinking or Drug Use": JSON.stringify(section_values.peopleCritizedYouForDrinkingOrDrugUse, null, 2),
+        "Felt Bad or Guilty About Your Drinking or Drug Use": JSON.stringify(section_values.feltBadOrGuiltyAboutYourDrinkingOrDrugUse, null, 2),
+        "Had a Drink or Used Drugs First Thing in the Morning": JSON.stringify(section_values.hadADrinkOrUsedDrugsFirstThingInTheMorning, null, 2),
+      },
+      OtherInformation: {
+        "Other Information": JSON.stringify(section_values.otherInformation, null, 2),
+      },
+      CAGEScore: JSON.stringify(section_values.score, null, 2),
     };
   }
 
@@ -367,39 +360,71 @@ async function callAPI(
         null,
         2
       ),
-    };
-  }
-
-  if (section_name === "schooling") {
-    section_values = {
-      educationHistory: `
-        schoolsAttended: ${JSON.stringify(
-          section_values.schoolsAttended,
-          null,
-          2
-        )}
-        schoolChanges: ${JSON.stringify(section_values.schoolChanges, null, 2)}
-        schoolQuality: ${JSON.stringify(section_values.schoolQuality, null, 2)}
-      `,
-      noDisciplinaryAction: JSON.stringify(
-        section_values.noDisciplinaryAction,
+      otherRiskFactorsExperienced: JSON.stringify(
+        section_values.otherRiskFactorsExperienced,
         null,
         2
       ),
-      emotionalAbuse: JSON.stringify(section_values.emotionalAbuse, null, 2),
     };
   }
-  if (section_name === "syndemics") {
+  if (section_name === "justiceInvolvement") {
     section_values = {
-      negativelyImpactedBy: JSON.stringify(
-        section_values.negativelyImpactedBy,
+      JusticeInvolvement: {
+        "Age First Involved": JSON.stringify(section_values.ageFirstInvolved, null, 2),
+        "Nature of First Involvement": JSON.stringify(section_values.natureOfFirstInvolvement, null, 2),
+        "Frequency of Negative Encounters": JSON.stringify(section_values.frequencyOfNegativeEncounters, null, 2),
+        "Times Re-Arrested": JSON.stringify(section_values.timesReArrested, null, 2),
+        "Placed in Institution": JSON.stringify(section_values.placedInInstitution, null, 2),
+        "Institutionalization Impact Level": JSON.stringify(section_values.InstitutionalizationImpactLevel, null, 2),
+        "Accumulation and Complexity": JSON.stringify(section_values.accumulationAndComplexity, null, 2),
+      },
+    };
+  }
+  
+  if (section_name === "otherRiskFactors") {
+    section_values = {
+      CultureAndMedia: {
+        "Culture and Media": JSON.stringify(section_values.cultureAndMedia, null, 2),
+      },
+      RacismOrHateVictimization: {
+        "Racism or Hate Victimization": JSON.stringify(section_values.RacismOrHateVictimization, null, 2),
+      },
+      OtherInformation: {
+        "Other Information": JSON.stringify(section_values.otherInformation, null, 2),
+      },
+      Top3MostHurtfulExperiences: {
+        "Top 3 Most Hurtful Experiences": JSON.stringify(section_values.top3MostHurtfulExperiences, null, 2),
+      },
+    };
+  }
+  
+ 
+  if (section_name === "mentalHealth") {
+    section_values = {
+      participatedMentalHealthOrDrugProgram: JSON.stringify(
+        section_values.participatedMentalHealthOrDrugProgram,
         null,
         2
       ),
-      otherNotes: JSON.stringify(section_values.otherNotes, null, 2),
+      receivedMentalHealthTreatment: JSON.stringify(
+        section_values.receivedMentalHealthTreatment,
+        null,
+        2
+      ),
+      addressedMentalHealthIssues: JSON.stringify(
+        section_values.addressedMentalHealthIssues,
+        null,
+        2
+      ),
+
+      treatmentOrCounseling: JSON.stringify(
+        section_values.treatmentOrCounseling,
+        null,
+        2
+      ),
     };
   }
-
+ 
   // Function to append section values to prompt
   for (let subsection in section_values) {
     let prompt = contextSummary + "\n\n";
@@ -457,8 +482,11 @@ export async function generateReport(jsonData, inputText) {
   console.log("Generating Report for JSON data in api calls");
   console.log("jsonData: \n", jsonData);
 
+  if (jsonData.caseInformation?.date) {
+    all_sections["date"] = escapeDoubleQuotes(jsonData.caseInformation.date);
+  }
   if (jsonData.caseInformation?.DOB) {
-    all_sections["date"] = escapeDoubleQuotes(jsonData.caseInformation.DOB);
+    all_sections["dob"] = escapeDoubleQuotes(jsonData.caseInformation.DOB);
   }
   if (jsonData.caseInformation?.attorneyName) {
     all_sections["attorneyName"] = jsonData.caseInformation.attorneyName;

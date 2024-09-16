@@ -187,7 +187,7 @@ function MentalHealth() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Mental Health Treatment" />
+          <SectionHeader number="Section 10" name="Mental Health Diagnosis, Mental Health Services, and Social Services" />
 
           {/* First Yes or No Question */}
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
@@ -196,6 +196,7 @@ function MentalHealth() {
                 marginLeft: "10%",
                 marginRight: "10%",
                 paddingBottom: "30px",
+                marginTop:"30px",
               }}
             >
               <Grid container spacing={3}>
@@ -305,7 +306,7 @@ function MentalHealth() {
             </Box>
           </Box>
 
-          <SectionHeader name="Evidence of Character" />
+          <SectionHeader number="Section 11" name="Evidence of Character and Potential To Change" />
 
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <Box
@@ -313,6 +314,7 @@ function MentalHealth() {
                 marginLeft: "10%",
                 marginRight: "10%",
                 paddingBottom: "30px",
+                marginTop:"30px"
               }}
             >
               <BigText

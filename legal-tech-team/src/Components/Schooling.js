@@ -89,10 +89,7 @@ function Schooling() {
   }, []);
 
   const [formData, setFormData] = useState({
-    schoolsAttended: {
-      schoolsAttended: "",
-      notes: [],
-    },
+
     schoolChanges: {
       schoolChanges: "",
       notes: [],
@@ -198,28 +195,7 @@ function Schooling() {
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <SubSectionHeader name="Schooling" />
 
-            {/*input one*/}
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-              }}
-            >
-              <BigText
-                question={
-                  "What are the names and school grades (A school – F school) of the schools you attended?"
-                }
-                id={"schoolsAttended"}
-                label={"Schools attended"}
-                onChange={handleRadioChange}
-                value={formData.schoolsAttended?.schoolsAttended}
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("schoolsAttended", newQuotes)
-                }
-                section={"schooling"}
-              />
-            </Box>
+        
 
             {/*input two*/}
             <Box

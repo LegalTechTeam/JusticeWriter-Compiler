@@ -42,6 +42,8 @@ import "./Components/Schooling.js";
 import "./Components/crimeStats.js";
 import "./Components/Mobility.js";
 import "./Components/JusticeInvolvement.js";
+import "./Components/OtherRiskFactors.js";
+
 
 
 import "./Components/Submit.js";

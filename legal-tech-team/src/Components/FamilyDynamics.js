@@ -72,6 +72,14 @@ function FamilyDynamics() {
       motherNumChildren: "",
       notes: [],
     },
+    fatherNumSiblings: {
+      fatherNumSiblings: "",
+      notes: [],
+    },
+    motherNumSiblings: {
+      motherNumSiblings: "",
+      notes: [],
+    },
     fatherName: {
       fatherName: "",
       notes: [],
@@ -306,6 +314,30 @@ function FamilyDynamics() {
                     handleQuotesChange("motherNumChildren", newQuotes)
                   }
                 />
+                   {/*Number of Siblings*/}
+
+                   <DropDown
+                  question={"How many siblings did your mother have?"}
+                  id={"motherNumSiblings"}
+                  section={"familyDynamics"}
+                  options={[
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    ">8",
+                    "N/A",
+                  ]}
+                  value={formData.motherNumSiblings?.motherNumSiblings}
+                  onChange={handleDropdownChange}
+                  handleQuotesChange={(newQuotes) =>
+                    handleQuotesChange("motherNumSiblings", newQuotes)
+                  }
+                />
               </Grid>
 
               {/*Divider*/}
@@ -322,13 +354,17 @@ function FamilyDynamics() {
 
 
               {/*Father Name text*/}
-              <Grid container spacing={3}>
-                <SmallTextInput
+              <Grid container spacing={3} sx={{marginBottom: "20px"}}>
+              <SmallTextInput
                   field={"Father Name"}
                   id={"fatherName"}
                   label={"Father name"}
                   value={formData.fatherName?.fatherName}
-                  onChange={handleDropdownChange}
+                  onChange={handleChange}
+                  handleQuotesChange={(newQuotes) =>
+                    handleQuotesChange("fatherName", newQuotes)
+                  }
+                  section={"familyDynamics"}
                 />
 
                 {/*Date of Birth*/}
@@ -352,6 +388,28 @@ function FamilyDynamics() {
                   checkedValue={formData.fatherArrested?.fatherArrested}
                   handleQuotesChange={(newQuotes) =>
                     handleQuotesChange("fatherArrested", newQuotes)
+                  }
+                />
+                 <DropDown
+                  question={"How many siblings did your father have?"}
+                  id={"fatherNumSiblings"}
+                  section={"familyDynamics"}
+                  options={[
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    ">8",
+                    "N/A",
+                  ]}
+                  value={formData.fatherNumSiblings?.fatherNumSiblings}
+                  onChange={handleDropdownChange}
+                  handleQuotesChange={(newQuotes) =>
+                    handleQuotesChange("fatherNumSiblings", newQuotes)
                   }
                 />
               </Grid>
@@ -419,7 +477,7 @@ function FamilyDynamics() {
                       required
                       multiline={true}
                       rows={10}
-                      id="background"
+                      id="otherInformationAboutFamily"
                       label="Other Information about family"
                       fullWidth
                       variant="outlined"

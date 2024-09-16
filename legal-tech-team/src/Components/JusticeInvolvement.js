@@ -39,7 +39,7 @@ function JusticeInvolvement() {
       notes: [],
     },
     natureOfFirstInvolvement: {
-        natureOfFirstInvolvement: "",
+      natureOfFirstInvolvement: "",
     },
     frequencyOfNegativeEncounters: {
       frequencyOfNegativeEncounters: "", // None, Once, 2-3 times, etc.
@@ -58,7 +58,7 @@ function JusticeInvolvement() {
       notes: [],
     },
     accumulationAndComplexity: {
-        accumulationAndComplexity: "",
+      accumulationAndComplexity: "",
       notes: [],
     },
   });
@@ -72,9 +72,10 @@ function JusticeInvolvement() {
   };
   const handleOptionChange = (option, isChecked) => {
     setFormData((prevFormData) => {
-      const accumulationAndComplexity = prevFormData.accumulationAndComplexity || {
-        accumulationAndComplexity: [],
-      };
+      const accumulationAndComplexity =
+        prevFormData.accumulationAndComplexity || {
+          accumulationAndComplexity: [],
+        };
 
       return {
         ...prevFormData,
@@ -91,9 +92,10 @@ function JusticeInvolvement() {
   };
   const handleOptionChange2 = (option, isChecked) => {
     setFormData((prevFormData) => {
-      const natureOfFirstInvolvement = prevFormData.natureOfFirstInvolvement || {
-        natureOfFirstInvolvement: [],
-      };
+      const natureOfFirstInvolvement =
+        prevFormData.natureOfFirstInvolvement || {
+          natureOfFirstInvolvement: [],
+        };
 
       return {
         ...prevFormData,
@@ -108,7 +110,6 @@ function JusticeInvolvement() {
       };
     });
   };
- 
 
   const handleQuotesChange = (sectionId, newQuotes) => {
     setFormData((prevFormData) => ({
@@ -188,9 +189,8 @@ function JusticeInvolvement() {
                   { label: "Detention", id: "detention" },
                   { label: "Probation", id: "probation" },
                   { label: "Other", id: "other" },
-
                 ].map((option, index) => (
-                    <React.Fragment key={index}>
+                  <React.Fragment key={index}>
                     <CheckboxWithAdd
                       label={option.label}
                       id={option.id}
@@ -210,7 +210,6 @@ function JusticeInvolvement() {
                   </React.Fragment>
                 ))}
               </FormGroup>
-             
             </Box>
 
             {/* Frequency of Negative Encounters */}
@@ -226,7 +225,10 @@ function JusticeInvolvement() {
                 id="frequencyOfNegativeEncounters"
                 label="Negative Encounters"
                 onChange={handleRadioChange}
-                value={formData.frequencyOfNegativeEncounters?.frequencyOfNegativeEncounters}
+                value={
+                  formData.frequencyOfNegativeEncounters
+                    ?.frequencyOfNegativeEncounters
+                }
                 handleQuotesChange={(newQuotes) =>
                   handleQuotesChange("frequencyOfNegativeEncounters", newQuotes)
                 }
@@ -263,7 +265,7 @@ function JusticeInvolvement() {
                 paddingBottom: "30px",
               }}
             >
-                <Grid item xs={12} sm={8}>
+              <Grid item xs={12} sm={8}>
                 <InputLabel
                   sx={{
                     display: "flex",
@@ -315,9 +317,15 @@ function JusticeInvolvement() {
                 id="InstitutionalizationImpactLevel"
                 label="Impact of institutionalization"
                 onChange={handleRadioChange}
-                value={formData.InstitutionalizationImpactLevel?.InstitutionalizationImpactLevel}
+                value={
+                  formData.InstitutionalizationImpactLevel
+                    ?.InstitutionalizationImpactLevel
+                }
                 handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("InstitutionalizationImpactLevel", newQuotes)
+                  handleQuotesChange(
+                    "InstitutionalizationImpactLevel",
+                    newQuotes
+                  )
                 }
                 section="justiceInvolvement"
               />
@@ -332,6 +340,18 @@ function JusticeInvolvement() {
               }}
             >
               <SubSectionHeader name="Accumulation and Complexity" />
+              <Grid item xs={12} sm={8}>
+                <InputLabel
+                  sx={{
+                    display: "flex",
+                    justifyContent: "left",
+                    fontWeight: 700,
+                  }}
+                >
+                  Which of the following have you experienced? (Select all that
+                  apply)
+                </InputLabel>
+              </Grid>
               <FormGroup>
                 {[
                   { label: "Multiple arrests", id: "multipleArrests" },
@@ -359,7 +379,7 @@ function JusticeInvolvement() {
                   },
                   { label: "Long-term supervision", id: "longTermSupervision" },
                 ].map((option, index) => (
-                    <React.Fragment key={index}>
+                  <React.Fragment key={index}>
                     <CheckboxWithAdd
                       label={option.label}
                       id={option.id}
@@ -379,14 +399,7 @@ function JusticeInvolvement() {
                   </React.Fragment>
                 ))}
               </FormGroup>
-              <AddQuotes
-                quotes={formData.accumulationAndComplexity?.notes}
-                section="justiceInvolvement"
-                id="accumulationAndComplexity"
-                onQuotesChange={(newQuotes) =>
-                  handleQuotesChange("accumulationAndComplexity", newQuotes)
-                }
-              />
+              
             </Box>
 
             {/* Save and Navigate */}
@@ -400,7 +413,6 @@ function JusticeInvolvement() {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    
                     SaveJSON(formData, "justiceInvolvement");
                     navigate("/peers-role-models");
                   }}
@@ -416,7 +428,7 @@ function JusticeInvolvement() {
                   variant="contained"
                   onClick={() => {
                     SaveJSON(formData, "justiceInvolvement");
-                    navigate("/mental-health");
+                    navigate("/otherRiskFactors");
                   }}
                 >
                   Next

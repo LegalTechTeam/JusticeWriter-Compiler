@@ -13,7 +13,7 @@ export default function SubSectionHeader(props) {
         color: "#1f2839", // Blue color for consistency
         fontFamily: "Noto Sans",
         textTransform: "uppercase", // Uppercase for a formal look
-        borderBottom: `0.5px solid #1f2839`, // Blue border
+        borderTop: `0.5px solid #1f2839`, // Blue border
         paddingBottom: "10px",
       }}
     >

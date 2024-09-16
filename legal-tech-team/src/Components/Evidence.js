@@ -87,7 +87,7 @@ function Evidence() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader name="Evidence of Character"/>
+          <SectionHeader number="Section 11" name="Evidence of Character and Potential To Change" />
           
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <Box
@@ -95,6 +95,8 @@ function Evidence() {
                 marginLeft: "10%",
                 marginRight: "10%",
                 paddingBottom: "30px",
+                marginTop:"30px"
+
               }}
             >
               <BigText

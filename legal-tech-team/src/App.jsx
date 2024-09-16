@@ -22,6 +22,7 @@ import CrimeStats from "./Components/crimeStats";
 import { initializeFromStore } from "./HelperFunctions/formatJSON";
 import Mobility from "./Components/Mobility.js";
 import JusticeInvolvement from "./Components/JusticeInvolvement.js";
+import OtherRiskFactors from "./Components/OtherRiskFactors.js";
 function App() {
   const [data, setData] = useState("");
 
@@ -53,6 +54,8 @@ function App() {
           <Route path="/cageAid" element={<CageAid />} />
           <Route path="/mobility" element={<Mobility />} />
           <Route path="/justiceInvolvement" element={<JusticeInvolvement />} />
+          <Route path="/otherRiskFactors" element={<OtherRiskFactors />} />
+
 
 
 

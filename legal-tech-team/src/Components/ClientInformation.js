@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import DateOfBirth from "../HelperFunctions/DateOfBirth";
 import DropDown from "../HelperFunctions/DropDown";
-import { ReturnExistingInput } from "../HelperFunctions/formatJSON";
+import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
 import SectionHeader from "../HelperFunctions/SectionHeader";
 import SmallTextInput from "../HelperFunctions/SmallTextInput";
 import SubSectionHeader from "../HelperFunctions/subSectionHeader";
@@ -26,10 +26,6 @@ export default function ClientInformation() {
     firstName: "",
     middleName: "",
     lastName: "",
-    attorneyName: "",
-    investigatorName: "",
-    attorneyOffice: "",
-    caseNumber: "",
     gender: {
       gender: "",
       notes: [],
@@ -44,11 +40,13 @@ export default function ClientInformation() {
       ...prevFormData,
       [id]: value,
     }));
+    SaveJSON(formData, "caseInformation")
   };
 
   const handleDropdownChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
+    SaveJSON(formData, "caseInformation")
   };
 
   const handleQuotesChange = (subSection, newQuotes) => {
@@ -57,9 +55,15 @@ export default function ClientInformation() {
       [subSection]: { ...formData[subSection], ["notes"]: newQuotes },
     });
   };
+  const handleDateChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    SaveJSON(formData, "caseInformation")
+
+  };
 
   useEffect(() => {
     const existingData = ReturnExistingInput("caseInformation");
+  
     if (existingData) {
       setFormData(existingData);
     }
@@ -131,7 +135,7 @@ export default function ClientInformation() {
                     id={"DOB"}
                     label={"MM-DD-YYYY"}
                     value={formData.DOB}
-                    onChange={handleChange}
+                    onChange={handleDateChange}
                   />
                   <DropDown
                     question={"Gender"}

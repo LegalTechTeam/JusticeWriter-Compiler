@@ -47,19 +47,8 @@ export default function CaseInformation() {
       [id]: value,
     }));
   };
-
-  const handleDropdownChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
-  };
-
-  const handleQuotesChange = (subSection, newQuotes) => {
-    console.log("handle quote change");
-    console.log(subSection);
-    setFormData({
-      ...formData,
-      [subSection]: { ...formData[subSection], ["notes"]: newQuotes },
-    });
+  const handleDateChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   useEffect(() => {
@@ -137,7 +126,7 @@ export default function CaseInformation() {
                     id={"date"}
                     label={"MM-DD-YYYY"}
                     value={formData.date}
-                    onChange={handleChange}
+                    onChange={handleDateChange}
                   />
               </Grid>
             </Box>
