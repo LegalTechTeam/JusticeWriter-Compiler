@@ -5,7 +5,7 @@ import {
   Grid,
   InputLabel,
   Paper,
-  ThemeProvider
+  ThemeProvider,
 } from "@mui/material";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -24,16 +24,6 @@ function MentalHealth() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  useEffect(() => {
-    const existingData = ReturnExistingInput("mentalHealth");
-    if (existingData) {
-      setFormData(existingData);
-    }
-    const existingDataEvidence = ReturnExistingInput("evidenceOfCharacter");
-    if (existingDataEvidence) {
-      setFormDataEvidence(existingDataEvidence);
-    }
-  }, []);
   const mentalHealthList = [
     {
       label: "Therapy",
@@ -109,36 +99,15 @@ function MentalHealth() {
     },
   });
 
-  const [formDataEvidence, setFormDataEvidence] = useState({
-    exampleOfCharacter: {
-      exampleOfCharacter: "",
-      notes: [],
-    },
-    exampleOfGoodDeed: {
-      exampleOfGoodDeed: "",
-      notes: [],
-    },
-    volunteeringAndCommunityEngagement: {
-      volunteeringAndCommunityEngagement: "",
-      notes: [],
-    },
-    areParent: {
-      areParent: "",
-      notes: [],
-    },
-  });
-
+  useEffect(() => {
+    const existingData = ReturnExistingInput("mentalHealth");
+    if (existingData) {
+      setFormData(existingData);
+    }
+  }, []);
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
-  };
-
-  const handleChangeEvidence = (e) => {
-    const { id, value } = e.target;
-    setFormDataEvidence({
-      ...formDataEvidence,
-      [id]: { ...formDataEvidence[id], [id]: value },
-    });
   };
 
   const handleRadioChange = (e) => {
@@ -146,26 +115,8 @@ function MentalHealth() {
     setFormData({ ...formData, [id]: { ...formData[id], [id]: value } });
   };
 
-  const handleRadioChangeEvidence = (e) => {
-    const { id, value } = e.target;
-    setFormDataEvidence({
-      ...formDataEvidence,
-      [id]: { ...formDataEvidence[id], [id]: value },
-    });
-  };
-
   const handleQuotesChange = (subSection, newQuotes) => {
     setFormData((prevFormData) => ({
-      ...prevFormData,
-      [subSection]: {
-        ...prevFormData[subSection],
-        notes: newQuotes ? [...newQuotes] : [],
-      },
-    }));
-  };
-
-  const handleQuotesChangeEvidence = (subSection, newQuotes) => {
-    setFormDataEvidence((prevFormData) => ({
       ...prevFormData,
       [subSection]: {
         ...prevFormData[subSection],
@@ -187,7 +138,10 @@ function MentalHealth() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader number="Section 10" name="Mental Health Diagnosis, Mental Health Services, and Social Services" />
+          <SectionHeader
+            number="Section 10"
+            name="Mental Health Diagnosis, Mental Health Services, and Social Services"
+          />
 
           {/* First Yes or No Question */}
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
@@ -196,7 +150,7 @@ function MentalHealth() {
                 marginLeft: "10%",
                 marginRight: "10%",
                 paddingBottom: "30px",
-                marginTop:"30px",
+                marginTop: "30px",
               }}
             >
               <Grid container spacing={3}>
@@ -306,116 +260,11 @@ function MentalHealth() {
             </Box>
           </Box>
 
-          <SectionHeader number="Section 11" name="Evidence of Character and Potential To Change" />
-
-          <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-                marginTop:"30px"
-              }}
-            >
-              <BigText
-                question={"Provide an example of your character"}
-                id={"exampleOfCharacter"}
-                label={"example Of Character"}
-                onChange={handleChangeEvidence}
-                value={
-                  formDataEvidence.exampleOfCharacter &&
-                  formDataEvidence.exampleOfCharacter.exampleOfCharacter
-                }
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChangeEvidence("exampleOfCharacter", newQuotes)
-                }
-                section={"evidenceOfCharacter"}
-              />
-            </Box>
-
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-              }}
-            >
-              <BigText
-                question={
-                  "Give examples of good deeds and contributions that you’ve made"
-                }
-                id={"exampleOfGoodDeed"}
-                label={"example Of Good Deed"}
-                onChange={handleChangeEvidence}
-                value={
-                  formDataEvidence.exampleOfGoodDeed &&
-                  formDataEvidence.exampleOfGoodDeed.exampleOfGoodDeed
-                }
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChangeEvidence("exampleOfGoodDeed", newQuotes)
-                }
-                section={"evidenceOfCharacter"}
-              />
-            </Box>
-
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-              }}
-            >
-              <BigText
-                question={
-                  "List any volunteering, employment, mentoring, community engagement that you’ve done"
-                }
-                id={"volunteeringAndCommunityEngagement"}
-                label={"volunteering And Community Engagement"}
-                onChange={handleChangeEvidence}
-                value={
-                  formDataEvidence.volunteeringAndCommunityEngagement &&
-                  formDataEvidence.volunteeringAndCommunityEngagement
-                    .volunteeringAndCommunityEngagement
-                }
-                handleQuotesChange={(newQuotes) =>
-                  handleQuotesChangeEvidence(
-                    "volunteeringAndCommunityEngagement",
-                    newQuotes
-                  )
-                }
-                section={"evidenceOfCharacter"}
-              />
-            </Box>
-
-            <Box
-              sx={{
-                marginLeft: "10%",
-                marginRight: "10%",
-                paddingBottom: "30px",
-              }}
-            >
-              <Grid container spacing={3}>
-                <RadioYesNo
-                  id={"areParent"}
-                  section={"evidenceOfCharacter"}
-                  question={"Are you a parent?"}
-                  value={formDataEvidence.areParent?.areParent}
-                  onChange={handleRadioChangeEvidence}
-                  checkedValue={formDataEvidence.areParent?.areParent}
-                  handleQuotesChange={(newQuotes) =>
-                    handleQuotesChangeEvidence("areParent", newQuotes)
-                  }
-                />
-              </Grid>
-            </Box>
-          </Box>
-
           <Button
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "mentalHealth");
-              SaveJSON(formDataEvidence, "evidenceOfCharacter");
-              navigate("/justiceInvolvement");
+              navigate("/otherRiskFactors");
             }}
           >
             Previous
@@ -427,7 +276,6 @@ function MentalHealth() {
             variant="contained"
             onClick={() => {
               SaveJSON(formData, "mentalHealth");
-              SaveJSON(formDataEvidence, "evidenceOfCharacter");
               navigate("/evidence");
             }}
           >

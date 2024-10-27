@@ -3,15 +3,15 @@ let globalJsonData = {
   caseInformation: {},
   familyDynamics: {},
   community: {},
-  syndemics:{},
   schooling: {},
+  syndemics:{},
   mobility: {},
   adverseChildhoodExpriences: {},
-  justiceInvolvement: {},
   cageAID: {},
-  otherRiskFactors: {},
   peersAndRoleModels: {},
+  justiceInvolvement: {},
   mentalHealth: {},
+  otherRiskFactors: {},
   evidenceOfCharacter: {},
 };
 

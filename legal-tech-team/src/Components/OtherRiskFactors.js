@@ -2,7 +2,14 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Grid, Paper, ThemeProvider, Divider } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Paper,
+  ThemeProvider,
+  Divider,
+} from "@mui/material";
 import BigText from "../HelperFunctions/BigText";
 import OtherNotes from "../HelperFunctions/OtherNotes";
 import SectionHeader from "../HelperFunctions/SectionHeader";
@@ -22,7 +29,6 @@ function OtherRiskFactors() {
     }
   }, []);
 
-
   const [formData, setFormData] = useState({
     cultureAndMedia: {
       cultureAndMedia: "",
@@ -32,15 +38,15 @@ function OtherRiskFactors() {
       RacismOrHateVictimization: "",
       notes: [],
     },
-  
+
     otherInformation: {
       otherInformation: "",
       notes: [],
     },
     top3MostHurtfulExperiences: {
-        top3MostHurtfulExperiences: "",
-        notes: []
-    }
+      top3MostHurtfulExperiences: "",
+      notes: [],
+    },
   });
   useEffect(() => {
     setFormData((prevFormData) => ({
@@ -94,10 +100,7 @@ function OtherRiskFactors() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader
-            number="Section 9"
-            name="Other Risk Factors"
-          />
+          <SectionHeader number="Section 9" name="Other Risk Factors" />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             {/*input one*/}
             <Box
@@ -109,7 +112,9 @@ function OtherRiskFactors() {
               }}
             >
               <BigText
-                question={"Do you believe that exposure to certain types of media, such as drill music, has influenced your experiences or actions?"}
+                question={
+                  "Do you believe that exposure to certain types of media, such as drill music, has influenced your experiences or actions?"
+                }
                 id={"cultureAndMedia"}
                 label={"cultureAndMedia"}
                 onChange={handleChange}
@@ -121,23 +126,22 @@ function OtherRiskFactors() {
               />
               <BigText
                 question={
-                 "Have you ever experienced racism or discrimination that you believe impacted your life or decisions?"
+                  "Have you ever experienced racism or discrimination that you believe impacted your life or decisions?"
                 }
                 id={"RacismOrHateVictimization"}
                 label={"RacismOrHateVictimization"}
                 onChange={handleChange}
                 value={
-                  formData.RacismOrHateVictimization
-                    ?.RacismOrHateVictimization
+                  formData.RacismOrHateVictimization?.RacismOrHateVictimization
                 }
                 handleQuotesChange={(newQuotes) =>
                   handleQuotesChange("RacismOrHateVictimization", newQuotes)
                 }
                 section={"otherRiskFactors"}
               />
-                <BigText
+              <BigText
                 question={
-                 "              What are the top 3 most hurtful experiences of your life? Why do you think your life did not end up in a more positive and healthy path?"
+                  "What are the top 3 most hurtful experiences of your life? Why do you think your life did not end up in a more positive and healthy path?"
                 }
                 id={"top3MostHurtfulExperiences"}
                 label={"top3MostHurtfulExperiences"}
@@ -151,7 +155,7 @@ function OtherRiskFactors() {
                 }
                 section={"otherRiskFactors"}
               />
-            
+
               <OtherNotes
                 onChange={handleChange}
                 handleQuotesChange={(newQuotes) =>

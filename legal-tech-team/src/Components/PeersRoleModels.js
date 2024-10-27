@@ -155,7 +155,7 @@ function PeersRoleModels() {
     setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
   };
 
-  const options = ["None", "1", "< 5", "More than 5"];
+  const options = ["None", "1", "< 5", "> 5", "> 10"];
 
   return (
     <ThemeProvider theme={themeWrapper}>

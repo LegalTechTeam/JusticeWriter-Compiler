@@ -1,9 +1,4 @@
-import {
-  Box,
-  Grid,
-  Paper,
-  ThemeProvider
-} from "@mui/material";
+import { Box, Grid, Paper, ThemeProvider } from "@mui/material";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +17,7 @@ export default function ClientInformation() {
   const navigate = useNavigate();
   const themeTitle = themeSubHeading();
 
-  const [formData, setFormData] = useState({
+  const [clientFormData, setclientFormData] = useState({
     firstName: "",
     middleName: "",
     lastName: "",
@@ -36,36 +31,39 @@ export default function ClientInformation() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setclientFormData((prevclientFormData) => ({
+      ...prevclientFormData,
       [id]: value,
     }));
-    SaveJSON(formData, "caseInformation")
+    SaveJSON(clientFormData, "caseInformation");
   };
 
   const handleDropdownChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: { ...formData[name], [name]: value } });
-    SaveJSON(formData, "caseInformation")
+    setclientFormData({
+      ...clientFormData,
+      [name]: { ...clientFormData[name], [name]: value },
+    });
+    SaveJSON(clientFormData, "caseInformation");
   };
 
   const handleQuotesChange = (subSection, newQuotes) => {
-    setFormData({
-      ...formData,
-      [subSection]: { ...formData[subSection], ["notes"]: newQuotes },
+    setclientFormData({
+      ...clientFormData,
+      [subSection]: { ...clientFormData[subSection], ["notes"]: newQuotes },
     });
+    SaveJSON(clientFormData, "caseInformation");
   };
   const handleDateChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-    SaveJSON(formData, "caseInformation")
-
+    setclientFormData({ ...clientFormData, [e.target.id]: e.target.value });
+    SaveJSON(clientFormData, "caseInformation");
   };
 
   useEffect(() => {
     const existingData = ReturnExistingInput("caseInformation");
-  
+
     if (existingData) {
-      setFormData(existingData);
+      setclientFormData(existingData);
     }
   }, []);
 
@@ -83,7 +81,7 @@ export default function ClientInformation() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader number = "Section 2" name="Background" />
+          <SectionHeader number="Section 2" name="Background" />
 
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 0 }}>
             {/* Client Information Section */}
@@ -108,7 +106,7 @@ export default function ClientInformation() {
                     field={"First Name"}
                     id={"firstName"}
                     label={"First name"}
-                    value={formData.firstName}
+                    value={clientFormData.firstName}
                     onChange={handleChange}
                     section={"caseInformation"}
                   />
@@ -116,7 +114,7 @@ export default function ClientInformation() {
                     field={"Middle Name"}
                     id={"middleName"}
                     label={"Middle name"}
-                    value={formData.middleName}
+                    value={clientFormData.middleName}
                     onChange={handleChange}
                     section={"caseInformation"}
                   />
@@ -126,7 +124,7 @@ export default function ClientInformation() {
                     field={"Last Name"}
                     id={"lastName"}
                     label={"Last name"}
-                    value={formData.lastName}
+                    value={clientFormData.lastName}
                     onChange={handleChange}
                     section={"caseInformation"}
                   />
@@ -134,14 +132,14 @@ export default function ClientInformation() {
                     field={"Date of Birth"}
                     id={"DOB"}
                     label={"MM-DD-YYYY"}
-                    value={formData.DOB}
+                    value={clientFormData.DOB}
                     onChange={handleDateChange}
                   />
                   <DropDown
                     question={"Gender"}
                     id={"gender"}
                     section={"caseInformation"}
-                    value={formData.gender?.gender}
+                    value={clientFormData.gender?.gender}
                     options={[
                       "Male",
                       "Female",
@@ -157,7 +155,7 @@ export default function ClientInformation() {
               </Box>
             </Box>
           </Box>
-          <FamilyDynamics />
+          <FamilyDynamics clientFormData={clientFormData} />
         </Paper>
       </div>
     </ThemeProvider>

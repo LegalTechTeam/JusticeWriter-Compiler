@@ -59,8 +59,8 @@ function ACEp2() {
       separation: "",
       notes: [],
     },
-    familyMembersInPrison: {
-      familyMembersInPrison: "",
+    familyMembersInPrision: {
+      familyMembersInPrision: "",
       notes: [],
     },
     lossesAndDeaths: {
@@ -132,9 +132,11 @@ function ACEp2() {
                 id={"familyMembersInPrision"}
                 label={"Family members in prison "}
                 onChange={handleACEChange}
-                value={formDataACE.familyMembersInPrison?.familyMembersInPrison}
+                value={
+                  formDataACE.familyMembersInPrision?.familyMembersInPrision
+                }
                 handleQuotesChange={(newQuotes) =>
-                  handleQuotesChange("familyMembersInPrison", newQuotes)
+                  handleQuotesChange("familyMembersInPrision", newQuotes)
                 }
                 section={"adverseChildhoodExpriences"}
               />
@@ -153,7 +155,7 @@ function ACEp2() {
                   "Have you experienced any significant losses or deaths? Please describe."
                 }
                 id={"lossesAndDeaths"}
-                label={"Family members in prison "}
+                label={"Losses And Deaths "}
                 onChange={handleACEChange}
                 value={formDataACE.lossesAndDeaths?.lossesAndDeaths}
                 handleQuotesChange={(newQuotes) =>

@@ -5,7 +5,7 @@ import {
   Grid,
   InputLabel,
   Paper,
-  ThemeProvider
+  ThemeProvider,
 } from "@mui/material";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -25,7 +25,6 @@ function Community() {
   const themeTitle = themeSubHeading();
 
   const [formData, setFormData] = useState({
-   
     selectedDisadvantages: {
       Disadvantages: [],
       notes: [],
@@ -262,10 +261,13 @@ function Community() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader number = "Section 3" name="Community, Schooling and Syndemics"/>
+          <SectionHeader
+            number="Section 3"
+            name="Community, Schooling and Syndemics"
+          />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
-            <SubSectionHeader name="Community"/>
-           
+            <SubSectionHeader name="Community" />
+
             {/*Question*/}
             <Box
               sx={{
@@ -288,8 +290,6 @@ function Community() {
                 }
                 section={"community"}
               />
-              
-              
 
               {/*Social Disadvantages*/}
               <Grid item xs={12} sm={2}>
@@ -386,7 +386,7 @@ function Community() {
             onClick={() => {
               SaveJSON(formData, "community");
 
-              navigate("/syndemics");
+              navigate("/schooling");
             }}
           >
             Next

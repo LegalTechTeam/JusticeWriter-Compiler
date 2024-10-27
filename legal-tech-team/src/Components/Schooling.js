@@ -8,7 +8,7 @@ import {
   Paper,
   Radio,
   RadioGroup,
-  ThemeProvider
+  ThemeProvider,
 } from "@mui/material";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import themeWrapper from "../Layouts/ThemeWrapper";
 
 import AddQuotes from "../HelperFunctions/AddQuotes";
-import BigText from "../HelperFunctions/BigText";
 import CheckboxWithAdd from "../HelperFunctions/CheckBoxWithAdd";
 import { ReturnExistingInput, SaveJSON } from "../HelperFunctions/formatJSON";
 import SectionHeader from "../HelperFunctions/SectionHeader";
@@ -81,15 +80,12 @@ function Schooling() {
 
   useEffect(() => {
     const existingData = ReturnExistingInput("schooling");
-    const existingDataACE = ReturnExistingInput("adverseChildhoodExpriences");
     if (existingData) {
       setFormData(existingData);
     }
-    
   }, []);
 
   const [formData, setFormData] = useState({
-
     schoolChanges: {
       schoolChanges: "",
       notes: [],
@@ -112,9 +108,6 @@ function Schooling() {
       notes: [],
     },
   });
-
-  
-  
 
   const handleRadioChange = (e) => {
     const { id, value } = e.target;
@@ -191,11 +184,12 @@ function Schooling() {
             fontFamily: "Noto Sans",
           }}
         >
-          <SectionHeader number = "Section 3" name="Community, Schooling and Syndemics" />
+          <SectionHeader
+            number="Section 3"
+            name="Community, Schooling and Syndemics"
+          />
           <Box sx={{ paddingRight: 5, paddingLeft: 5, paddingBottom: 5 }}>
             <SubSectionHeader name="Schooling" />
-
-        
 
             {/*input two*/}
             <Box
@@ -385,7 +379,6 @@ function Schooling() {
                 ))}
               </FormGroup>
             </Box>
-
           </Box>
 
           <Button
